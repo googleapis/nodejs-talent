@@ -37,6 +37,7 @@
     "system-test": "mocha system-test/*.js smoke-test/*.js --timeout 600000",
     "test-no-cover": "mocha test/*.js",
     "test": "npm run cover",
+    "predocs-test": "npm run docs",
     "docs-test": "linkinator docs -r --skip www.googleapis.com",
     "fix": "eslint --fix '**/*.js'"
   },

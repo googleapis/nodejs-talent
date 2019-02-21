@@ -37,6 +37,7 @@
     "system-test": "mocha system-test/*.js smoke-test/*.js --timeout 600000",
     "test-no-cover": "mocha test/*.js",
     "test": "npm run cover",
+    "docs-test": "linkinator docs -r --skip www.googleapis.com",
     "fix": "eslint --fix '**/*.js'"
   },
   "dependencies": {
@@ -52,9 +53,10 @@
     "eslint-config-prettier": "^3.0.0",
     "eslint-plugin-node": "^8.0.0",
     "eslint-plugin-prettier": "^3.0.0",
-    "jsdoc-baseline": "git+https://github.com/hegemonic/jsdoc-baseline.git",
     "intelli-espower-loader": "^1.0.1",
     "jsdoc": "^3.5.5",
+    "jsdoc-baseline": "git+https://github.com/hegemonic/jsdoc-baseline.git",
+    "linkinator": "^1.1.6",
     "mocha": "^5.2.0",
     "nyc": "^13.0.0",
     "power-assert": "^1.6.0",

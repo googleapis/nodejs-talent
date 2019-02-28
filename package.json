@@ -42,7 +42,7 @@
     "fix": "eslint --fix '**/*.js'"
   },
   "dependencies": {
-    "google-gax": "^0.23.0",
+    "google-gax": "^0.25.0",
     "lodash.merge": "^4.6.1",
     "lodash.union": "^4.6.0"
   },
@@ -51,14 +51,14 @@
     "@google-cloud/storage": "^2.0.0",
     "codecov": "^3.0.2",
     "eslint": "^5.14.1",
-    "eslint-config-prettier": "^3.0.0",
+    "eslint-config-prettier": "^4.0.0",
     "eslint-plugin-node": "^8.0.0",
     "eslint-plugin-prettier": "^3.0.0",
     "intelli-espower-loader": "^1.0.1",
     "jsdoc": "^3.5.5",
     "jsdoc-baseline": "git+https://github.com/hegemonic/jsdoc-baseline.git",
     "linkinator": "^1.1.6",
-    "mocha": "^5.2.0",
+    "mocha": "^6.0.0",
     "nyc": "^13.0.0",
     "power-assert": "^1.6.0",
     "prettier": "^1.13.6",

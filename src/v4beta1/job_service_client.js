@@ -100,8 +100,12 @@ class JobServiceClient {
     // identifiers to uniquely identify resources within the API.
     // Create useful helper objects for these.
     this._pathTemplates = {
-      projectPathTemplate: new gax.PathTemplate('projects/{project}'),
-      jobPathTemplate: new gax.PathTemplate('projects/{project}/jobs/{jobs}'),
+      tenantPathTemplate: new gax.PathTemplate(
+        'projects/{project}/tenants/{tenant}'
+      ),
+      jobOldPathTemplate: new gax.PathTemplate(
+        'projects/{project}/jobs/{jobs}'
+      ),
     };
 
     // Some of the methods on this service return "paged" results,
@@ -221,10 +225,13 @@ class JobServiceClient {
    * @param {string} request.parent
    *   Required.
    *
-   *   The resource name of the project under which the job is created.
+   *   The resource name of the tenant under which the job is created.
    *
-   *   The format is "projects/{project_id}", for example,
-   *   "projects/api-test-project".
+   *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
+   *   "projects/api-test-project/tenant/foo".
+   *
+   *   Tenant id is optional and a default tenant is created if unspecified, for
+   *   example, "projects/api-test-project".
    * @param {Object} request.job
    *   Required.
    *
@@ -250,7 +257,7 @@ class JobServiceClient {
    *   // optional auth parameters.
    * });
    *
-   * const formattedParent = client.projectPath('[PROJECT]');
+   * const formattedParent = client.tenantPath('[PROJECT]', '[TENANT]');
    * const job = {};
    * const request = {
    *   parent: formattedParent,
@@ -286,8 +293,12 @@ class JobServiceClient {
    *
    *   The resource name of the job to retrieve.
    *
-   *   The format is "projects/{project_id}/jobs/{job_id}",
-   *   for example, "projects/api-test-project/jobs/1234".
+   *   The format is
+   *   "projects/{project_id}/tenants/{tenant_id}/jobs/{job_id}", for
+   *   example, "projects/api-test-project/tenants/foo/jobs/1234".
+   *
+   *   Tenant id is optional and the default tenant is used if unspecified, for
+   *   example, "projects/api-test-project/jobs/1234".
    * @param {Object} [options]
    *   Optional parameters. You can override the default settings for this call, e.g, timeout,
    *   retries, paginations, etc. See [gax.CallOptions]{@link https://googleapis.github.io/gax-nodejs/global.html#CallOptions} for the details.
@@ -307,7 +318,7 @@ class JobServiceClient {
    *   // optional auth parameters.
    * });
    *
-   * const formattedName = client.jobPath('[PROJECT]', '[JOBS]');
+   * const formattedName = client.jobOldPath('[PROJECT]', '[JOBS]');
    * client.getJob({name: formattedName})
    *   .then(responses => {
    *     const response = responses[0];
@@ -406,8 +417,12 @@ class JobServiceClient {
    *
    *   The resource name of the job to be deleted.
    *
-   *   The format is "projects/{project_id}/jobs/{job_id}",
-   *   for example, "projects/api-test-project/jobs/1234".
+   *   The format is
+   *   "projects/{project_id}/tenants/{tenant_id}/jobs/{job_id}", for
+   *   example, "projects/api-test-project/tenants/foo/jobs/1234".
+   *
+   *   Tenant id is optional and the default tenant is used if unspecified, for
+   *   example, "projects/api-test-project/jobs/1234".
    * @param {Object} [options]
    *   Optional parameters. You can override the default settings for this call, e.g, timeout,
    *   retries, paginations, etc. See [gax.CallOptions]{@link https://googleapis.github.io/gax-nodejs/global.html#CallOptions} for the details.
@@ -424,7 +439,7 @@ class JobServiceClient {
    *   // optional auth parameters.
    * });
    *
-   * const formattedName = client.jobPath('[PROJECT]', '[JOBS]');
+   * const formattedName = client.jobOldPath('[PROJECT]', '[JOBS]');
    * client.deleteJob({name: formattedName}).catch(err => {
    *   console.error(err);
    * });
@@ -447,10 +462,13 @@ class JobServiceClient {
    * @param {string} request.parent
    *   Required.
    *
-   *   The resource name of the project under which the job is created.
+   *   The resource name of the tenant under which the job is created.
    *
-   *   The format is "projects/{project_id}", for example,
-   *   "projects/api-test-project".
+   *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
+   *   "projects/api-test-project/tenant/foo".
+   *
+   *   Tenant id is optional and the default tenant is used if unspecified, for
+   *   example, "projects/api-test-project".
    * @param {string} request.filter
    *   Required.
    *
@@ -467,11 +485,11 @@ class JobServiceClient {
    *
    *   Sample Query:
    *
-   *   * companyName = "projects/api-test-project/companies/123"
-   *   * companyName = "projects/api-test-project/companies/123" AND requisitionId
-   *   = "req-1"
-   *   * companyName = "projects/api-test-project/companies/123" AND status =
-   *   "EXPIRED"
+   *   * companyName = "projects/api-test-project/tenants/foo/companies/bar"
+   *   * companyName = "projects/api-test-project/tenants/foo/companies/bar" AND
+   *   requisitionId = "req-1"
+   *   * companyName = "projects/api-test-project/tenants/foo/companies/bar" AND
+   *   status = "EXPIRED"
    * @param {number} [request.pageSize]
    *   The maximum number of resources contained in the underlying API
    *   response. If page streaming is performed per-resource, this
@@ -519,7 +537,7 @@ class JobServiceClient {
    * });
    *
    * // Iterate over all elements.
-   * const formattedParent = client.projectPath('[PROJECT]');
+   * const formattedParent = client.tenantPath('[PROJECT]', '[TENANT]');
    * const filter = '';
    * const request = {
    *   parent: formattedParent,
@@ -538,7 +556,7 @@ class JobServiceClient {
    *   });
    *
    * // Or obtain the paged response.
-   * const formattedParent = client.projectPath('[PROJECT]');
+   * const formattedParent = client.tenantPath('[PROJECT]', '[TENANT]');
    * const filter = '';
    * const request = {
    *   parent: formattedParent,
@@ -596,10 +614,13 @@ class JobServiceClient {
    * @param {string} request.parent
    *   Required.
    *
-   *   The resource name of the project under which the job is created.
+   *   The resource name of the tenant under which the job is created.
    *
-   *   The format is "projects/{project_id}", for example,
-   *   "projects/api-test-project".
+   *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
+   *   "projects/api-test-project/tenant/foo".
+   *
+   *   Tenant id is optional and the default tenant is used if unspecified, for
+   *   example, "projects/api-test-project".
    * @param {string} request.filter
    *   Required.
    *
@@ -616,11 +637,11 @@ class JobServiceClient {
    *
    *   Sample Query:
    *
-   *   * companyName = "projects/api-test-project/companies/123"
-   *   * companyName = "projects/api-test-project/companies/123" AND requisitionId
-   *   = "req-1"
-   *   * companyName = "projects/api-test-project/companies/123" AND status =
-   *   "EXPIRED"
+   *   * companyName = "projects/api-test-project/tenants/foo/companies/bar"
+   *   * companyName = "projects/api-test-project/tenants/foo/companies/bar" AND
+   *   requisitionId = "req-1"
+   *   * companyName = "projects/api-test-project/tenants/foo/companies/bar" AND
+   *   status = "EXPIRED"
    * @param {number} [request.pageSize]
    *   The maximum number of resources contained in the underlying API
    *   response. If page streaming is performed per-resource, this
@@ -650,7 +671,7 @@ class JobServiceClient {
    *   // optional auth parameters.
    * });
    *
-   * const formattedParent = client.projectPath('[PROJECT]');
+   * const formattedParent = client.tenantPath('[PROJECT]', '[TENANT]');
    * const filter = '';
    * const request = {
    *   parent: formattedParent,
@@ -681,10 +702,13 @@ class JobServiceClient {
    * @param {string} request.parent
    *   Required.
    *
-   *   The resource name of the project under which the job is created.
+   *   The resource name of the tenant under which the job is created.
    *
-   *   The format is "projects/{project_id}", for example,
-   *   "projects/api-test-project".
+   *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
+   *   "projects/api-test-project/tenant/foo".
+   *
+   *   Tenant id is optional and the default tenant is used if unspecified, for
+   *   example, "projects/api-test-project".
    * @param {string} request.filter
    *   Required.
    *
@@ -715,7 +739,7 @@ class JobServiceClient {
    *   // optional auth parameters.
    * });
    *
-   * const formattedParent = client.projectPath('[PROJECT]');
+   * const formattedParent = client.tenantPath('[PROJECT]', '[TENANT]');
    * const filter = '';
    * const request = {
    *   parent: formattedParent,
@@ -749,10 +773,13 @@ class JobServiceClient {
    * @param {string} request.parent
    *   Required.
    *
-   *   The resource name of the project to search within.
+   *   The resource name of the tenant to search within.
    *
-   *   The format is "projects/{project_id}", for example,
-   *   "projects/api-test-project".
+   *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
+   *   "projects/api-test-project/tenant/foo".
+   *
+   *   Tenant id is optional and the default tenant is used if unspecified, for
+   *   example, "projects/api-test-project".
    * @param {Object} request.requestMetadata
    *   Required.
    *
@@ -1057,7 +1084,7 @@ class JobServiceClient {
    * });
    *
    * // Iterate over all elements.
-   * const formattedParent = client.projectPath('[PROJECT]');
+   * const formattedParent = client.tenantPath('[PROJECT]', '[TENANT]');
    * const requestMetadata = {};
    * const request = {
    *   parent: formattedParent,
@@ -1076,7 +1103,7 @@ class JobServiceClient {
    *   });
    *
    * // Or obtain the paged response.
-   * const formattedParent = client.projectPath('[PROJECT]');
+   * const formattedParent = client.tenantPath('[PROJECT]', '[TENANT]');
    * const requestMetadata = {};
    * const request = {
    *   parent: formattedParent,
@@ -1134,10 +1161,13 @@ class JobServiceClient {
    * @param {string} request.parent
    *   Required.
    *
-   *   The resource name of the project to search within.
+   *   The resource name of the tenant to search within.
    *
-   *   The format is "projects/{project_id}", for example,
-   *   "projects/api-test-project".
+   *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
+   *   "projects/api-test-project/tenant/foo".
+   *
+   *   Tenant id is optional and the default tenant is used if unspecified, for
+   *   example, "projects/api-test-project".
    * @param {Object} request.requestMetadata
    *   Required.
    *
@@ -1424,7 +1454,7 @@ class JobServiceClient {
    *   // optional auth parameters.
    * });
    *
-   * const formattedParent = client.projectPath('[PROJECT]');
+   * const formattedParent = client.tenantPath('[PROJECT]', '[TENANT]');
    * const requestMetadata = {};
    * const request = {
    *   parent: formattedParent,
@@ -1466,10 +1496,13 @@ class JobServiceClient {
    * @param {string} request.parent
    *   Required.
    *
-   *   The resource name of the project to search within.
+   *   The resource name of the tenant to search within.
    *
-   *   The format is "projects/{project_id}", for example,
-   *   "projects/api-test-project".
+   *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
+   *   "projects/api-test-project/tenant/foo".
+   *
+   *   Tenant id is optional and the default tenant is used if unspecified, for
+   *   example, "projects/api-test-project".
    * @param {Object} request.requestMetadata
    *   Required.
    *
@@ -1774,7 +1807,7 @@ class JobServiceClient {
    * });
    *
    * // Iterate over all elements.
-   * const formattedParent = client.projectPath('[PROJECT]');
+   * const formattedParent = client.tenantPath('[PROJECT]', '[TENANT]');
    * const requestMetadata = {};
    * const request = {
    *   parent: formattedParent,
@@ -1793,7 +1826,7 @@ class JobServiceClient {
    *   });
    *
    * // Or obtain the paged response.
-   * const formattedParent = client.projectPath('[PROJECT]');
+   * const formattedParent = client.tenantPath('[PROJECT]', '[TENANT]');
    * const requestMetadata = {};
    * const request = {
    *   parent: formattedParent,
@@ -1851,10 +1884,13 @@ class JobServiceClient {
    * @param {string} request.parent
    *   Required.
    *
-   *   The resource name of the project to search within.
+   *   The resource name of the tenant to search within.
    *
-   *   The format is "projects/{project_id}", for example,
-   *   "projects/api-test-project".
+   *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
+   *   "projects/api-test-project/tenant/foo".
+   *
+   *   Tenant id is optional and the default tenant is used if unspecified, for
+   *   example, "projects/api-test-project".
    * @param {Object} request.requestMetadata
    *   Required.
    *
@@ -2141,7 +2177,7 @@ class JobServiceClient {
    *   // optional auth parameters.
    * });
    *
-   * const formattedParent = client.projectPath('[PROJECT]');
+   * const formattedParent = client.tenantPath('[PROJECT]', '[TENANT]');
    * const requestMetadata = {};
    * const request = {
    *   parent: formattedParent,
@@ -2169,62 +2205,75 @@ class JobServiceClient {
   // --------------------
 
   /**
-   * Return a fully-qualified project resource name string.
+   * Return a fully-qualified tenant resource name string.
    *
    * @param {String} project
+   * @param {String} tenant
    * @returns {String}
    */
-  projectPath(project) {
-    return this._pathTemplates.projectPathTemplate.render({
+  tenantPath(project, tenant) {
+    return this._pathTemplates.tenantPathTemplate.render({
       project: project,
+      tenant: tenant,
     });
   }
 
   /**
-   * Return a fully-qualified job resource name string.
+   * Return a fully-qualified job_old resource name string.
    *
    * @param {String} project
    * @param {String} jobs
    * @returns {String}
    */
-  jobPath(project, jobs) {
-    return this._pathTemplates.jobPathTemplate.render({
+  jobOldPath(project, jobs) {
+    return this._pathTemplates.jobOldPathTemplate.render({
       project: project,
       jobs: jobs,
     });
   }
 
   /**
-   * Parse the projectName from a project resource.
+   * Parse the tenantName from a tenant resource.
    *
-   * @param {String} projectName
-   *   A fully-qualified path representing a project resources.
+   * @param {String} tenantName
+   *   A fully-qualified path representing a tenant resources.
    * @returns {String} - A string representing the project.
    */
-  matchProjectFromProjectName(projectName) {
-    return this._pathTemplates.projectPathTemplate.match(projectName).project;
+  matchProjectFromTenantName(tenantName) {
+    return this._pathTemplates.tenantPathTemplate.match(tenantName).project;
   }
 
   /**
-   * Parse the jobName from a job resource.
+   * Parse the tenantName from a tenant resource.
    *
-   * @param {String} jobName
-   *   A fully-qualified path representing a job resources.
-   * @returns {String} - A string representing the project.
+   * @param {String} tenantName
+   *   A fully-qualified path representing a tenant resources.
+   * @returns {String} - A string representing the tenant.
    */
-  matchProjectFromJobName(jobName) {
-    return this._pathTemplates.jobPathTemplate.match(jobName).project;
+  matchTenantFromTenantName(tenantName) {
+    return this._pathTemplates.tenantPathTemplate.match(tenantName).tenant;
   }
 
   /**
-   * Parse the jobName from a job resource.
+   * Parse the jobOldName from a job_old resource.
    *
-   * @param {String} jobName
-   *   A fully-qualified path representing a job resources.
+   * @param {String} jobOldName
+   *   A fully-qualified path representing a job_old resources.
+   * @returns {String} - A string representing the project.
+   */
+  matchProjectFromJobOldName(jobOldName) {
+    return this._pathTemplates.jobOldPathTemplate.match(jobOldName).project;
+  }
+
+  /**
+   * Parse the jobOldName from a job_old resource.
+   *
+   * @param {String} jobOldName
+   *   A fully-qualified path representing a job_old resources.
    * @returns {String} - A string representing the jobs.
    */
-  matchJobsFromJobName(jobName) {
-    return this._pathTemplates.jobPathTemplate.match(jobName).jobs;
+  matchJobsFromJobOldName(jobOldName) {
+    return this._pathTemplates.jobOldPathTemplate.match(jobOldName).jobs;
   }
 }
 

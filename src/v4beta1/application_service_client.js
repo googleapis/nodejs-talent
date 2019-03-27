@@ -14,7 +14,7 @@
 
 'use strict';
 
-const gapicConfig = require('./company_service_client_config.json');
+const gapicConfig = require('./application_service_client_config.json');
 const gax = require('google-gax');
 const merge = require('lodash.merge');
 const path = require('path');
@@ -22,14 +22,15 @@ const path = require('path');
 const VERSION = require('../../package.json').version;
 
 /**
- * A service that handles company management, including CRUD and enumeration.
+ * A service that handles application management, including CRUD and
+ * enumeration.
  *
  * @class
  * @memberof v4beta1
  */
-class CompanyServiceClient {
+class ApplicationServiceClient {
   /**
-   * Construct an instance of CompanyServiceClient.
+   * Construct an instance of ApplicationServiceClient.
    *
    * @param {object} [options] - The configuration object. See the subsequent
    *   parameters for more details.
@@ -92,7 +93,7 @@ class CompanyServiceClient {
       {},
       gaxGrpc.loadProto(
         path.join(__dirname, '..', '..', 'protos'),
-        'google/cloud/talent/v4beta1/company_service.proto'
+        'google/cloud/talent/v4beta1/application_service.proto'
       )
     );
 
@@ -100,11 +101,11 @@ class CompanyServiceClient {
     // identifiers to uniquely identify resources within the API.
     // Create useful helper objects for these.
     this._pathTemplates = {
-      tenantPathTemplate: new gax.PathTemplate(
-        'projects/{project}/tenants/{tenant}'
+      profilePathTemplate: new gax.PathTemplate(
+        'projects/{project}/tenants/{tenant}/profiles/{profile}'
       ),
-      companyOldPathTemplate: new gax.PathTemplate(
-        'projects/{project}/companies/{company}'
+      applicationPathTemplate: new gax.PathTemplate(
+        'projects/{project}/tenants/{tenant}/profiles/{profile}/applications/{application}'
       ),
     };
 
@@ -112,16 +113,16 @@ class CompanyServiceClient {
     // (e.g. 50 results at a time, with tokens to get subsequent
     // pages). Denote the keys used for pagination and results.
     this._descriptors.page = {
-      listCompanies: new gax.PageDescriptor(
+      listApplications: new gax.PageDescriptor(
         'pageToken',
         'nextPageToken',
-        'companies'
+        'applications'
       ),
     };
 
     // Put together the default options sent with requests.
     const defaults = gaxGrpc.constructSettings(
-      'google.cloud.talent.v4beta1.CompanyService',
+      'google.cloud.talent.v4beta1.ApplicationService',
       gapicConfig,
       opts.clientConfig,
       {'x-goog-api-client': clientHeader.join(' ')}
@@ -133,24 +134,24 @@ class CompanyServiceClient {
     this._innerApiCalls = {};
 
     // Put together the "service stub" for
-    // google.cloud.talent.v4beta1.CompanyService.
-    const companyServiceStub = gaxGrpc.createStub(
-      protos.google.cloud.talent.v4beta1.CompanyService,
+    // google.cloud.talent.v4beta1.ApplicationService.
+    const applicationServiceStub = gaxGrpc.createStub(
+      protos.google.cloud.talent.v4beta1.ApplicationService,
       opts
     );
 
     // Iterate over each of the methods that the service provides
     // and create an API call method for each.
-    const companyServiceStubMethods = [
-      'createCompany',
-      'getCompany',
-      'updateCompany',
-      'deleteCompany',
-      'listCompanies',
+    const applicationServiceStubMethods = [
+      'createApplication',
+      'getApplication',
+      'updateApplication',
+      'deleteApplication',
+      'listApplications',
     ];
-    for (const methodName of companyServiceStubMethods) {
+    for (const methodName of applicationServiceStubMethods) {
       this._innerApiCalls[methodName] = gax.createApiCall(
-        companyServiceStub.then(
+        applicationServiceStub.then(
           stub =>
             function() {
               const args = Array.prototype.slice.call(arguments, 0);
@@ -206,52 +207,50 @@ class CompanyServiceClient {
   // -------------------
 
   /**
-   * Creates a new company entity.
+   * Creates a new application entity.
    *
    * @param {Object} request
    *   The request object that will be sent.
    * @param {string} request.parent
    *   Required.
    *
-   *   Resource name of the tenant under which the company is created.
+   *   Resource name of the profile under which the application is created.
    *
-   *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
-   *   "projects/api-test-project/tenant/foo".
-   *
-   *   Tenant id is optional and a default tenant is created if unspecified, for
-   *   example, "projects/api-test-project".
-   * @param {Object} request.company
+   *   The format is
+   *   "projects/{project_id}/tenants/{tenant_id}/profiles/{profile_id}", for
+   *   example, "projects/test-project/tenants/test-tenant/profiles/test-profile".
+   * @param {Object} request.application
    *   Required.
    *
-   *   The company to be created.
+   *   The application to be created.
    *
-   *   This object should have the same structure as [Company]{@link google.cloud.talent.v4beta1.Company}
+   *   This object should have the same structure as [Application]{@link google.cloud.talent.v4beta1.Application}
    * @param {Object} [options]
    *   Optional parameters. You can override the default settings for this call, e.g, timeout,
    *   retries, paginations, etc. See [gax.CallOptions]{@link https://googleapis.github.io/gax-nodejs/global.html#CallOptions} for the details.
    * @param {function(?Error, ?Object)} [callback]
    *   The function which will be called with the result of the API call.
    *
-   *   The second parameter to the callback is an object representing [Company]{@link google.cloud.talent.v4beta1.Company}.
+   *   The second parameter to the callback is an object representing [Application]{@link google.cloud.talent.v4beta1.Application}.
    * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [Company]{@link google.cloud.talent.v4beta1.Company}.
+   *   The first element of the array is an object representing [Application]{@link google.cloud.talent.v4beta1.Application}.
    *   The promise has a method named "cancel" which cancels the ongoing API call.
    *
    * @example
    *
    * const talent = require('@google-cloud/talent');
    *
-   * const client = new talent.v4beta1.CompanyServiceClient({
+   * const client = new talent.v4beta1.ApplicationServiceClient({
    *   // optional auth parameters.
    * });
    *
-   * const formattedParent = client.tenantPath('[PROJECT]', '[TENANT]');
-   * const company = {};
+   * const formattedParent = client.profilePath('[PROJECT]', '[TENANT]', '[PROFILE]');
+   * const application = {};
    * const request = {
    *   parent: formattedParent,
-   *   company: company,
+   *   application: application,
    * };
-   * client.createCompany(request)
+   * client.createApplication(request)
    *   .then(responses => {
    *     const response = responses[0];
    *     // doThingsWith(response)
@@ -260,53 +259,51 @@ class CompanyServiceClient {
    *     console.error(err);
    *   });
    */
-  createCompany(request, options, callback) {
+  createApplication(request, options, callback) {
     if (options instanceof Function && callback === undefined) {
       callback = options;
       options = {};
     }
     options = options || {};
 
-    return this._innerApiCalls.createCompany(request, options, callback);
+    return this._innerApiCalls.createApplication(request, options, callback);
   }
 
   /**
-   * Retrieves specified company.
+   * Retrieves specified application.
    *
    * @param {Object} request
    *   The request object that will be sent.
    * @param {string} request.name
    *   Required.
    *
-   *   The resource name of the company to be retrieved.
+   *   The resource name of the application to be retrieved.
    *
    *   The format is
-   *   "projects/{project_id}/tenants/{tenant_id}/companies/{company_id}", for
-   *   example, "projects/api-test-project/tenants/foo/companies/bar".
-   *
-   *   Tenant id is optional and the default tenant is used if unspecified, for
-   *   example, "projects/api-test-project/companies/bar".
+   *   "projects/{project_id}/tenants/{tenant_id}/profiles/{profile_id}/applications/{application_id}",
+   *   for example,
+   *   "projects/test-project/tenants/test-tenant/profiles/test-profile/applications/test-application".
    * @param {Object} [options]
    *   Optional parameters. You can override the default settings for this call, e.g, timeout,
    *   retries, paginations, etc. See [gax.CallOptions]{@link https://googleapis.github.io/gax-nodejs/global.html#CallOptions} for the details.
    * @param {function(?Error, ?Object)} [callback]
    *   The function which will be called with the result of the API call.
    *
-   *   The second parameter to the callback is an object representing [Company]{@link google.cloud.talent.v4beta1.Company}.
+   *   The second parameter to the callback is an object representing [Application]{@link google.cloud.talent.v4beta1.Application}.
    * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [Company]{@link google.cloud.talent.v4beta1.Company}.
+   *   The first element of the array is an object representing [Application]{@link google.cloud.talent.v4beta1.Application}.
    *   The promise has a method named "cancel" which cancels the ongoing API call.
    *
    * @example
    *
    * const talent = require('@google-cloud/talent');
    *
-   * const client = new talent.v4beta1.CompanyServiceClient({
+   * const client = new talent.v4beta1.ApplicationServiceClient({
    *   // optional auth parameters.
    * });
    *
-   * const formattedName = client.companyOldPath('[PROJECT]', '[COMPANY]');
-   * client.getCompany({name: formattedName})
+   * const formattedName = client.applicationPath('[PROJECT]', '[TENANT]', '[PROFILE]', '[APPLICATION]');
+   * client.getApplication({name: formattedName})
    *   .then(responses => {
    *     const response = responses[0];
    *     // doThingsWith(response)
@@ -315,27 +312,27 @@ class CompanyServiceClient {
    *     console.error(err);
    *   });
    */
-  getCompany(request, options, callback) {
+  getApplication(request, options, callback) {
     if (options instanceof Function && callback === undefined) {
       callback = options;
       options = {};
     }
     options = options || {};
 
-    return this._innerApiCalls.getCompany(request, options, callback);
+    return this._innerApiCalls.getApplication(request, options, callback);
   }
 
   /**
-   * Updates specified company.
+   * Updates specified application.
    *
    * @param {Object} request
    *   The request object that will be sent.
-   * @param {Object} request.company
+   * @param {Object} request.application
    *   Required.
    *
-   *   The company resource to replace the current resource in the system.
+   *   The application resource to replace the current resource in the system.
    *
-   *   This object should have the same structure as [Company]{@link google.cloud.talent.v4beta1.Company}
+   *   This object should have the same structure as [Application]{@link google.cloud.talent.v4beta1.Application}
    * @param {Object} [request.updateMask]
    *   Optional but strongly recommended for the best service
    *   experience.
@@ -343,12 +340,12 @@ class CompanyServiceClient {
    *   If
    *   update_mask
    *   is provided, only the specified fields in
-   *   company are
-   *   updated. Otherwise all the fields are updated.
+   *   application
+   *   are updated. Otherwise all the fields are updated.
    *
-   *   A field mask to specify the company fields to be updated. Only
-   *   top level fields of Company are
-   *   supported.
+   *   A field mask to specify the application fields to be updated. Only
+   *   top level fields of Application
+   *   are supported.
    *
    *   This object should have the same structure as [FieldMask]{@link google.protobuf.FieldMask}
    * @param {Object} [options]
@@ -357,21 +354,21 @@ class CompanyServiceClient {
    * @param {function(?Error, ?Object)} [callback]
    *   The function which will be called with the result of the API call.
    *
-   *   The second parameter to the callback is an object representing [Company]{@link google.cloud.talent.v4beta1.Company}.
+   *   The second parameter to the callback is an object representing [Application]{@link google.cloud.talent.v4beta1.Application}.
    * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [Company]{@link google.cloud.talent.v4beta1.Company}.
+   *   The first element of the array is an object representing [Application]{@link google.cloud.talent.v4beta1.Application}.
    *   The promise has a method named "cancel" which cancels the ongoing API call.
    *
    * @example
    *
    * const talent = require('@google-cloud/talent');
    *
-   * const client = new talent.v4beta1.CompanyServiceClient({
+   * const client = new talent.v4beta1.ApplicationServiceClient({
    *   // optional auth parameters.
    * });
    *
-   * const company = {};
-   * client.updateCompany({company: company})
+   * const application = {};
+   * client.updateApplication({application: application})
    *   .then(responses => {
    *     const response = responses[0];
    *     // doThingsWith(response)
@@ -380,33 +377,30 @@ class CompanyServiceClient {
    *     console.error(err);
    *   });
    */
-  updateCompany(request, options, callback) {
+  updateApplication(request, options, callback) {
     if (options instanceof Function && callback === undefined) {
       callback = options;
       options = {};
     }
     options = options || {};
 
-    return this._innerApiCalls.updateCompany(request, options, callback);
+    return this._innerApiCalls.updateApplication(request, options, callback);
   }
 
   /**
-   * Deletes specified company.
-   * Prerequisite: The company has no jobs associated with it.
+   * Deletes specified application.
    *
    * @param {Object} request
    *   The request object that will be sent.
    * @param {string} request.name
    *   Required.
    *
-   *   The resource name of the company to be deleted.
+   *   The resource name of the application to be deleted.
    *
    *   The format is
-   *   "projects/{project_id}/tenants/{tenant_id}/companies/{company_id}", for
-   *   example, "projects/api-test-project/tenants/foo/companies/bar".
-   *
-   *   Tenant id is optional and the default tenant is used if unspecified, for
-   *   example, "projects/api-test-project/companies/bar".
+   *   "projects/{project_id}/tenants/{tenant_id}/profiles/{profile_id}/applications/{application_id}",
+   *   for example,
+   *   "projects/test-project/tenants/test-tenant/profiles/test-profile/applications/test-application".
    * @param {Object} [options]
    *   Optional parameters. You can override the default settings for this call, e.g, timeout,
    *   retries, paginations, etc. See [gax.CallOptions]{@link https://googleapis.github.io/gax-nodejs/global.html#CallOptions} for the details.
@@ -419,76 +413,64 @@ class CompanyServiceClient {
    *
    * const talent = require('@google-cloud/talent');
    *
-   * const client = new talent.v4beta1.CompanyServiceClient({
+   * const client = new talent.v4beta1.ApplicationServiceClient({
    *   // optional auth parameters.
    * });
    *
-   * const formattedName = client.companyOldPath('[PROJECT]', '[COMPANY]');
-   * client.deleteCompany({name: formattedName}).catch(err => {
+   * const formattedName = client.applicationPath('[PROJECT]', '[TENANT]', '[PROFILE]', '[APPLICATION]');
+   * client.deleteApplication({name: formattedName}).catch(err => {
    *   console.error(err);
    * });
    */
-  deleteCompany(request, options, callback) {
+  deleteApplication(request, options, callback) {
     if (options instanceof Function && callback === undefined) {
       callback = options;
       options = {};
     }
     options = options || {};
 
-    return this._innerApiCalls.deleteCompany(request, options, callback);
+    return this._innerApiCalls.deleteApplication(request, options, callback);
   }
 
   /**
-   * Lists all companies associated with the project.
+   * Lists all applications associated with the profile.
    *
    * @param {Object} request
    *   The request object that will be sent.
    * @param {string} request.parent
    *   Required.
    *
-   *   Resource name of the tenant under which the company is created.
+   *   Resource name of the profile under which the application is created.
    *
-   *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
-   *   "projects/api-test-project/tenant/foo".
-   *
-   *   Tenant id is optional and the default tenant is used if unspecified, for
-   *   example, "projects/api-test-project".
+   *   The format is
+   *   "projects/{project_id}/tenants/{tenant_id}/profiles/{profile_id}", for
+   *   example, "projects/test-project/tenants/test-tenant/profiles/test-profile".
    * @param {number} [request.pageSize]
    *   The maximum number of resources contained in the underlying API
    *   response. If page streaming is performed per-resource, this
    *   parameter does not affect the return value. If page streaming is
    *   performed per-page, this determines the maximum number of
    *   resources in a page.
-   * @param {boolean} [request.requireOpenJobs]
-   *   Optional.
-   *
-   *   Set to true if the companies requested must have open jobs.
-   *
-   *   Defaults to false.
-   *
-   *   If true, at most
-   *   page_size of
-   *   companies are fetched, among which only those with open jobs are returned.
    * @param {Object} [options]
    *   Optional parameters. You can override the default settings for this call, e.g, timeout,
    *   retries, paginations, etc. See [gax.CallOptions]{@link https://googleapis.github.io/gax-nodejs/global.html#CallOptions} for the details.
    * @param {function(?Error, ?Array, ?Object, ?Object)} [callback]
    *   The function which will be called with the result of the API call.
    *
-   *   The second parameter to the callback is Array of [Company]{@link google.cloud.talent.v4beta1.Company}.
+   *   The second parameter to the callback is Array of [Application]{@link google.cloud.talent.v4beta1.Application}.
    *
    *   When autoPaginate: false is specified through options, it contains the result
    *   in a single response. If the response indicates the next page exists, the third
    *   parameter is set to be used for the next request object. The fourth parameter keeps
-   *   the raw response object of an object representing [ListCompaniesResponse]{@link google.cloud.talent.v4beta1.ListCompaniesResponse}.
+   *   the raw response object of an object representing [ListApplicationsResponse]{@link google.cloud.talent.v4beta1.ListApplicationsResponse}.
    * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is Array of [Company]{@link google.cloud.talent.v4beta1.Company}.
+   *   The first element of the array is Array of [Application]{@link google.cloud.talent.v4beta1.Application}.
    *
    *   When autoPaginate: false is specified through options, the array has three elements.
-   *   The first element is Array of [Company]{@link google.cloud.talent.v4beta1.Company} in a single response.
+   *   The first element is Array of [Application]{@link google.cloud.talent.v4beta1.Application} in a single response.
    *   The second element is the next request object if the response
    *   indicates the next page exists, or null. The third element is
-   *   an object representing [ListCompaniesResponse]{@link google.cloud.talent.v4beta1.ListCompaniesResponse}.
+   *   an object representing [ListApplicationsResponse]{@link google.cloud.talent.v4beta1.ListApplicationsResponse}.
    *
    *   The promise has a method named "cancel" which cancels the ongoing API call.
    *
@@ -496,14 +478,14 @@ class CompanyServiceClient {
    *
    * const talent = require('@google-cloud/talent');
    *
-   * const client = new talent.v4beta1.CompanyServiceClient({
+   * const client = new talent.v4beta1.ApplicationServiceClient({
    *   // optional auth parameters.
    * });
    *
    * // Iterate over all elements.
-   * const formattedParent = client.tenantPath('[PROJECT]', '[TENANT]');
+   * const formattedParent = client.profilePath('[PROJECT]', '[TENANT]', '[PROFILE]');
    *
-   * client.listCompanies({parent: formattedParent})
+   * client.listApplications({parent: formattedParent})
    *   .then(responses => {
    *     const resources = responses[0];
    *     for (const resource of resources) {
@@ -515,7 +497,7 @@ class CompanyServiceClient {
    *   });
    *
    * // Or obtain the paged response.
-   * const formattedParent = client.tenantPath('[PROJECT]', '[TENANT]');
+   * const formattedParent = client.profilePath('[PROJECT]', '[TENANT]', '[PROFILE]');
    *
    *
    * const options = {autoPaginate: false};
@@ -531,29 +513,29 @@ class CompanyServiceClient {
    *   }
    *   if (nextRequest) {
    *     // Fetch the next page.
-   *     return client.listCompanies(nextRequest, options).then(callback);
+   *     return client.listApplications(nextRequest, options).then(callback);
    *   }
    * }
-   * client.listCompanies({parent: formattedParent}, options)
+   * client.listApplications({parent: formattedParent}, options)
    *   .then(callback)
    *   .catch(err => {
    *     console.error(err);
    *   });
    */
-  listCompanies(request, options, callback) {
+  listApplications(request, options, callback) {
     if (options instanceof Function && callback === undefined) {
       callback = options;
       options = {};
     }
     options = options || {};
 
-    return this._innerApiCalls.listCompanies(request, options, callback);
+    return this._innerApiCalls.listApplications(request, options, callback);
   }
 
   /**
-   * Equivalent to {@link listCompanies}, but returns a NodeJS Stream object.
+   * Equivalent to {@link listApplications}, but returns a NodeJS Stream object.
    *
-   * This fetches the paged responses for {@link listCompanies} continuously
+   * This fetches the paged responses for {@link listApplications} continuously
    * and invokes the callback registered for 'data' event for each element in the
    * responses.
    *
@@ -568,56 +550,44 @@ class CompanyServiceClient {
    * @param {string} request.parent
    *   Required.
    *
-   *   Resource name of the tenant under which the company is created.
+   *   Resource name of the profile under which the application is created.
    *
-   *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
-   *   "projects/api-test-project/tenant/foo".
-   *
-   *   Tenant id is optional and the default tenant is used if unspecified, for
-   *   example, "projects/api-test-project".
+   *   The format is
+   *   "projects/{project_id}/tenants/{tenant_id}/profiles/{profile_id}", for
+   *   example, "projects/test-project/tenants/test-tenant/profiles/test-profile".
    * @param {number} [request.pageSize]
    *   The maximum number of resources contained in the underlying API
    *   response. If page streaming is performed per-resource, this
    *   parameter does not affect the return value. If page streaming is
    *   performed per-page, this determines the maximum number of
    *   resources in a page.
-   * @param {boolean} [request.requireOpenJobs]
-   *   Optional.
-   *
-   *   Set to true if the companies requested must have open jobs.
-   *
-   *   Defaults to false.
-   *
-   *   If true, at most
-   *   page_size of
-   *   companies are fetched, among which only those with open jobs are returned.
    * @param {Object} [options]
    *   Optional parameters. You can override the default settings for this call, e.g, timeout,
    *   retries, paginations, etc. See [gax.CallOptions]{@link https://googleapis.github.io/gax-nodejs/global.html#CallOptions} for the details.
    * @returns {Stream}
-   *   An object stream which emits an object representing [Company]{@link google.cloud.talent.v4beta1.Company} on 'data' event.
+   *   An object stream which emits an object representing [Application]{@link google.cloud.talent.v4beta1.Application} on 'data' event.
    *
    * @example
    *
    * const talent = require('@google-cloud/talent');
    *
-   * const client = new talent.v4beta1.CompanyServiceClient({
+   * const client = new talent.v4beta1.ApplicationServiceClient({
    *   // optional auth parameters.
    * });
    *
-   * const formattedParent = client.tenantPath('[PROJECT]', '[TENANT]');
-   * client.listCompaniesStream({parent: formattedParent})
+   * const formattedParent = client.profilePath('[PROJECT]', '[TENANT]', '[PROFILE]');
+   * client.listApplicationsStream({parent: formattedParent})
    *   .on('data', element => {
    *     // doThingsWith(element)
    *   }).on('error', err => {
    *     console.log(err);
    *   });
    */
-  listCompaniesStream(request, options) {
+  listApplicationsStream(request, options) {
     options = options || {};
 
-    return this._descriptors.page.listCompanies.createStream(
-      this._innerApiCalls.listCompanies,
+    return this._descriptors.page.listApplications.createStream(
+      this._innerApiCalls.listApplications,
       request,
       options
     );
@@ -628,78 +598,119 @@ class CompanyServiceClient {
   // --------------------
 
   /**
-   * Return a fully-qualified tenant resource name string.
+   * Return a fully-qualified profile resource name string.
    *
    * @param {String} project
    * @param {String} tenant
+   * @param {String} profile
    * @returns {String}
    */
-  tenantPath(project, tenant) {
-    return this._pathTemplates.tenantPathTemplate.render({
+  profilePath(project, tenant, profile) {
+    return this._pathTemplates.profilePathTemplate.render({
       project: project,
       tenant: tenant,
+      profile: profile,
     });
   }
 
   /**
-   * Return a fully-qualified company_old resource name string.
+   * Return a fully-qualified application resource name string.
    *
    * @param {String} project
-   * @param {String} company
+   * @param {String} tenant
+   * @param {String} profile
+   * @param {String} application
    * @returns {String}
    */
-  companyOldPath(project, company) {
-    return this._pathTemplates.companyOldPathTemplate.render({
+  applicationPath(project, tenant, profile, application) {
+    return this._pathTemplates.applicationPathTemplate.render({
       project: project,
-      company: company,
+      tenant: tenant,
+      profile: profile,
+      application: application,
     });
   }
 
   /**
-   * Parse the tenantName from a tenant resource.
+   * Parse the profileName from a profile resource.
    *
-   * @param {String} tenantName
-   *   A fully-qualified path representing a tenant resources.
+   * @param {String} profileName
+   *   A fully-qualified path representing a profile resources.
    * @returns {String} - A string representing the project.
    */
-  matchProjectFromTenantName(tenantName) {
-    return this._pathTemplates.tenantPathTemplate.match(tenantName).project;
+  matchProjectFromProfileName(profileName) {
+    return this._pathTemplates.profilePathTemplate.match(profileName).project;
   }
 
   /**
-   * Parse the tenantName from a tenant resource.
+   * Parse the profileName from a profile resource.
    *
-   * @param {String} tenantName
-   *   A fully-qualified path representing a tenant resources.
+   * @param {String} profileName
+   *   A fully-qualified path representing a profile resources.
    * @returns {String} - A string representing the tenant.
    */
-  matchTenantFromTenantName(tenantName) {
-    return this._pathTemplates.tenantPathTemplate.match(tenantName).tenant;
+  matchTenantFromProfileName(profileName) {
+    return this._pathTemplates.profilePathTemplate.match(profileName).tenant;
   }
 
   /**
-   * Parse the companyOldName from a company_old resource.
+   * Parse the profileName from a profile resource.
    *
-   * @param {String} companyOldName
-   *   A fully-qualified path representing a company_old resources.
+   * @param {String} profileName
+   *   A fully-qualified path representing a profile resources.
+   * @returns {String} - A string representing the profile.
+   */
+  matchProfileFromProfileName(profileName) {
+    return this._pathTemplates.profilePathTemplate.match(profileName).profile;
+  }
+
+  /**
+   * Parse the applicationName from a application resource.
+   *
+   * @param {String} applicationName
+   *   A fully-qualified path representing a application resources.
    * @returns {String} - A string representing the project.
    */
-  matchProjectFromCompanyOldName(companyOldName) {
-    return this._pathTemplates.companyOldPathTemplate.match(companyOldName)
+  matchProjectFromApplicationName(applicationName) {
+    return this._pathTemplates.applicationPathTemplate.match(applicationName)
       .project;
   }
 
   /**
-   * Parse the companyOldName from a company_old resource.
+   * Parse the applicationName from a application resource.
    *
-   * @param {String} companyOldName
-   *   A fully-qualified path representing a company_old resources.
-   * @returns {String} - A string representing the company.
+   * @param {String} applicationName
+   *   A fully-qualified path representing a application resources.
+   * @returns {String} - A string representing the tenant.
    */
-  matchCompanyFromCompanyOldName(companyOldName) {
-    return this._pathTemplates.companyOldPathTemplate.match(companyOldName)
-      .company;
+  matchTenantFromApplicationName(applicationName) {
+    return this._pathTemplates.applicationPathTemplate.match(applicationName)
+      .tenant;
+  }
+
+  /**
+   * Parse the applicationName from a application resource.
+   *
+   * @param {String} applicationName
+   *   A fully-qualified path representing a application resources.
+   * @returns {String} - A string representing the profile.
+   */
+  matchProfileFromApplicationName(applicationName) {
+    return this._pathTemplates.applicationPathTemplate.match(applicationName)
+      .profile;
+  }
+
+  /**
+   * Parse the applicationName from a application resource.
+   *
+   * @param {String} applicationName
+   *   A fully-qualified path representing a application resources.
+   * @returns {String} - A string representing the application.
+   */
+  matchApplicationFromApplicationName(applicationName) {
+    return this._pathTemplates.applicationPathTemplate.match(applicationName)
+      .application;
   }
 }
 
-module.exports = CompanyServiceClient;
+module.exports = ApplicationServiceClient;

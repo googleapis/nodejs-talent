@@ -54,6 +54,9 @@ r"""
  /**
  * @namespace google.rpc
  */
+/**
+ * @namespace google.type
+ */
 """)
 
 # [START fix-dead-link]

@@ -205,9 +205,7 @@ class EventServiceClient {
    * @param {Object} request
    *   The request object that will be sent.
    * @param {string} request.parent
-   *   Required.
-   *
-   *   Resource name of the tenant under which the event is created.
+   *   Required. Resource name of the tenant under which the event is created.
    *
    *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
    *   "projects/api-test-project/tenant/foo".
@@ -215,10 +213,8 @@ class EventServiceClient {
    *   Tenant id is optional and a default tenant is created if unspecified, for
    *   example, "projects/api-test-project".
    * @param {Object} request.clientEvent
-   *   Required.
-   *
-   *   Events issued when end user interacts with customer's application that
-   *   uses Cloud Talent Solution.
+   *   Required. Events issued when end user interacts with customer's application
+   *   that uses Cloud Talent Solution.
    *
    *   This object should have the same structure as [ClientEvent]{@link google.cloud.talent.v4beta1.ClientEvent}
    * @param {Object} [options]

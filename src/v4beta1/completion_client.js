@@ -203,9 +203,7 @@ class CompletionClient {
    * @param {Object} request
    *   The request object that will be sent.
    * @param {string} request.parent
-   *   Required.
-   *
-   *   Resource name of tenant the completion is performed within.
+   *   Required. Resource name of tenant the completion is performed within.
    *
    *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
    *   "projects/api-test-project/tenant/foo".
@@ -213,21 +211,15 @@ class CompletionClient {
    *   Tenant id is optional and the default tenant is used if unspecified, for
    *   example, "projects/api-test-project".
    * @param {string} request.query
-   *   Required.
-   *
-   *   The query used to generate suggestions.
+   *   Required. The query used to generate suggestions.
    *
    *   The maximum number of allowed characters is 255.
    * @param {number} request.pageSize
-   *   Required.
-   *
-   *   Completion result count.
+   *   Required. Completion result count.
    *
    *   The maximum allowed page size is 10.
    * @param {string[]} [request.languageCodes]
-   *   Optional.
-   *
-   *   The list of languages of the query. This is
+   *   Optional. The list of languages of the query. This is
    *   the BCP-47 language code, such as "en-US" or "sr-Latn".
    *   For more information, see
    *   [Tags for Identifying Languages](https://tools.ietf.org/html/bcp47).
@@ -254,9 +246,7 @@ class CompletionClient {
    *
    *   The maximum number of allowed characters is 255.
    * @param {string} [request.company]
-   *   Optional.
-   *
-   *   If provided, restricts completion to specified company.
+   *   Optional. If provided, restricts completion to specified company.
    *
    *   The format is
    *   "projects/{project_id}/tenants/{tenant_id}/companies/{company_id}", for
@@ -265,16 +255,12 @@ class CompletionClient {
    *   Tenant id is optional and the default tenant is used if unspecified, for
    *   example, "projects/api-test-project/companies/bar".
    * @param {number} [request.scope]
-   *   Optional.
-   *
-   *   The scope of the completion. The defaults is
+   *   Optional. The scope of the completion. The defaults is
    *   CompletionScope.PUBLIC.
    *
    *   The number should be among the values of [CompletionScope]{@link google.cloud.talent.v4beta1.CompletionScope}
    * @param {number} [request.type]
-   *   Optional.
-   *
-   *   The completion topic. The default is
+   *   Optional. The completion topic. The default is
    *   CompletionType.COMBINED.
    *
    *   The number should be among the values of [CompletionType]{@link google.cloud.talent.v4beta1.CompletionType}

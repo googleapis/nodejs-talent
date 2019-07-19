@@ -344,7 +344,8 @@ const ProfileEvent = {
      * a CTS API request's result set, the
      * ClientEvent.request_id
      * should be populated.  If the VIEW happens for some other reason, the
-     * [requestId] should not be populated.
+     * request_id should
+     * not be populated.
      *
      * This event requires a valid recruiter and one valid ID in profiles.
      *

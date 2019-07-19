@@ -129,7 +129,7 @@
  *   Boolean expressions (AND/OR/NOT) are supported up to 3 levels of
  *   nesting (for example, "((A AND B AND C) OR NOT D) AND E"), a maximum of 100
  *   comparisons or functions are allowed in the expression. The expression
- *   must be < 3000 bytes in length.
+ *   must be < 6000 bytes in length.
  *
  *   Sample Query:
  *   `(LOWER(driving_license)="class \"a\"" OR EMPTY(driving_license)) AND
@@ -371,6 +371,16 @@ const JobQuery = {
  *   for a specific job.
  *
  *   This object should have the same structure as [CandidateAvailabilityFilter]{@link google.cloud.talent.v4beta1.CandidateAvailabilityFilter}
+ *
+ * @property {Object[]} personNameFilters
+ *   Optional. Person name filter specifies person name of profiles to match on.
+ *
+ *   If multiple person name filters are specified, profiles that match any
+ *   person name filters are retrieved.
+ *
+ *   For example, search for profiles of candidates with name "John Smith".
+ *
+ *   This object should have the same structure as [PersonNameFilter]{@link google.cloud.talent.v4beta1.PersonNameFilter}
  *
  * @typedef ProfileQuery
  * @memberof google.cloud.talent.v4beta1
@@ -971,5 +981,26 @@ const TimeFilter = {
  * @see [google.cloud.talent.v4beta1.CandidateAvailabilityFilter definition in proto format]{@link https://github.com/googleapis/googleapis/blob/master/google/cloud/talent/v4beta1/filters.proto}
  */
 const CandidateAvailabilityFilter = {
+  // This is for documentation. Actual contents will be loaded by gRPC.
+};
+
+/**
+ * Input only.
+ *
+ * Filter on person name.
+ *
+ * @property {string} personName
+ *   Required. The person name. For example, "John Smith".
+ *
+ *   Can be any combination of PersonName.structured_name.given_name,
+ *   PersonName.structured_name.middle_initial,
+ *   PersonName.structured_name.family_name, and
+ *   PersonName.formatted_name.
+ *
+ * @typedef PersonNameFilter
+ * @memberof google.cloud.talent.v4beta1
+ * @see [google.cloud.talent.v4beta1.PersonNameFilter definition in proto format]{@link https://github.com/googleapis/googleapis/blob/master/google/cloud/talent/v4beta1/filters.proto}
+ */
+const PersonNameFilter = {
   // This is for documentation. Actual contents will be loaded by gRPC.
 };

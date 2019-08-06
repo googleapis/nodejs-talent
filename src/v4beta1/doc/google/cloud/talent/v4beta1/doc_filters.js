@@ -199,7 +199,26 @@ const JobQuery = {
  *
  * @property {Object[]} locationFilters
  *   Optional. The location filter specifies geo-regions containing the profiles
- *   to search against.
+ *   to search against. It filters against all of a profile's
+ *   Profile.addresses where
+ *   Address.usage is PERSONAL and
+ *   Address.current is true. If
+ *   no such address exists, a fallback logic is applied in an attempt to
+ *   determine the profile's primary address.
+ *
+ *   The fallback logic selects an address from a profile's
+ *   Profile.addresses in the
+ *   following order of priority:
+ *   1. Address.usage is PERSONAL
+ *   and Address.current is false
+ *   or not set.
+ *   2. Address.usage is
+ *   CONTACT_INFO_USAGE_UNSPECIFIED and
+ *   Address.current is true.
+ *   3. Address.usage is
+ *   CONTACT_INFO_USAGE_UNSPECIFIED and
+ *   Address.current is false or
+ *   not set.
  *
  *   If a location filter isn't specified, profiles fitting the other search
  *   criteria are retrieved regardless of where they're located.
@@ -403,8 +422,9 @@ const ProfileQuery = {
  *   used to address ambiguity of the user-input location, for example,
  *   "Liverpool" against "Liverpool, NY, US" or "Liverpool, UK".
  *
- *   Set this field if all the jobs to search against are from a same region,
- *   or jobs are world-wide, but the job seeker is from a specific region.
+ *   Set this field to bias location resolution toward a specific country
+ *   or territory. If this field is not set, application behavior is biased
+ *   toward the United States by default.
  *
  *   See http://cldr.unicode.org/ and
  *   http://www.unicode.org/cldr/charts/30/supplemental/territory_information.html

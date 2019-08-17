@@ -744,11 +744,11 @@ class ProfileServiceClient {
    *
    *   * "relevance desc": By descending relevance, as determined by the API
    *      algorithms.
-   *   * "update_time desc": Sort by
+   *   * "update_date desc": Sort by
    *   Profile.update_time in
    *   descending order
    *     (recently updated profiles first).
-   *   * "create_time desc": Sort by
+   *   * "create_date desc": Sort by
    *   Profile.create_time in
    *   descending order
    *     (recently created profiles first).
@@ -1060,11 +1060,11 @@ class ProfileServiceClient {
    *
    *   * "relevance desc": By descending relevance, as determined by the API
    *      algorithms.
-   *   * "update_time desc": Sort by
+   *   * "update_date desc": Sort by
    *   Profile.update_time in
    *   descending order
    *     (recently updated profiles first).
-   *   * "create_time desc": Sort by
+   *   * "create_date desc": Sort by
    *   Profile.create_time in
    *   descending order
    *     (recently created profiles first).

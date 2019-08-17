@@ -227,7 +227,43 @@ const JobQuery = {
  *   LocationFilter.negated
  *   is specified, the result doesn't contain profiles from that location.
  *
- *   For example, search for profiles with addresses in "New York City".
+ *   If
+ *   LocationFilter.address
+ *   is provided, the
+ *   LocationType, center
+ *   point (latitude and longitude), and radius are automatically detected by
+ *   the Google Maps Geocoding API and included as well. If
+ *   LocationFilter.address
+ *   is not recognized as a location, the filter falls back to keyword search.
+ *
+ *   If the detected
+ *   LocationType is
+ *   LocationType.SUB_ADMINISTRATIVE_AREA,
+ *   LocationType.ADMINISTRATIVE_AREA,
+ *   or
+ *   LocationType.COUNTRY,
+ *   or location is recognized but a radius can not be determined by the
+ *   geo-coder, the filter is performed against the detected location name
+ *   (using exact text matching). Otherwise, the filter is performed against the
+ *   detected center point and a radius. The largest value from among the
+ *   following options is automatically set as the radius value:
+ *   1. 10 miles.
+ *   2. Detected location radius +
+ *   LocationFilter.distance_in_miles.
+ *   3. If the detected
+ *   LocationType is one of
+ *   LocationType.SUB_LOCALITY,
+ *   LocationType.SUB_LOCALITY_2,
+ *   LocationType.NEIGHBORHOOD,
+ *   LocationType.POSTAL_CODE,
+ *   or
+ *   LocationType.STREET_ADDRESS,
+ *   the following two values are calculated and the larger of the two is
+ *   compared to #1 and #2, above:
+ *     - Calculated radius of the city (from the city center) that contains the
+ *     geo-coded location.
+ *     - Distance from the city center (of the city containing the geo-coded
+ *     location) to the detected location center + 0.5 miles.
  *
  *   This object should have the same structure as [LocationFilter]{@link google.cloud.talent.v4beta1.LocationFilter}
  *
@@ -432,15 +468,15 @@ const ProfileQuery = {
  *   Note that this filter is not applicable for Profile Search related queries.
  *
  * @property {Object} latLng
- *   Optional. The latitude and longitude of the geographic center from which to
- *   search. This field's ignored if `address` is provided.
+ *   Optional. The latitude and longitude of the geographic center to search
+ *   from. This field is ignored if `address` is provided.
  *
  *   This object should have the same structure as [LatLng]{@link google.type.LatLng}
  *
  * @property {number} distanceInMiles
  *   Optional. The distance_in_miles is applied when the location being searched
- *   for is identified as a city or smaller. When the location being searched
- *   for is a state or larger, this field is ignored.
+ *   for is identified as a city or smaller. This field is ignored if the
+ *   location being searched for is a state or larger.
  *
  * @property {number} telecommutePreference
  *   Optional. Allows the client to return jobs without a
@@ -463,6 +499,8 @@ const ProfileQuery = {
  *   combination with other location filters, telecommuting jobs can be
  *   treated as less relevant than other jobs in the search response.
  *
+ *   This field is only used for job search requests.
+ *
  *   The number should be among the values of [TelecommutePreference]{@link google.cloud.talent.v4beta1.TelecommutePreference}
  *
  * @property {boolean} negated
@@ -479,7 +517,7 @@ const LocationFilter = {
   // This is for documentation. Actual contents will be loaded by gRPC.
 
   /**
-   * Specify whether including telecommute jobs.
+   * Specify whether to include telecommute jobs.
    *
    * @enum {number}
    * @memberof google.cloud.talent.v4beta1

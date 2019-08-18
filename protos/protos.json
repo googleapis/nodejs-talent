@@ -292,6 +292,9 @@
                       }
                     },
                     "Visibility": {
+                      "options": {
+                        "deprecated": true
+                      },
                       "values": {
                         "VISIBILITY_UNSPECIFIED": 0,
                         "ACCOUNT_ONLY": 1,
@@ -1959,7 +1962,10 @@
                         },
                         "visibility": {
                           "type": "Visibility",
-                          "id": 21
+                          "id": 21,
+                          "options": {
+                            "deprecated": true
+                          }
                         },
                         "jobStartTime": {
                           "type": "google.protobuf.Timestamp",

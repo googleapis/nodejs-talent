@@ -69,7 +69,9 @@ class CompletionClient {
     const gaxModule = !global.isBrowser && opts.fallback ? gax.fallback : gax;
 
     const servicePath =
-      opts.servicePath || opts.apiEndpoint || this.constructor.servicePath;
+      opts.servicePath ||
+      opts.apiEndpoint ||
+      this.constructor.servicePath;
 
     // Ensure that options include the service address and port.
     opts = Object.assign(
@@ -110,15 +112,11 @@ class CompletionClient {
     // For Node.js, pass the path to JSON proto file.
     // For browsers, pass the JSON content.
 
-    const nodejsProtoPath = path.join(
-      __dirname,
-      '..',
-      '..',
-      'protos',
-      'protos.json'
-    );
+    const nodejsProtoPath = path.join(__dirname, '..', '..', 'protos', 'protos.json');
     const protos = gaxGrpc.loadProto(
-      opts.fallback ? require('../../protos/protos.json') : nodejsProtoPath
+      opts.fallback ?
+        require("../../protos/protos.json") :
+        nodejsProtoPath
     );
 
     // This API contains "path templates"; forward-slash-separated
@@ -131,7 +129,9 @@ class CompletionClient {
       companyWithoutTenantPathTemplate: new gaxModule.PathTemplate(
         'projects/{project}/companies/{company}'
       ),
-      projectPathTemplate: new gaxModule.PathTemplate('projects/{project}'),
+      projectPathTemplate: new gaxModule.PathTemplate(
+        'projects/{project}'
+      ),
       tenantPathTemplate: new gaxModule.PathTemplate(
         'projects/{project}/tenants/{tenant}'
       ),
@@ -153,15 +153,17 @@ class CompletionClient {
     // Put together the "service stub" for
     // google.cloud.talent.v4beta1.Completion.
     const completionStub = gaxGrpc.createStub(
-      opts.fallback
-        ? protos.lookupService('google.cloud.talent.v4beta1.Completion')
-        : protos.google.cloud.talent.v4beta1.Completion,
+      opts.fallback ?
+        protos.lookupService('google.cloud.talent.v4beta1.Completion') :
+        protos.google.cloud.talent.v4beta1.Completion,
       opts
     );
 
     // Iterate over each of the methods that the service provides
     // and create an API call method for each.
-    const completionStubMethods = ['completeQuery'];
+    const completionStubMethods = [
+      'completeQuery',
+    ];
     for (const methodName of completionStubMethods) {
       const innerCallPromise = completionStub.then(
         stub => (...args) => {
@@ -338,11 +340,10 @@ class CompletionClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      parent: request.parent,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'parent': request.parent
+      });
 
     return this._innerApiCalls.completeQuery(request, options, callback);
   }
@@ -415,7 +416,9 @@ class CompletionClient {
    * @returns {String} - A string representing the project.
    */
   matchProjectFromCompanyName(companyName) {
-    return this._pathTemplates.companyPathTemplate.match(companyName).project;
+    return this._pathTemplates.companyPathTemplate
+      .match(companyName)
+      .project;
   }
 
   /**
@@ -426,7 +429,9 @@ class CompletionClient {
    * @returns {String} - A string representing the tenant.
    */
   matchTenantFromCompanyName(companyName) {
-    return this._pathTemplates.companyPathTemplate.match(companyName).tenant;
+    return this._pathTemplates.companyPathTemplate
+      .match(companyName)
+      .tenant;
   }
 
   /**
@@ -437,7 +442,9 @@ class CompletionClient {
    * @returns {String} - A string representing the company.
    */
   matchCompanyFromCompanyName(companyName) {
-    return this._pathTemplates.companyPathTemplate.match(companyName).company;
+    return this._pathTemplates.companyPathTemplate
+      .match(companyName)
+      .company;
   }
 
   /**
@@ -448,9 +455,9 @@ class CompletionClient {
    * @returns {String} - A string representing the project.
    */
   matchProjectFromCompanyWithoutTenantName(companyWithoutTenantName) {
-    return this._pathTemplates.companyWithoutTenantPathTemplate.match(
-      companyWithoutTenantName
-    ).project;
+    return this._pathTemplates.companyWithoutTenantPathTemplate
+      .match(companyWithoutTenantName)
+      .project;
   }
 
   /**
@@ -461,9 +468,9 @@ class CompletionClient {
    * @returns {String} - A string representing the company.
    */
   matchCompanyFromCompanyWithoutTenantName(companyWithoutTenantName) {
-    return this._pathTemplates.companyWithoutTenantPathTemplate.match(
-      companyWithoutTenantName
-    ).company;
+    return this._pathTemplates.companyWithoutTenantPathTemplate
+      .match(companyWithoutTenantName)
+      .company;
   }
 
   /**
@@ -474,7 +481,9 @@ class CompletionClient {
    * @returns {String} - A string representing the project.
    */
   matchProjectFromProjectName(projectName) {
-    return this._pathTemplates.projectPathTemplate.match(projectName).project;
+    return this._pathTemplates.projectPathTemplate
+      .match(projectName)
+      .project;
   }
 
   /**
@@ -485,7 +494,9 @@ class CompletionClient {
    * @returns {String} - A string representing the project.
    */
   matchProjectFromTenantName(tenantName) {
-    return this._pathTemplates.tenantPathTemplate.match(tenantName).project;
+    return this._pathTemplates.tenantPathTemplate
+      .match(tenantName)
+      .project;
   }
 
   /**
@@ -496,8 +507,11 @@ class CompletionClient {
    * @returns {String} - A string representing the tenant.
    */
   matchTenantFromTenantName(tenantName) {
-    return this._pathTemplates.tenantPathTemplate.match(tenantName).tenant;
+    return this._pathTemplates.tenantPathTemplate
+      .match(tenantName)
+      .tenant;
   }
 }
+
 
 module.exports = CompletionClient;

@@ -24,14 +24,12 @@ error.code = FAKE_STATUS_CODE;
 
 describe('ApplicationServiceClient', () => {
   it('has servicePath', () => {
-    const servicePath =
-      talentModule.v4beta1.ApplicationServiceClient.servicePath;
+    const servicePath = talentModule.v4beta1.ApplicationServiceClient.servicePath;
     assert(servicePath);
   });
 
   it('has apiEndpoint', () => {
-    const apiEndpoint =
-      talentModule.v4beta1.ApplicationServiceClient.apiEndpoint;
+    const apiEndpoint = talentModule.v4beta1.ApplicationServiceClient.apiEndpoint;
     assert(apiEndpoint);
   });
 
@@ -47,9 +45,7 @@ describe('ApplicationServiceClient', () => {
   });
 
   it('should create a client with gRPC fallback', () => {
-    const client = new talentModule.v4beta1.ApplicationServiceClient({
-      fallback: true,
-    });
+    const client = new talentModule.v4beta1.ApplicationServiceClient({fallback: true});
     assert(client);
   });
 
@@ -61,11 +57,7 @@ describe('ApplicationServiceClient', () => {
       });
 
       // Mock request
-      const formattedParent = client.profilePath(
-        '[PROJECT]',
-        '[TENANT]',
-        '[PROFILE]'
-      );
+      const formattedParent = client.profilePath('[PROJECT]', '[TENANT]', '[PROFILE]');
       const application = {};
       const request = {
         parent: formattedParent,
@@ -110,11 +102,7 @@ describe('ApplicationServiceClient', () => {
       });
 
       // Mock request
-      const formattedParent = client.profilePath(
-        '[PROJECT]',
-        '[TENANT]',
-        '[PROFILE]'
-      );
+      const formattedParent = client.profilePath('[PROJECT]', '[TENANT]', '[PROFILE]');
       const application = {};
       const request = {
         parent: formattedParent,
@@ -145,12 +133,7 @@ describe('ApplicationServiceClient', () => {
       });
 
       // Mock request
-      const formattedName = client.applicationPath(
-        '[PROJECT]',
-        '[TENANT]',
-        '[PROFILE]',
-        '[APPLICATION]'
-      );
+      const formattedName = client.applicationPath('[PROJECT]', '[TENANT]', '[PROFILE]', '[APPLICATION]');
       const request = {
         name: formattedName,
       };
@@ -193,12 +176,7 @@ describe('ApplicationServiceClient', () => {
       });
 
       // Mock request
-      const formattedName = client.applicationPath(
-        '[PROJECT]',
-        '[TENANT]',
-        '[PROFILE]',
-        '[APPLICATION]'
-      );
+      const formattedName = client.applicationPath('[PROJECT]', '[TENANT]', '[PROFILE]', '[APPLICATION]');
       const request = {
         name: formattedName,
       };
@@ -299,12 +277,7 @@ describe('ApplicationServiceClient', () => {
       });
 
       // Mock request
-      const formattedName = client.applicationPath(
-        '[PROJECT]',
-        '[TENANT]',
-        '[PROFILE]',
-        '[APPLICATION]'
-      );
+      const formattedName = client.applicationPath('[PROJECT]', '[TENANT]', '[PROFILE]', '[APPLICATION]');
       const request = {
         name: formattedName,
       };
@@ -325,12 +298,7 @@ describe('ApplicationServiceClient', () => {
       });
 
       // Mock request
-      const formattedName = client.applicationPath(
-        '[PROJECT]',
-        '[TENANT]',
-        '[PROFILE]',
-        '[APPLICATION]'
-      );
+      const formattedName = client.applicationPath('[PROJECT]', '[TENANT]', '[PROFILE]', '[APPLICATION]');
       const request = {
         name: formattedName,
       };
@@ -358,11 +326,7 @@ describe('ApplicationServiceClient', () => {
       });
 
       // Mock request
-      const formattedParent = client.profilePath(
-        '[PROJECT]',
-        '[TENANT]',
-        '[PROFILE]'
-      );
+      const formattedParent = client.profilePath('[PROJECT]', '[TENANT]', '[PROFILE]');
       const request = {
         parent: formattedParent,
       };
@@ -377,11 +341,7 @@ describe('ApplicationServiceClient', () => {
       };
 
       // Mock Grpc layer
-      client._innerApiCalls.listApplications = (
-        actualRequest,
-        options,
-        callback
-      ) => {
+      client._innerApiCalls.listApplications = (actualRequest, options, callback) => {
         assert.deepStrictEqual(actualRequest, request);
         callback(null, expectedResponse.applications);
       };
@@ -400,11 +360,7 @@ describe('ApplicationServiceClient', () => {
       });
 
       // Mock request
-      const formattedParent = client.profilePath(
-        '[PROJECT]',
-        '[TENANT]',
-        '[PROFILE]'
-      );
+      const formattedParent = client.profilePath('[PROJECT]', '[TENANT]', '[PROFILE]');
       const request = {
         parent: formattedParent,
       };
@@ -424,6 +380,7 @@ describe('ApplicationServiceClient', () => {
       });
     });
   });
+
 });
 describe('CompanyServiceClient', () => {
   it('has servicePath', () => {
@@ -448,9 +405,7 @@ describe('CompanyServiceClient', () => {
   });
 
   it('should create a client with gRPC fallback', () => {
-    const client = new talentModule.v4beta1.CompanyServiceClient({
-      fallback: true,
-    });
+    const client = new talentModule.v4beta1.CompanyServiceClient({fallback: true});
     assert(client);
   });
 
@@ -544,11 +499,7 @@ describe('CompanyServiceClient', () => {
       });
 
       // Mock request
-      const formattedName = client.companyPath(
-        '[PROJECT]',
-        '[TENANT]',
-        '[COMPANY]'
-      );
+      const formattedName = client.companyPath('[PROJECT]', '[TENANT]', '[COMPANY]');
       const request = {
         name: formattedName,
       };
@@ -597,11 +548,7 @@ describe('CompanyServiceClient', () => {
       });
 
       // Mock request
-      const formattedName = client.companyPath(
-        '[PROJECT]',
-        '[TENANT]',
-        '[COMPANY]'
-      );
+      const formattedName = client.companyPath('[PROJECT]', '[TENANT]', '[COMPANY]');
       const request = {
         name: formattedName,
       };
@@ -708,11 +655,7 @@ describe('CompanyServiceClient', () => {
       });
 
       // Mock request
-      const formattedName = client.companyPath(
-        '[PROJECT]',
-        '[TENANT]',
-        '[COMPANY]'
-      );
+      const formattedName = client.companyPath('[PROJECT]', '[TENANT]', '[COMPANY]');
       const request = {
         name: formattedName,
       };
@@ -733,11 +676,7 @@ describe('CompanyServiceClient', () => {
       });
 
       // Mock request
-      const formattedName = client.companyPath(
-        '[PROJECT]',
-        '[TENANT]',
-        '[COMPANY]'
-      );
+      const formattedName = client.companyPath('[PROJECT]', '[TENANT]', '[COMPANY]');
       const request = {
         name: formattedName,
       };
@@ -780,11 +719,7 @@ describe('CompanyServiceClient', () => {
       };
 
       // Mock Grpc layer
-      client._innerApiCalls.listCompanies = (
-        actualRequest,
-        options,
-        callback
-      ) => {
+      client._innerApiCalls.listCompanies = (actualRequest, options, callback) => {
         assert.deepStrictEqual(actualRequest, request);
         callback(null, expectedResponse.companies);
       };
@@ -823,6 +758,7 @@ describe('CompanyServiceClient', () => {
       });
     });
   });
+
 });
 describe('CompletionClient', () => {
   it('has servicePath', () => {
@@ -915,6 +851,7 @@ describe('CompletionClient', () => {
       });
     });
   });
+
 });
 describe('EventServiceClient', () => {
   it('has servicePath', () => {
@@ -939,9 +876,7 @@ describe('EventServiceClient', () => {
   });
 
   it('should create a client with gRPC fallback', () => {
-    const client = new talentModule.v4beta1.EventServiceClient({
-      fallback: true,
-    });
+    const client = new talentModule.v4beta1.EventServiceClient({fallback: true});
     assert(client);
   });
 
@@ -1012,6 +947,7 @@ describe('EventServiceClient', () => {
       });
     });
   });
+
 });
 describe('JobServiceClient', () => {
   it('has servicePath', () => {
@@ -1193,7 +1129,11 @@ describe('JobServiceClient', () => {
       };
 
       // Mock Grpc layer
-      client._innerApiCalls.getJob = mockSimpleGrpcMethod(request, null, error);
+      client._innerApiCalls.getJob = mockSimpleGrpcMethod(
+        request,
+        null,
+        error
+      );
 
       client.getJob(request, (err, response) => {
         assert(err instanceof Error);
@@ -1559,11 +1499,7 @@ describe('JobServiceClient', () => {
       };
 
       // Mock Grpc layer
-      client._innerApiCalls.searchJobsForAlert = (
-        actualRequest,
-        options,
-        callback
-      ) => {
+      client._innerApiCalls.searchJobsForAlert = (actualRequest, options, callback) => {
         assert.deepStrictEqual(actualRequest, request);
         callback(null, expectedResponse.matchingJobs);
       };
@@ -1624,24 +1560,17 @@ describe('JobServiceClient', () => {
       const expectedResponse = {};
 
       // Mock Grpc layer
-      client._innerApiCalls.batchCreateJobs = mockLongRunningGrpcMethod(
-        request,
-        expectedResponse
-      );
+      client._innerApiCalls.batchCreateJobs = mockLongRunningGrpcMethod(request, expectedResponse);
 
-      client
-        .batchCreateJobs(request)
-        .then(responses => {
-          const operation = responses[0];
-          return operation.promise();
-        })
-        .then(responses => {
-          assert.deepStrictEqual(responses[0], expectedResponse);
-          done();
-        })
-        .catch(err => {
-          done(err);
-        });
+      client.batchCreateJobs(request).then(responses => {
+        const operation = responses[0];
+        return operation.promise();
+      }).then(responses => {
+        assert.deepStrictEqual(responses[0], expectedResponse);
+        done();
+      }).catch(err => {
+        done(err);
+      });
     });
 
     it('invokes batchCreateJobs with error', done => {
@@ -1659,26 +1588,18 @@ describe('JobServiceClient', () => {
       };
 
       // Mock Grpc layer
-      client._innerApiCalls.batchCreateJobs = mockLongRunningGrpcMethod(
-        request,
-        null,
-        error
-      );
+      client._innerApiCalls.batchCreateJobs = mockLongRunningGrpcMethod(request, null, error);
 
-      client
-        .batchCreateJobs(request)
-        .then(responses => {
-          const operation = responses[0];
-          return operation.promise();
-        })
-        .then(() => {
-          assert.fail();
-        })
-        .catch(err => {
-          assert(err instanceof Error);
-          assert.strictEqual(err.code, FAKE_STATUS_CODE);
-          done();
-        });
+      client.batchCreateJobs(request).then(responses => {
+        const operation = responses[0];
+        return operation.promise();
+      }).then(() => {
+        assert.fail();
+      }).catch(err => {
+        assert(err instanceof Error);
+        assert.strictEqual(err.code, FAKE_STATUS_CODE);
+        done();
+      });
     });
 
     it('has longrunning decoder functions', () => {
@@ -1686,14 +1607,8 @@ describe('JobServiceClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
-      assert(
-        client._descriptors.longrunning.batchCreateJobs
-          .responseDecoder instanceof Function
-      );
-      assert(
-        client._descriptors.longrunning.batchCreateJobs
-          .metadataDecoder instanceof Function
-      );
+      assert(client._descriptors.longrunning.batchCreateJobs.responseDecoder instanceof Function);
+      assert(client._descriptors.longrunning.batchCreateJobs.metadataDecoder instanceof Function);
     });
   });
 
@@ -1716,24 +1631,17 @@ describe('JobServiceClient', () => {
       const expectedResponse = {};
 
       // Mock Grpc layer
-      client._innerApiCalls.batchUpdateJobs = mockLongRunningGrpcMethod(
-        request,
-        expectedResponse
-      );
+      client._innerApiCalls.batchUpdateJobs = mockLongRunningGrpcMethod(request, expectedResponse);
 
-      client
-        .batchUpdateJobs(request)
-        .then(responses => {
-          const operation = responses[0];
-          return operation.promise();
-        })
-        .then(responses => {
-          assert.deepStrictEqual(responses[0], expectedResponse);
-          done();
-        })
-        .catch(err => {
-          done(err);
-        });
+      client.batchUpdateJobs(request).then(responses => {
+        const operation = responses[0];
+        return operation.promise();
+      }).then(responses => {
+        assert.deepStrictEqual(responses[0], expectedResponse);
+        done();
+      }).catch(err => {
+        done(err);
+      });
     });
 
     it('invokes batchUpdateJobs with error', done => {
@@ -1751,26 +1659,18 @@ describe('JobServiceClient', () => {
       };
 
       // Mock Grpc layer
-      client._innerApiCalls.batchUpdateJobs = mockLongRunningGrpcMethod(
-        request,
-        null,
-        error
-      );
+      client._innerApiCalls.batchUpdateJobs = mockLongRunningGrpcMethod(request, null, error);
 
-      client
-        .batchUpdateJobs(request)
-        .then(responses => {
-          const operation = responses[0];
-          return operation.promise();
-        })
-        .then(() => {
-          assert.fail();
-        })
-        .catch(err => {
-          assert(err instanceof Error);
-          assert.strictEqual(err.code, FAKE_STATUS_CODE);
-          done();
-        });
+      client.batchUpdateJobs(request).then(responses => {
+        const operation = responses[0];
+        return operation.promise();
+      }).then(() => {
+        assert.fail();
+      }).catch(err => {
+        assert(err instanceof Error);
+        assert.strictEqual(err.code, FAKE_STATUS_CODE);
+        done();
+      });
     });
 
     it('has longrunning decoder functions', () => {
@@ -1778,16 +1678,11 @@ describe('JobServiceClient', () => {
         credentials: {client_email: 'bogus', private_key: 'bogus'},
         projectId: 'bogus',
       });
-      assert(
-        client._descriptors.longrunning.batchUpdateJobs
-          .responseDecoder instanceof Function
-      );
-      assert(
-        client._descriptors.longrunning.batchUpdateJobs
-          .metadataDecoder instanceof Function
-      );
+      assert(client._descriptors.longrunning.batchUpdateJobs.responseDecoder instanceof Function);
+      assert(client._descriptors.longrunning.batchUpdateJobs.metadataDecoder instanceof Function);
     });
   });
+
 });
 describe('ProfileServiceClient', () => {
   it('has servicePath', () => {
@@ -1812,9 +1707,7 @@ describe('ProfileServiceClient', () => {
   });
 
   it('should create a client with gRPC fallback', () => {
-    const client = new talentModule.v4beta1.ProfileServiceClient({
-      fallback: true,
-    });
+    const client = new talentModule.v4beta1.ProfileServiceClient({fallback: true});
     assert(client);
   });
 
@@ -1841,11 +1734,7 @@ describe('ProfileServiceClient', () => {
       };
 
       // Mock Grpc layer
-      client._innerApiCalls.listProfiles = (
-        actualRequest,
-        options,
-        callback
-      ) => {
+      client._innerApiCalls.listProfiles = (actualRequest, options, callback) => {
         assert.deepStrictEqual(actualRequest, request);
         callback(null, expectedResponse.profiles);
       };
@@ -1969,11 +1858,7 @@ describe('ProfileServiceClient', () => {
       });
 
       // Mock request
-      const formattedName = client.profilePath(
-        '[PROJECT]',
-        '[TENANT]',
-        '[PROFILE]'
-      );
+      const formattedName = client.profilePath('[PROJECT]', '[TENANT]', '[PROFILE]');
       const request = {
         name: formattedName,
       };
@@ -2016,11 +1901,7 @@ describe('ProfileServiceClient', () => {
       });
 
       // Mock request
-      const formattedName = client.profilePath(
-        '[PROJECT]',
-        '[TENANT]',
-        '[PROFILE]'
-      );
+      const formattedName = client.profilePath('[PROJECT]', '[TENANT]', '[PROFILE]');
       const request = {
         name: formattedName,
       };
@@ -2121,11 +2002,7 @@ describe('ProfileServiceClient', () => {
       });
 
       // Mock request
-      const formattedName = client.profilePath(
-        '[PROJECT]',
-        '[TENANT]',
-        '[PROFILE]'
-      );
+      const formattedName = client.profilePath('[PROJECT]', '[TENANT]', '[PROFILE]');
       const request = {
         name: formattedName,
       };
@@ -2146,11 +2023,7 @@ describe('ProfileServiceClient', () => {
       });
 
       // Mock request
-      const formattedName = client.profilePath(
-        '[PROJECT]',
-        '[TENANT]',
-        '[PROFILE]'
-      );
+      const formattedName = client.profilePath('[PROJECT]', '[TENANT]', '[PROFILE]');
       const request = {
         name: formattedName,
       };
@@ -2199,11 +2072,7 @@ describe('ProfileServiceClient', () => {
       };
 
       // Mock Grpc layer
-      client._innerApiCalls.searchProfiles = (
-        actualRequest,
-        options,
-        callback
-      ) => {
+      client._innerApiCalls.searchProfiles = (actualRequest, options, callback) => {
         assert.deepStrictEqual(actualRequest, request);
         callback(null, expectedResponse.summarizedProfiles);
       };
@@ -2244,6 +2113,7 @@ describe('ProfileServiceClient', () => {
       });
     });
   });
+
 });
 describe('TenantServiceClient', () => {
   it('has servicePath', () => {
@@ -2268,9 +2138,7 @@ describe('TenantServiceClient', () => {
   });
 
   it('should create a client with gRPC fallback', () => {
-    const client = new talentModule.v4beta1.TenantServiceClient({
-      fallback: true,
-    });
+    const client = new talentModule.v4beta1.TenantServiceClient({fallback: true});
     assert(client);
   });
 
@@ -2536,11 +2404,7 @@ describe('TenantServiceClient', () => {
       };
 
       // Mock Grpc layer
-      client._innerApiCalls.listTenants = (
-        actualRequest,
-        options,
-        callback
-      ) => {
+      client._innerApiCalls.listTenants = (actualRequest, options, callback) => {
         assert.deepStrictEqual(actualRequest, request);
         callback(null, expectedResponse.tenants);
       };
@@ -2579,6 +2443,7 @@ describe('TenantServiceClient', () => {
       });
     });
   });
+
 });
 
 function mockSimpleGrpcMethod(expectedRequest, response, error) {
@@ -2602,11 +2467,12 @@ function mockLongRunningGrpcMethod(expectedRequest, response, error) {
         return new Promise((resolve, reject) => {
           if (error) {
             reject(error);
-          } else {
+          }
+          else {
             resolve([response]);
           }
         });
-      },
+      }
     };
     return Promise.resolve([mockOperation]);
   };

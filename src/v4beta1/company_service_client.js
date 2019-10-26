@@ -69,7 +69,9 @@ class CompanyServiceClient {
     const gaxModule = !global.isBrowser && opts.fallback ? gax.fallback : gax;
 
     const servicePath =
-      opts.servicePath || opts.apiEndpoint || this.constructor.servicePath;
+      opts.servicePath ||
+      opts.apiEndpoint ||
+      this.constructor.servicePath;
 
     // Ensure that options include the service address and port.
     opts = Object.assign(
@@ -110,15 +112,11 @@ class CompanyServiceClient {
     // For Node.js, pass the path to JSON proto file.
     // For browsers, pass the JSON content.
 
-    const nodejsProtoPath = path.join(
-      __dirname,
-      '..',
-      '..',
-      'protos',
-      'protos.json'
-    );
+    const nodejsProtoPath = path.join(__dirname, '..', '..', 'protos', 'protos.json');
     const protos = gaxGrpc.loadProto(
-      opts.fallback ? require('../../protos/protos.json') : nodejsProtoPath
+      opts.fallback ?
+        require("../../protos/protos.json") :
+        nodejsProtoPath
     );
 
     // This API contains "path templates"; forward-slash-separated
@@ -131,7 +129,9 @@ class CompanyServiceClient {
       companyWithoutTenantPathTemplate: new gaxModule.PathTemplate(
         'projects/{project}/companies/{company}'
       ),
-      projectPathTemplate: new gaxModule.PathTemplate('projects/{project}'),
+      projectPathTemplate: new gaxModule.PathTemplate(
+        'projects/{project}'
+      ),
       tenantPathTemplate: new gaxModule.PathTemplate(
         'projects/{project}/tenants/{tenant}'
       ),
@@ -164,9 +164,9 @@ class CompanyServiceClient {
     // Put together the "service stub" for
     // google.cloud.talent.v4beta1.CompanyService.
     const companyServiceStub = gaxGrpc.createStub(
-      opts.fallback
-        ? protos.lookupService('google.cloud.talent.v4beta1.CompanyService')
-        : protos.google.cloud.talent.v4beta1.CompanyService,
+      opts.fallback ?
+        protos.lookupService('google.cloud.talent.v4beta1.CompanyService') :
+        protos.google.cloud.talent.v4beta1.CompanyService,
       opts
     );
 
@@ -300,11 +300,10 @@ class CompanyServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      parent: request.parent,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'parent': request.parent
+      });
 
     return this._innerApiCalls.createCompany(request, options, callback);
   }
@@ -361,11 +360,10 @@ class CompanyServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      name: request.name,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'name': request.name
+      });
 
     return this._innerApiCalls.getCompany(request, options, callback);
   }
@@ -432,11 +430,10 @@ class CompanyServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      'company.name': request.company.name,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'company.name': request.company.name
+      });
 
     return this._innerApiCalls.updateCompany(request, options, callback);
   }
@@ -486,11 +483,10 @@ class CompanyServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      name: request.name,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'name': request.name
+      });
 
     return this._innerApiCalls.deleteCompany(request, options, callback);
   }
@@ -602,11 +598,10 @@ class CompanyServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      parent: request.parent,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'parent': request.parent
+      });
 
     return this._innerApiCalls.listCompanies(request, options, callback);
   }
@@ -678,7 +673,7 @@ class CompanyServiceClient {
       request,
       options
     );
-  }
+  };
 
   // --------------------
   // -- Path templates --
@@ -748,7 +743,9 @@ class CompanyServiceClient {
    * @returns {String} - A string representing the project.
    */
   matchProjectFromCompanyName(companyName) {
-    return this._pathTemplates.companyPathTemplate.match(companyName).project;
+    return this._pathTemplates.companyPathTemplate
+      .match(companyName)
+      .project;
   }
 
   /**
@@ -759,7 +756,9 @@ class CompanyServiceClient {
    * @returns {String} - A string representing the tenant.
    */
   matchTenantFromCompanyName(companyName) {
-    return this._pathTemplates.companyPathTemplate.match(companyName).tenant;
+    return this._pathTemplates.companyPathTemplate
+      .match(companyName)
+      .tenant;
   }
 
   /**
@@ -770,7 +769,9 @@ class CompanyServiceClient {
    * @returns {String} - A string representing the company.
    */
   matchCompanyFromCompanyName(companyName) {
-    return this._pathTemplates.companyPathTemplate.match(companyName).company;
+    return this._pathTemplates.companyPathTemplate
+      .match(companyName)
+      .company;
   }
 
   /**
@@ -781,9 +782,9 @@ class CompanyServiceClient {
    * @returns {String} - A string representing the project.
    */
   matchProjectFromCompanyWithoutTenantName(companyWithoutTenantName) {
-    return this._pathTemplates.companyWithoutTenantPathTemplate.match(
-      companyWithoutTenantName
-    ).project;
+    return this._pathTemplates.companyWithoutTenantPathTemplate
+      .match(companyWithoutTenantName)
+      .project;
   }
 
   /**
@@ -794,9 +795,9 @@ class CompanyServiceClient {
    * @returns {String} - A string representing the company.
    */
   matchCompanyFromCompanyWithoutTenantName(companyWithoutTenantName) {
-    return this._pathTemplates.companyWithoutTenantPathTemplate.match(
-      companyWithoutTenantName
-    ).company;
+    return this._pathTemplates.companyWithoutTenantPathTemplate
+      .match(companyWithoutTenantName)
+      .company;
   }
 
   /**
@@ -807,7 +808,9 @@ class CompanyServiceClient {
    * @returns {String} - A string representing the project.
    */
   matchProjectFromProjectName(projectName) {
-    return this._pathTemplates.projectPathTemplate.match(projectName).project;
+    return this._pathTemplates.projectPathTemplate
+      .match(projectName)
+      .project;
   }
 
   /**
@@ -818,7 +821,9 @@ class CompanyServiceClient {
    * @returns {String} - A string representing the project.
    */
   matchProjectFromTenantName(tenantName) {
-    return this._pathTemplates.tenantPathTemplate.match(tenantName).project;
+    return this._pathTemplates.tenantPathTemplate
+      .match(tenantName)
+      .project;
   }
 
   /**
@@ -829,8 +834,11 @@ class CompanyServiceClient {
    * @returns {String} - A string representing the tenant.
    */
   matchTenantFromTenantName(tenantName) {
-    return this._pathTemplates.tenantPathTemplate.match(tenantName).tenant;
+    return this._pathTemplates.tenantPathTemplate
+      .match(tenantName)
+      .tenant;
   }
 }
+
 
 module.exports = CompanyServiceClient;

@@ -70,7 +70,9 @@ class ApplicationServiceClient {
     const gaxModule = !global.isBrowser && opts.fallback ? gax.fallback : gax;
 
     const servicePath =
-      opts.servicePath || opts.apiEndpoint || this.constructor.servicePath;
+      opts.servicePath ||
+      opts.apiEndpoint ||
+      this.constructor.servicePath;
 
     // Ensure that options include the service address and port.
     opts = Object.assign(
@@ -111,15 +113,11 @@ class ApplicationServiceClient {
     // For Node.js, pass the path to JSON proto file.
     // For browsers, pass the JSON content.
 
-    const nodejsProtoPath = path.join(
-      __dirname,
-      '..',
-      '..',
-      'protos',
-      'protos.json'
-    );
+    const nodejsProtoPath = path.join(__dirname, '..', '..', 'protos', 'protos.json');
     const protos = gaxGrpc.loadProto(
-      opts.fallback ? require('../../protos/protos.json') : nodejsProtoPath
+      opts.fallback ?
+        require("../../protos/protos.json") :
+        nodejsProtoPath
     );
 
     // This API contains "path templates"; forward-slash-separated
@@ -161,9 +159,9 @@ class ApplicationServiceClient {
     // Put together the "service stub" for
     // google.cloud.talent.v4beta1.ApplicationService.
     const applicationServiceStub = gaxGrpc.createStub(
-      opts.fallback
-        ? protos.lookupService('google.cloud.talent.v4beta1.ApplicationService')
-        : protos.google.cloud.talent.v4beta1.ApplicationService,
+      opts.fallback ?
+        protos.lookupService('google.cloud.talent.v4beta1.ApplicationService') :
+        protos.google.cloud.talent.v4beta1.ApplicationService,
       opts
     );
 
@@ -298,11 +296,10 @@ class ApplicationServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      parent: request.parent,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'parent': request.parent
+      });
 
     return this._innerApiCalls.createApplication(request, options, callback);
   }
@@ -356,11 +353,10 @@ class ApplicationServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      name: request.name,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'name': request.name
+      });
 
     return this._innerApiCalls.getApplication(request, options, callback);
   }
@@ -427,11 +423,10 @@ class ApplicationServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      'application.name': request.application.name,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'application.name': request.application.name
+      });
 
     return this._innerApiCalls.updateApplication(request, options, callback);
   }
@@ -477,11 +472,10 @@ class ApplicationServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      name: request.name,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'name': request.name
+      });
 
     return this._innerApiCalls.deleteApplication(request, options, callback);
   }
@@ -584,11 +578,10 @@ class ApplicationServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      parent: request.parent,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'parent': request.parent
+      });
 
     return this._innerApiCalls.listApplications(request, options, callback);
   }
@@ -651,7 +644,7 @@ class ApplicationServiceClient {
       request,
       options
     );
-  }
+  };
 
   // --------------------
   // -- Path templates --
@@ -699,7 +692,8 @@ class ApplicationServiceClient {
    * @returns {String} - A string representing the project.
    */
   matchProjectFromApplicationName(applicationName) {
-    return this._pathTemplates.applicationPathTemplate.match(applicationName)
+    return this._pathTemplates.applicationPathTemplate
+      .match(applicationName)
       .project;
   }
 
@@ -711,7 +705,8 @@ class ApplicationServiceClient {
    * @returns {String} - A string representing the tenant.
    */
   matchTenantFromApplicationName(applicationName) {
-    return this._pathTemplates.applicationPathTemplate.match(applicationName)
+    return this._pathTemplates.applicationPathTemplate
+      .match(applicationName)
       .tenant;
   }
 
@@ -723,7 +718,8 @@ class ApplicationServiceClient {
    * @returns {String} - A string representing the profile.
    */
   matchProfileFromApplicationName(applicationName) {
-    return this._pathTemplates.applicationPathTemplate.match(applicationName)
+    return this._pathTemplates.applicationPathTemplate
+      .match(applicationName)
       .profile;
   }
 
@@ -735,7 +731,8 @@ class ApplicationServiceClient {
    * @returns {String} - A string representing the application.
    */
   matchApplicationFromApplicationName(applicationName) {
-    return this._pathTemplates.applicationPathTemplate.match(applicationName)
+    return this._pathTemplates.applicationPathTemplate
+      .match(applicationName)
       .application;
   }
 
@@ -747,7 +744,9 @@ class ApplicationServiceClient {
    * @returns {String} - A string representing the project.
    */
   matchProjectFromProfileName(profileName) {
-    return this._pathTemplates.profilePathTemplate.match(profileName).project;
+    return this._pathTemplates.profilePathTemplate
+      .match(profileName)
+      .project;
   }
 
   /**
@@ -758,7 +757,9 @@ class ApplicationServiceClient {
    * @returns {String} - A string representing the tenant.
    */
   matchTenantFromProfileName(profileName) {
-    return this._pathTemplates.profilePathTemplate.match(profileName).tenant;
+    return this._pathTemplates.profilePathTemplate
+      .match(profileName)
+      .tenant;
   }
 
   /**
@@ -769,8 +770,11 @@ class ApplicationServiceClient {
    * @returns {String} - A string representing the profile.
    */
   matchProfileFromProfileName(profileName) {
-    return this._pathTemplates.profilePathTemplate.match(profileName).profile;
+    return this._pathTemplates.profilePathTemplate
+      .match(profileName)
+      .profile;
   }
 }
+
 
 module.exports = ApplicationServiceClient;

@@ -69,7 +69,9 @@ class JobServiceClient {
     const gaxModule = !global.isBrowser && opts.fallback ? gax.fallback : gax;
 
     const servicePath =
-      opts.servicePath || opts.apiEndpoint || this.constructor.servicePath;
+      opts.servicePath ||
+      opts.apiEndpoint ||
+      this.constructor.servicePath;
 
     // Ensure that options include the service address and port.
     opts = Object.assign(
@@ -110,15 +112,11 @@ class JobServiceClient {
     // For Node.js, pass the path to JSON proto file.
     // For browsers, pass the JSON content.
 
-    const nodejsProtoPath = path.join(
-      __dirname,
-      '..',
-      '..',
-      'protos',
-      'protos.json'
-    );
+    const nodejsProtoPath = path.join(__dirname, '..', '..', 'protos', 'protos.json');
     const protos = gaxGrpc.loadProto(
-      opts.fallback ? require('../../protos/protos.json') : nodejsProtoPath
+      opts.fallback ?
+        require("../../protos/protos.json") :
+        nodejsProtoPath
     );
 
     // This API contains "path templates"; forward-slash-separated
@@ -137,7 +135,9 @@ class JobServiceClient {
       jobWithoutTenantPathTemplate: new gaxModule.PathTemplate(
         'projects/{project}/jobs/{jobs}'
       ),
-      projectPathTemplate: new gaxModule.PathTemplate('projects/{project}'),
+      projectPathTemplate: new gaxModule.PathTemplate(
+        'projects/{project}'
+      ),
       tenantPathTemplate: new gaxModule.PathTemplate(
         'projects/{project}/tenants/{tenant}'
       ),
@@ -164,9 +164,9 @@ class JobServiceClient {
       ),
     };
 
-    const protoFilesRoot = opts.fallback
-      ? gaxModule.protobuf.Root.fromJSON(require('../../protos/protos.json'))
-      : gaxModule.protobuf.loadSync(nodejsProtoPath);
+    const protoFilesRoot = opts.fallback ?
+      gaxModule.protobuf.Root.fromJSON(require("../../protos/protos.json")) :
+      gaxModule.protobuf.loadSync(nodejsProtoPath);
 
     // This API contains "long-running operations", which return a
     // an Operation object that allows for tracking of the operation,
@@ -218,9 +218,9 @@ class JobServiceClient {
     // Put together the "service stub" for
     // google.cloud.talent.v4beta1.JobService.
     const jobServiceStub = gaxGrpc.createStub(
-      opts.fallback
-        ? protos.lookupService('google.cloud.talent.v4beta1.JobService')
-        : protos.google.cloud.talent.v4beta1.JobService,
+      opts.fallback ?
+        protos.lookupService('google.cloud.talent.v4beta1.JobService') :
+        protos.google.cloud.talent.v4beta1.JobService,
       opts
     );
 
@@ -250,8 +250,7 @@ class JobServiceClient {
       this._innerApiCalls[methodName] = gaxModule.createApiCall(
         innerCallPromise,
         defaults[methodName],
-        this._descriptors.page[methodName] ||
-          this._descriptors.longrunning[methodName]
+        this._descriptors.page[methodName] || this._descriptors.longrunning[methodName]
       );
     }
   }
@@ -363,11 +362,10 @@ class JobServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      parent: request.parent,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'parent': request.parent
+      });
 
     return this._innerApiCalls.createJob(request, options, callback);
   }
@@ -425,11 +423,10 @@ class JobServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      name: request.name,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'name': request.name
+      });
 
     return this._innerApiCalls.getJob(request, options, callback);
   }
@@ -496,11 +493,10 @@ class JobServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      'job.name': request.job.name,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'job.name': request.job.name
+      });
 
     return this._innerApiCalls.updateJob(request, options, callback);
   }
@@ -552,11 +548,10 @@ class JobServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      name: request.name,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'name': request.name
+      });
 
     return this._innerApiCalls.deleteJob(request, options, callback);
   }
@@ -694,11 +689,10 @@ class JobServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      parent: request.parent,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'parent': request.parent
+      });
 
     return this._innerApiCalls.listJobs(request, options, callback);
   }
@@ -791,7 +785,7 @@ class JobServiceClient {
       request,
       options
     );
-  }
+  };
 
   /**
    * Deletes a list of Jobs by filter.
@@ -851,11 +845,10 @@ class JobServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      parent: request.parent,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'parent': request.parent
+      });
 
     return this._innerApiCalls.batchDeleteJobs(request, options, callback);
   }
@@ -1232,11 +1225,10 @@ class JobServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      parent: request.parent,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'parent': request.parent
+      });
 
     return this._innerApiCalls.searchJobs(request, options, callback);
   }
@@ -1562,7 +1554,7 @@ class JobServiceClient {
       request,
       options
     );
-  }
+  };
 
   /**
    * Searches for jobs using the provided
@@ -1941,11 +1933,10 @@ class JobServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      parent: request.parent,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'parent': request.parent
+      });
 
     return this._innerApiCalls.searchJobsForAlert(request, options, callback);
   }
@@ -2271,7 +2262,7 @@ class JobServiceClient {
       request,
       options
     );
-  }
+  };
 
   /**
    * Begins executing a batch create jobs operation.
@@ -2385,11 +2376,10 @@ class JobServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      parent: request.parent,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'parent': request.parent
+      });
 
     return this._innerApiCalls.batchCreateJobs(request, options, callback);
   }
@@ -2528,11 +2518,10 @@ class JobServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      parent: request.parent,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'parent': request.parent
+      });
 
     return this._innerApiCalls.batchUpdateJobs(request, options, callback);
   }
@@ -2635,7 +2624,9 @@ class JobServiceClient {
    * @returns {String} - A string representing the project.
    */
   matchProjectFromCompanyName(companyName) {
-    return this._pathTemplates.companyPathTemplate.match(companyName).project;
+    return this._pathTemplates.companyPathTemplate
+      .match(companyName)
+      .project;
   }
 
   /**
@@ -2646,7 +2637,9 @@ class JobServiceClient {
    * @returns {String} - A string representing the tenant.
    */
   matchTenantFromCompanyName(companyName) {
-    return this._pathTemplates.companyPathTemplate.match(companyName).tenant;
+    return this._pathTemplates.companyPathTemplate
+      .match(companyName)
+      .tenant;
   }
 
   /**
@@ -2657,7 +2650,9 @@ class JobServiceClient {
    * @returns {String} - A string representing the company.
    */
   matchCompanyFromCompanyName(companyName) {
-    return this._pathTemplates.companyPathTemplate.match(companyName).company;
+    return this._pathTemplates.companyPathTemplate
+      .match(companyName)
+      .company;
   }
 
   /**
@@ -2668,9 +2663,9 @@ class JobServiceClient {
    * @returns {String} - A string representing the project.
    */
   matchProjectFromCompanyWithoutTenantName(companyWithoutTenantName) {
-    return this._pathTemplates.companyWithoutTenantPathTemplate.match(
-      companyWithoutTenantName
-    ).project;
+    return this._pathTemplates.companyWithoutTenantPathTemplate
+      .match(companyWithoutTenantName)
+      .project;
   }
 
   /**
@@ -2681,9 +2676,9 @@ class JobServiceClient {
    * @returns {String} - A string representing the company.
    */
   matchCompanyFromCompanyWithoutTenantName(companyWithoutTenantName) {
-    return this._pathTemplates.companyWithoutTenantPathTemplate.match(
-      companyWithoutTenantName
-    ).company;
+    return this._pathTemplates.companyWithoutTenantPathTemplate
+      .match(companyWithoutTenantName)
+      .company;
   }
 
   /**
@@ -2694,7 +2689,9 @@ class JobServiceClient {
    * @returns {String} - A string representing the project.
    */
   matchProjectFromJobName(jobName) {
-    return this._pathTemplates.jobPathTemplate.match(jobName).project;
+    return this._pathTemplates.jobPathTemplate
+      .match(jobName)
+      .project;
   }
 
   /**
@@ -2705,7 +2702,9 @@ class JobServiceClient {
    * @returns {String} - A string representing the tenant.
    */
   matchTenantFromJobName(jobName) {
-    return this._pathTemplates.jobPathTemplate.match(jobName).tenant;
+    return this._pathTemplates.jobPathTemplate
+      .match(jobName)
+      .tenant;
   }
 
   /**
@@ -2716,7 +2715,9 @@ class JobServiceClient {
    * @returns {String} - A string representing the jobs.
    */
   matchJobsFromJobName(jobName) {
-    return this._pathTemplates.jobPathTemplate.match(jobName).jobs;
+    return this._pathTemplates.jobPathTemplate
+      .match(jobName)
+      .jobs;
   }
 
   /**
@@ -2727,9 +2728,9 @@ class JobServiceClient {
    * @returns {String} - A string representing the project.
    */
   matchProjectFromJobWithoutTenantName(jobWithoutTenantName) {
-    return this._pathTemplates.jobWithoutTenantPathTemplate.match(
-      jobWithoutTenantName
-    ).project;
+    return this._pathTemplates.jobWithoutTenantPathTemplate
+      .match(jobWithoutTenantName)
+      .project;
   }
 
   /**
@@ -2740,9 +2741,9 @@ class JobServiceClient {
    * @returns {String} - A string representing the jobs.
    */
   matchJobsFromJobWithoutTenantName(jobWithoutTenantName) {
-    return this._pathTemplates.jobWithoutTenantPathTemplate.match(
-      jobWithoutTenantName
-    ).jobs;
+    return this._pathTemplates.jobWithoutTenantPathTemplate
+      .match(jobWithoutTenantName)
+      .jobs;
   }
 
   /**
@@ -2753,7 +2754,9 @@ class JobServiceClient {
    * @returns {String} - A string representing the project.
    */
   matchProjectFromProjectName(projectName) {
-    return this._pathTemplates.projectPathTemplate.match(projectName).project;
+    return this._pathTemplates.projectPathTemplate
+      .match(projectName)
+      .project;
   }
 
   /**
@@ -2764,7 +2767,9 @@ class JobServiceClient {
    * @returns {String} - A string representing the project.
    */
   matchProjectFromTenantName(tenantName) {
-    return this._pathTemplates.tenantPathTemplate.match(tenantName).project;
+    return this._pathTemplates.tenantPathTemplate
+      .match(tenantName)
+      .project;
   }
 
   /**
@@ -2775,8 +2780,11 @@ class JobServiceClient {
    * @returns {String} - A string representing the tenant.
    */
   matchTenantFromTenantName(tenantName) {
-    return this._pathTemplates.tenantPathTemplate.match(tenantName).tenant;
+    return this._pathTemplates.tenantPathTemplate
+      .match(tenantName)
+      .tenant;
   }
 }
+
 
 module.exports = JobServiceClient;

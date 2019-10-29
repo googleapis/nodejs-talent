@@ -70,7 +70,9 @@ class ProfileServiceClient {
     const gaxModule = !global.isBrowser && opts.fallback ? gax.fallback : gax;
 
     const servicePath =
-      opts.servicePath || opts.apiEndpoint || this.constructor.servicePath;
+      opts.servicePath ||
+      opts.apiEndpoint ||
+      this.constructor.servicePath;
 
     // Ensure that options include the service address and port.
     opts = Object.assign(
@@ -111,15 +113,11 @@ class ProfileServiceClient {
     // For Node.js, pass the path to JSON proto file.
     // For browsers, pass the JSON content.
 
-    const nodejsProtoPath = path.join(
-      __dirname,
-      '..',
-      '..',
-      'protos',
-      'protos.json'
-    );
+    const nodejsProtoPath = path.join(__dirname, '..', '..', 'protos', 'protos.json');
     const protos = gaxGrpc.loadProto(
-      opts.fallback ? require('../../protos/protos.json') : nodejsProtoPath
+      opts.fallback ?
+        require("../../protos/protos.json") :
+        nodejsProtoPath
     );
 
     // This API contains "path templates"; forward-slash-separated
@@ -166,9 +164,9 @@ class ProfileServiceClient {
     // Put together the "service stub" for
     // google.cloud.talent.v4beta1.ProfileService.
     const profileServiceStub = gaxGrpc.createStub(
-      opts.fallback
-        ? protos.lookupService('google.cloud.talent.v4beta1.ProfileService')
-        : protos.google.cloud.talent.v4beta1.ProfileService,
+      opts.fallback ?
+        protos.lookupService('google.cloud.talent.v4beta1.ProfileService') :
+        protos.google.cloud.talent.v4beta1.ProfileService,
       opts
     );
 
@@ -369,11 +367,10 @@ class ProfileServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      parent: request.parent,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'parent': request.parent
+      });
 
     return this._innerApiCalls.listProfiles(request, options, callback);
   }
@@ -462,7 +459,7 @@ class ProfileServiceClient {
       request,
       options
     );
-  }
+  };
 
   /**
    * Creates and returns a new profile.
@@ -521,11 +518,10 @@ class ProfileServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      parent: request.parent,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'parent': request.parent
+      });
 
     return this._innerApiCalls.createProfile(request, options, callback);
   }
@@ -579,11 +575,10 @@ class ProfileServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      name: request.name,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'name': request.name
+      });
 
     return this._innerApiCalls.getProfile(request, options, callback);
   }
@@ -690,11 +685,10 @@ class ProfileServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      'profile.name': request.profile.name,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'profile.name': request.profile.name
+      });
 
     return this._innerApiCalls.updateProfile(request, options, callback);
   }
@@ -742,11 +736,10 @@ class ProfileServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      name: request.name,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'name': request.name
+      });
 
     return this._innerApiCalls.deleteProfile(request, options, callback);
   }
@@ -1054,11 +1047,10 @@ class ProfileServiceClient {
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      parent: request.parent,
-    });
+    options.otherArgs.headers['x-goog-request-params'] =
+      gax.routingHeader.fromParams({
+        'parent': request.parent
+      });
 
     return this._innerApiCalls.searchProfiles(request, options, callback);
   }
@@ -1314,7 +1306,7 @@ class ProfileServiceClient {
       request,
       options
     );
-  }
+  };
 
   // --------------------
   // -- Path templates --
@@ -1358,7 +1350,9 @@ class ProfileServiceClient {
    * @returns {String} - A string representing the project.
    */
   matchProjectFromProfileName(profileName) {
-    return this._pathTemplates.profilePathTemplate.match(profileName).project;
+    return this._pathTemplates.profilePathTemplate
+      .match(profileName)
+      .project;
   }
 
   /**
@@ -1369,7 +1363,9 @@ class ProfileServiceClient {
    * @returns {String} - A string representing the tenant.
    */
   matchTenantFromProfileName(profileName) {
-    return this._pathTemplates.profilePathTemplate.match(profileName).tenant;
+    return this._pathTemplates.profilePathTemplate
+      .match(profileName)
+      .tenant;
   }
 
   /**
@@ -1380,7 +1376,9 @@ class ProfileServiceClient {
    * @returns {String} - A string representing the profile.
    */
   matchProfileFromProfileName(profileName) {
-    return this._pathTemplates.profilePathTemplate.match(profileName).profile;
+    return this._pathTemplates.profilePathTemplate
+      .match(profileName)
+      .profile;
   }
 
   /**
@@ -1391,7 +1389,9 @@ class ProfileServiceClient {
    * @returns {String} - A string representing the project.
    */
   matchProjectFromTenantName(tenantName) {
-    return this._pathTemplates.tenantPathTemplate.match(tenantName).project;
+    return this._pathTemplates.tenantPathTemplate
+      .match(tenantName)
+      .project;
   }
 
   /**
@@ -1402,8 +1402,11 @@ class ProfileServiceClient {
    * @returns {String} - A string representing the tenant.
    */
   matchTenantFromTenantName(tenantName) {
-    return this._pathTemplates.tenantPathTemplate.match(tenantName).tenant;
+    return this._pathTemplates.tenantPathTemplate
+      .match(tenantName)
+      .tenant;
   }
 }
+
 
 module.exports = ProfileServiceClient;

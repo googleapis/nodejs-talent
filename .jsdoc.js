@@ -30,8 +30,7 @@ module.exports = {
   ],
   source: {
     include: [
-      'build/src',
-      'protos'
+      'build/src'
     ],
     includePattern: '\\.js$'
   },

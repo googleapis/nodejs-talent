@@ -42,7 +42,7 @@ module.exports = {
     systemName: 'Talent',
     theme: 'lumen',
     default: {
-      "outputSourceFiles": false
+      outputSourceFiles: false
     }
   },
   markdown: {

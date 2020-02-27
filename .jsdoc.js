@@ -30,7 +30,8 @@ module.exports = {
   ],
   source: {
     include: [
-      'build/src'
+      'build/src',
+      'protos'
     ],
     includePattern: '\\.js$'
   },
@@ -39,7 +40,10 @@ module.exports = {
     includeDate: false,
     sourceFiles: false,
     systemName: 'Talent',
-    theme: 'lumen'
+    theme: 'lumen',
+    default: {
+      "outputSourceFiles": false
+    }
   },
   markdown: {
     idInHeadings: true

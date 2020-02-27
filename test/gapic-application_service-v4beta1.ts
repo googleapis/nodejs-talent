@@ -18,306 +18,344 @@
 
 import * as protosTypes from '../protos/protos';
 import * as assert from 'assert';
-import { describe, it } from 'mocha';
+import {describe, it} from 'mocha';
 const applicationserviceModule = require('../src');
 
-
 const FAKE_STATUS_CODE = 1;
-class FakeError{
-    name: string;
-    message: string;
-    code: number;
-    constructor(n: number){
-        this.name = 'fakeName';
-        this.message = 'fake message';
-        this.code = n;
-    }
+class FakeError {
+  name: string;
+  message: string;
+  code: number;
+  constructor(n: number) {
+    this.name = 'fakeName';
+    this.message = 'fake message';
+    this.code = n;
+  }
 }
 const error = new FakeError(FAKE_STATUS_CODE);
 export interface Callback {
-  (err: FakeError|null, response?: {} | null): void;
+  (err: FakeError | null, response?: {} | null): void;
 }
 
-export class Operation{
-    constructor(){};
-    promise() {};
+export class Operation {
+  constructor() {}
+  promise() {}
 }
-function mockSimpleGrpcMethod(expectedRequest: {}, response: {} | null, error: FakeError | null) {
-    return (actualRequest: {}, options: {}, callback: Callback) => {
-        assert.deepStrictEqual(actualRequest, expectedRequest);
-        if (error) {
-            callback(error);
-        } else if (response) {
-            callback(null, response);
-        } else {
-            callback(null);
-        }
-    };
+function mockSimpleGrpcMethod(
+  expectedRequest: {},
+  response: {} | null,
+  error: FakeError | null
+) {
+  return (actualRequest: {}, options: {}, callback: Callback) => {
+    assert.deepStrictEqual(actualRequest, expectedRequest);
+    if (error) {
+      callback(error);
+    } else if (response) {
+      callback(null, response);
+    } else {
+      callback(null);
+    }
+  };
 }
 describe('v4beta1.ApplicationServiceClient', () => {
-    it('has servicePath', () => {
-        const servicePath = applicationserviceModule.v4beta1.ApplicationServiceClient.servicePath;
-        assert(servicePath);
+  it('has servicePath', () => {
+    const servicePath =
+      applicationserviceModule.v4beta1.ApplicationServiceClient.servicePath;
+    assert(servicePath);
+  });
+  it('has apiEndpoint', () => {
+    const apiEndpoint =
+      applicationserviceModule.v4beta1.ApplicationServiceClient.apiEndpoint;
+    assert(apiEndpoint);
+  });
+  it('has port', () => {
+    const port = applicationserviceModule.v4beta1.ApplicationServiceClient.port;
+    assert(port);
+    assert(typeof port === 'number');
+  });
+  it('should create a client with no option', () => {
+    const client = new applicationserviceModule.v4beta1.ApplicationServiceClient();
+    assert(client);
+  });
+  it('should create a client with gRPC fallback', () => {
+    const client = new applicationserviceModule.v4beta1.ApplicationServiceClient(
+      {
+        fallback: true,
+      }
+    );
+    assert(client);
+  });
+  describe('createApplication', () => {
+    it('invokes createApplication without error', done => {
+      const client = new applicationserviceModule.v4beta1.ApplicationServiceClient(
+        {
+          credentials: {client_email: 'bogus', private_key: 'bogus'},
+          projectId: 'bogus',
+        }
+      );
+      // Mock request
+      const request: protosTypes.google.cloud.talent.v4beta1.ICreateApplicationRequest = {};
+      request.parent = '';
+      // Mock response
+      const expectedResponse = {};
+      // Mock gRPC layer
+      client._innerApiCalls.createApplication = mockSimpleGrpcMethod(
+        request,
+        expectedResponse,
+        null
+      );
+      client.createApplication(request, (err: {}, response: {}) => {
+        assert.ifError(err);
+        assert.deepStrictEqual(response, expectedResponse);
+        done();
+      });
     });
-    it('has apiEndpoint', () => {
-        const apiEndpoint = applicationserviceModule.v4beta1.ApplicationServiceClient.apiEndpoint;
-        assert(apiEndpoint);
-    });
-    it('has port', () => {
-        const port = applicationserviceModule.v4beta1.ApplicationServiceClient.port;
-        assert(port);
-        assert(typeof port === 'number');
-    });
-    it('should create a client with no option', () => {
-        const client = new applicationserviceModule.v4beta1.ApplicationServiceClient();
-        assert(client);
-    });
-    it('should create a client with gRPC fallback', () => {
-        const client = new applicationserviceModule.v4beta1.ApplicationServiceClient({
-            fallback: true,
-        });
-        assert(client);
-    });
-    describe('createApplication', () => {
-        it('invokes createApplication without error', done => {
-            const client = new applicationserviceModule.v4beta1.ApplicationServiceClient({
-                credentials: {client_email: 'bogus', private_key: 'bogus'},
-                projectId: 'bogus',
-            });
-            // Mock request
-            const request: protosTypes.google.cloud.talent.v4beta1.ICreateApplicationRequest = {};
-            request.parent = '';
-            // Mock response
-            const expectedResponse = {};
-            // Mock gRPC layer
-            client._innerApiCalls.createApplication = mockSimpleGrpcMethod(
-                request,
-                expectedResponse,
-                null
-            );
-            client.createApplication(request, (err: {}, response: {}) => {
-                assert.ifError(err);
-                assert.deepStrictEqual(response, expectedResponse);
-                done();
-            })
-        });
 
-        it('invokes createApplication with error', done => {
-            const client = new applicationserviceModule.v4beta1.ApplicationServiceClient({
-                credentials: {client_email: 'bogus', private_key: 'bogus'},
-                projectId: 'bogus',
-            });
-            // Mock request
-            const request: protosTypes.google.cloud.talent.v4beta1.ICreateApplicationRequest = {};
-            request.parent = '';
-            // Mock response
-            const expectedResponse = {};
-            // Mock gRPC layer
-            client._innerApiCalls.createApplication = mockSimpleGrpcMethod(
-                request,
-                null,
-                error
-            );
-            client.createApplication(request, (err: FakeError, response: {}) => {
-                assert(err instanceof FakeError);
-                assert.strictEqual(err.code, FAKE_STATUS_CODE);
-                assert(typeof response === 'undefined');
-                done();
-            })
-        });
+    it('invokes createApplication with error', done => {
+      const client = new applicationserviceModule.v4beta1.ApplicationServiceClient(
+        {
+          credentials: {client_email: 'bogus', private_key: 'bogus'},
+          projectId: 'bogus',
+        }
+      );
+      // Mock request
+      const request: protosTypes.google.cloud.talent.v4beta1.ICreateApplicationRequest = {};
+      request.parent = '';
+      // Mock response
+      const expectedResponse = {};
+      // Mock gRPC layer
+      client._innerApiCalls.createApplication = mockSimpleGrpcMethod(
+        request,
+        null,
+        error
+      );
+      client.createApplication(request, (err: FakeError, response: {}) => {
+        assert(err instanceof FakeError);
+        assert.strictEqual(err.code, FAKE_STATUS_CODE);
+        assert(typeof response === 'undefined');
+        done();
+      });
     });
-    describe('getApplication', () => {
-        it('invokes getApplication without error', done => {
-            const client = new applicationserviceModule.v4beta1.ApplicationServiceClient({
-                credentials: {client_email: 'bogus', private_key: 'bogus'},
-                projectId: 'bogus',
-            });
-            // Mock request
-            const request: protosTypes.google.cloud.talent.v4beta1.IGetApplicationRequest = {};
-            request.name = '';
-            // Mock response
-            const expectedResponse = {};
-            // Mock gRPC layer
-            client._innerApiCalls.getApplication = mockSimpleGrpcMethod(
-                request,
-                expectedResponse,
-                null
-            );
-            client.getApplication(request, (err: {}, response: {}) => {
-                assert.ifError(err);
-                assert.deepStrictEqual(response, expectedResponse);
-                done();
-            })
-        });
+  });
+  describe('getApplication', () => {
+    it('invokes getApplication without error', done => {
+      const client = new applicationserviceModule.v4beta1.ApplicationServiceClient(
+        {
+          credentials: {client_email: 'bogus', private_key: 'bogus'},
+          projectId: 'bogus',
+        }
+      );
+      // Mock request
+      const request: protosTypes.google.cloud.talent.v4beta1.IGetApplicationRequest = {};
+      request.name = '';
+      // Mock response
+      const expectedResponse = {};
+      // Mock gRPC layer
+      client._innerApiCalls.getApplication = mockSimpleGrpcMethod(
+        request,
+        expectedResponse,
+        null
+      );
+      client.getApplication(request, (err: {}, response: {}) => {
+        assert.ifError(err);
+        assert.deepStrictEqual(response, expectedResponse);
+        done();
+      });
+    });
 
-        it('invokes getApplication with error', done => {
-            const client = new applicationserviceModule.v4beta1.ApplicationServiceClient({
-                credentials: {client_email: 'bogus', private_key: 'bogus'},
-                projectId: 'bogus',
-            });
-            // Mock request
-            const request: protosTypes.google.cloud.talent.v4beta1.IGetApplicationRequest = {};
-            request.name = '';
-            // Mock response
-            const expectedResponse = {};
-            // Mock gRPC layer
-            client._innerApiCalls.getApplication = mockSimpleGrpcMethod(
-                request,
-                null,
-                error
-            );
-            client.getApplication(request, (err: FakeError, response: {}) => {
-                assert(err instanceof FakeError);
-                assert.strictEqual(err.code, FAKE_STATUS_CODE);
-                assert(typeof response === 'undefined');
-                done();
-            })
-        });
+    it('invokes getApplication with error', done => {
+      const client = new applicationserviceModule.v4beta1.ApplicationServiceClient(
+        {
+          credentials: {client_email: 'bogus', private_key: 'bogus'},
+          projectId: 'bogus',
+        }
+      );
+      // Mock request
+      const request: protosTypes.google.cloud.talent.v4beta1.IGetApplicationRequest = {};
+      request.name = '';
+      // Mock response
+      const expectedResponse = {};
+      // Mock gRPC layer
+      client._innerApiCalls.getApplication = mockSimpleGrpcMethod(
+        request,
+        null,
+        error
+      );
+      client.getApplication(request, (err: FakeError, response: {}) => {
+        assert(err instanceof FakeError);
+        assert.strictEqual(err.code, FAKE_STATUS_CODE);
+        assert(typeof response === 'undefined');
+        done();
+      });
     });
-    describe('updateApplication', () => {
-        it('invokes updateApplication without error', done => {
-            const client = new applicationserviceModule.v4beta1.ApplicationServiceClient({
-                credentials: {client_email: 'bogus', private_key: 'bogus'},
-                projectId: 'bogus',
-            });
-            // Mock request
-            const request: protosTypes.google.cloud.talent.v4beta1.IUpdateApplicationRequest = {};
-            request.application = {};
-            request.application.name = '';
-            // Mock response
-            const expectedResponse = {};
-            // Mock gRPC layer
-            client._innerApiCalls.updateApplication = mockSimpleGrpcMethod(
-                request,
-                expectedResponse,
-                null
-            );
-            client.updateApplication(request, (err: {}, response: {}) => {
-                assert.ifError(err);
-                assert.deepStrictEqual(response, expectedResponse);
-                done();
-            })
-        });
+  });
+  describe('updateApplication', () => {
+    it('invokes updateApplication without error', done => {
+      const client = new applicationserviceModule.v4beta1.ApplicationServiceClient(
+        {
+          credentials: {client_email: 'bogus', private_key: 'bogus'},
+          projectId: 'bogus',
+        }
+      );
+      // Mock request
+      const request: protosTypes.google.cloud.talent.v4beta1.IUpdateApplicationRequest = {};
+      request.application = {};
+      request.application.name = '';
+      // Mock response
+      const expectedResponse = {};
+      // Mock gRPC layer
+      client._innerApiCalls.updateApplication = mockSimpleGrpcMethod(
+        request,
+        expectedResponse,
+        null
+      );
+      client.updateApplication(request, (err: {}, response: {}) => {
+        assert.ifError(err);
+        assert.deepStrictEqual(response, expectedResponse);
+        done();
+      });
+    });
 
-        it('invokes updateApplication with error', done => {
-            const client = new applicationserviceModule.v4beta1.ApplicationServiceClient({
-                credentials: {client_email: 'bogus', private_key: 'bogus'},
-                projectId: 'bogus',
-            });
-            // Mock request
-            const request: protosTypes.google.cloud.talent.v4beta1.IUpdateApplicationRequest = {};
-            request.application = {};
-            request.application.name = '';
-            // Mock response
-            const expectedResponse = {};
-            // Mock gRPC layer
-            client._innerApiCalls.updateApplication = mockSimpleGrpcMethod(
-                request,
-                null,
-                error
-            );
-            client.updateApplication(request, (err: FakeError, response: {}) => {
-                assert(err instanceof FakeError);
-                assert.strictEqual(err.code, FAKE_STATUS_CODE);
-                assert(typeof response === 'undefined');
-                done();
-            })
-        });
+    it('invokes updateApplication with error', done => {
+      const client = new applicationserviceModule.v4beta1.ApplicationServiceClient(
+        {
+          credentials: {client_email: 'bogus', private_key: 'bogus'},
+          projectId: 'bogus',
+        }
+      );
+      // Mock request
+      const request: protosTypes.google.cloud.talent.v4beta1.IUpdateApplicationRequest = {};
+      request.application = {};
+      request.application.name = '';
+      // Mock response
+      const expectedResponse = {};
+      // Mock gRPC layer
+      client._innerApiCalls.updateApplication = mockSimpleGrpcMethod(
+        request,
+        null,
+        error
+      );
+      client.updateApplication(request, (err: FakeError, response: {}) => {
+        assert(err instanceof FakeError);
+        assert.strictEqual(err.code, FAKE_STATUS_CODE);
+        assert(typeof response === 'undefined');
+        done();
+      });
     });
-    describe('deleteApplication', () => {
-        it('invokes deleteApplication without error', done => {
-            const client = new applicationserviceModule.v4beta1.ApplicationServiceClient({
-                credentials: {client_email: 'bogus', private_key: 'bogus'},
-                projectId: 'bogus',
-            });
-            // Mock request
-            const request: protosTypes.google.cloud.talent.v4beta1.IDeleteApplicationRequest = {};
-            request.name = '';
-            // Mock response
-            const expectedResponse = {};
-            // Mock gRPC layer
-            client._innerApiCalls.deleteApplication = mockSimpleGrpcMethod(
-                request,
-                expectedResponse,
-                null
-            );
-            client.deleteApplication(request, (err: {}, response: {}) => {
-                assert.ifError(err);
-                assert.deepStrictEqual(response, expectedResponse);
-                done();
-            })
-        });
+  });
+  describe('deleteApplication', () => {
+    it('invokes deleteApplication without error', done => {
+      const client = new applicationserviceModule.v4beta1.ApplicationServiceClient(
+        {
+          credentials: {client_email: 'bogus', private_key: 'bogus'},
+          projectId: 'bogus',
+        }
+      );
+      // Mock request
+      const request: protosTypes.google.cloud.talent.v4beta1.IDeleteApplicationRequest = {};
+      request.name = '';
+      // Mock response
+      const expectedResponse = {};
+      // Mock gRPC layer
+      client._innerApiCalls.deleteApplication = mockSimpleGrpcMethod(
+        request,
+        expectedResponse,
+        null
+      );
+      client.deleteApplication(request, (err: {}, response: {}) => {
+        assert.ifError(err);
+        assert.deepStrictEqual(response, expectedResponse);
+        done();
+      });
+    });
 
-        it('invokes deleteApplication with error', done => {
-            const client = new applicationserviceModule.v4beta1.ApplicationServiceClient({
-                credentials: {client_email: 'bogus', private_key: 'bogus'},
-                projectId: 'bogus',
-            });
-            // Mock request
-            const request: protosTypes.google.cloud.talent.v4beta1.IDeleteApplicationRequest = {};
-            request.name = '';
-            // Mock response
-            const expectedResponse = {};
-            // Mock gRPC layer
-            client._innerApiCalls.deleteApplication = mockSimpleGrpcMethod(
-                request,
-                null,
-                error
-            );
-            client.deleteApplication(request, (err: FakeError, response: {}) => {
-                assert(err instanceof FakeError);
-                assert.strictEqual(err.code, FAKE_STATUS_CODE);
-                assert(typeof response === 'undefined');
-                done();
-            })
-        });
+    it('invokes deleteApplication with error', done => {
+      const client = new applicationserviceModule.v4beta1.ApplicationServiceClient(
+        {
+          credentials: {client_email: 'bogus', private_key: 'bogus'},
+          projectId: 'bogus',
+        }
+      );
+      // Mock request
+      const request: protosTypes.google.cloud.talent.v4beta1.IDeleteApplicationRequest = {};
+      request.name = '';
+      // Mock response
+      const expectedResponse = {};
+      // Mock gRPC layer
+      client._innerApiCalls.deleteApplication = mockSimpleGrpcMethod(
+        request,
+        null,
+        error
+      );
+      client.deleteApplication(request, (err: FakeError, response: {}) => {
+        assert(err instanceof FakeError);
+        assert.strictEqual(err.code, FAKE_STATUS_CODE);
+        assert(typeof response === 'undefined');
+        done();
+      });
     });
-    describe('listApplications', () => {
-        it('invokes listApplications without error', done => {
-            const client = new applicationserviceModule.v4beta1.ApplicationServiceClient({
-                credentials: {client_email: 'bogus', private_key: 'bogus'},
-                projectId: 'bogus',
-            });
-            // Mock request
-            const request: protosTypes.google.cloud.talent.v4beta1.IListApplicationsRequest = {};
-            request.parent = '';
-            // Mock response
-            const expectedResponse = {};
-            // Mock Grpc layer
-            client._innerApiCalls.listApplications = (actualRequest: {}, options: {}, callback: Callback) => {
-                assert.deepStrictEqual(actualRequest, request);
-                callback(null, expectedResponse);
-            };
-            client.listApplications(request, (err: FakeError, response: {}) => {
-                assert.ifError(err);
-                assert.deepStrictEqual(response, expectedResponse);
-                done();
-            });
-        });
+  });
+  describe('listApplications', () => {
+    it('invokes listApplications without error', done => {
+      const client = new applicationserviceModule.v4beta1.ApplicationServiceClient(
+        {
+          credentials: {client_email: 'bogus', private_key: 'bogus'},
+          projectId: 'bogus',
+        }
+      );
+      // Mock request
+      const request: protosTypes.google.cloud.talent.v4beta1.IListApplicationsRequest = {};
+      request.parent = '';
+      // Mock response
+      const expectedResponse = {};
+      // Mock Grpc layer
+      client._innerApiCalls.listApplications = (
+        actualRequest: {},
+        options: {},
+        callback: Callback
+      ) => {
+        assert.deepStrictEqual(actualRequest, request);
+        callback(null, expectedResponse);
+      };
+      client.listApplications(request, (err: FakeError, response: {}) => {
+        assert.ifError(err);
+        assert.deepStrictEqual(response, expectedResponse);
+        done();
+      });
     });
-    describe('listApplicationsStream', () => {
-        it('invokes listApplicationsStream without error', done => {
-            const client = new applicationserviceModule.v4beta1.ApplicationServiceClient({
-                credentials: {client_email: 'bogus', private_key: 'bogus'},
-                projectId: 'bogus',
-            });
-            // Mock request
-            const request: protosTypes.google.cloud.talent.v4beta1.IListApplicationsRequest = {};
-            request.parent = '';
-            // Mock response
-            const expectedResponse = {response: 'data'};
-            // Mock Grpc layer
-            client._innerApiCalls.listApplications = (actualRequest: {}, options: {}, callback: Callback) => {
-                assert.deepStrictEqual(actualRequest, request);
-                callback(null, expectedResponse);
-            };
-            const stream = client.listApplicationsStream(request, {}).on('data', (response: {}) =>{
-                assert.deepStrictEqual(response, expectedResponse);
-                done();
-            }).on('error', (err: FakeError) => {
-                done(err);
-            });
-            stream.write(expectedResponse);
+  });
+  describe('listApplicationsStream', () => {
+    it('invokes listApplicationsStream without error', done => {
+      const client = new applicationserviceModule.v4beta1.ApplicationServiceClient(
+        {
+          credentials: {client_email: 'bogus', private_key: 'bogus'},
+          projectId: 'bogus',
+        }
+      );
+      // Mock request
+      const request: protosTypes.google.cloud.talent.v4beta1.IListApplicationsRequest = {};
+      request.parent = '';
+      // Mock response
+      const expectedResponse = {response: 'data'};
+      // Mock Grpc layer
+      client._innerApiCalls.listApplications = (
+        actualRequest: {},
+        options: {},
+        callback: Callback
+      ) => {
+        assert.deepStrictEqual(actualRequest, request);
+        callback(null, expectedResponse);
+      };
+      const stream = client
+        .listApplicationsStream(request, {})
+        .on('data', (response: {}) => {
+          assert.deepStrictEqual(response, expectedResponse);
+          done();
+        })
+        .on('error', (err: FakeError) => {
+          done(err);
         });
+      stream.write(expectedResponse);
     });
+  });
 });

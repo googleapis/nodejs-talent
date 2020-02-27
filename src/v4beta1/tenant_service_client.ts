@@ -17,10 +17,18 @@
 // ** All changes to this file may be overwritten. **
 
 import * as gax from 'google-gax';
-import {APICallback, Callback, CallOptions, Descriptors, ClientOptions, PaginationCallback, PaginationResponse} from 'google-gax';
+import {
+  APICallback,
+  Callback,
+  CallOptions,
+  Descriptors,
+  ClientOptions,
+  PaginationCallback,
+  PaginationResponse,
+} from 'google-gax';
 import * as path from 'path';
 
-import { Transform } from 'stream';
+import {Transform} from 'stream';
 import * as protosTypes from '../../protos/protos';
 import * as gapicConfig from './tenant_service_client_config.json';
 
@@ -70,10 +78,12 @@ export class TenantServiceClient {
   constructor(opts?: ClientOptions) {
     // Ensure that options include the service address and port.
     const staticMembers = this.constructor as typeof TenantServiceClient;
-    const servicePath = opts && opts.servicePath ?
-        opts.servicePath :
-        ((opts && opts.apiEndpoint) ? opts.apiEndpoint :
-                                      staticMembers.servicePath);
+    const servicePath =
+      opts && opts.servicePath
+        ? opts.servicePath
+        : opts && opts.apiEndpoint
+        ? opts.apiEndpoint
+        : staticMembers.servicePath;
     const port = opts && opts.port ? opts.port : staticMembers.port;
 
     if (!opts) {
@@ -83,8 +93,8 @@ export class TenantServiceClient {
     opts.port = opts.port || port;
     opts.clientConfig = opts.clientConfig || {};
 
-    const isBrowser = (typeof window !== 'undefined');
-    if (isBrowser){
+    const isBrowser = typeof window !== 'undefined';
+    if (isBrowser) {
       opts.fallback = true;
     }
     // If we are in browser, we are already using fallback because of the
@@ -98,13 +108,10 @@ export class TenantServiceClient {
     const gaxGrpc = new gaxModule.GrpcClient(opts);
 
     // Save the auth object to the client, for use by other methods.
-    this.auth = (gaxGrpc.auth as gax.GoogleAuth);
+    this.auth = gaxGrpc.auth as gax.GoogleAuth;
 
     // Determine the client header string.
-    const clientHeader = [
-      `gax/${gaxModule.version}`,
-      `gapic/${version}`,
-    ];
+    const clientHeader = [`gax/${gaxModule.version}`, `gapic/${version}`];
     if (typeof process !== 'undefined' && 'versions' in process) {
       clientHeader.push(`gl-node/${process.versions.node}`);
     } else {
@@ -120,11 +127,15 @@ export class TenantServiceClient {
     // For Node.js, pass the path to JSON proto file.
     // For browsers, pass the JSON content.
 
-    const nodejsProtoPath = path.join(__dirname, '..', '..', 'protos', 'protos.json');
+    const nodejsProtoPath = path.join(
+      __dirname,
+      '..',
+      '..',
+      'protos',
+      'protos.json'
+    );
     const protos = gaxGrpc.loadProto(
-      opts.fallback ?
-        require("../../protos/protos.json") :
-        nodejsProtoPath
+      opts.fallback ? require('../../protos/protos.json') : nodejsProtoPath
     );
 
     // This API contains "path templates"; forward-slash-separated
@@ -136,9 +147,6 @@ export class TenantServiceClient {
       ),
       profilePathTemplate: new gaxModule.PathTemplate(
         'projects/{project}/tenants/{tenant}/profiles/{profile}'
-      ),
-      projectPathTemplate: new gaxModule.PathTemplate(
-        'projects/{project}'
       ),
       projectCompanyPathTemplate: new gaxModule.PathTemplate(
         'projects/{project}/companies/{company}'
@@ -161,14 +169,20 @@ export class TenantServiceClient {
     // (e.g. 50 results at a time, with tokens to get subsequent
     // pages). Denote the keys used for pagination and results.
     this._descriptors.page = {
-      listTenants:
-          new gaxModule.PageDescriptor('pageToken', 'nextPageToken', 'tenants')
+      listTenants: new gaxModule.PageDescriptor(
+        'pageToken',
+        'nextPageToken',
+        'tenants'
+      ),
     };
 
     // Put together the default options sent with requests.
     const defaults = gaxGrpc.constructSettings(
-        'google.cloud.talent.v4beta1.TenantService', gapicConfig as gax.ClientConfig,
-        opts.clientConfig || {}, {'x-goog-api-client': clientHeader.join(' ')});
+      'google.cloud.talent.v4beta1.TenantService',
+      gapicConfig as gax.ClientConfig,
+      opts.clientConfig || {},
+      {'x-goog-api-client': clientHeader.join(' ')}
+    );
 
     // Set up a dictionary of "inner API calls"; the core implementation
     // of calling the API is handled in `google-gax`, with this code
@@ -178,16 +192,24 @@ export class TenantServiceClient {
     // Put together the "service stub" for
     // google.cloud.talent.v4beta1.TenantService.
     this.tenantServiceStub = gaxGrpc.createStub(
-        opts.fallback ?
-          (protos as protobuf.Root).lookupService('google.cloud.talent.v4beta1.TenantService') :
-          // tslint:disable-next-line no-any
+      opts.fallback
+        ? (protos as protobuf.Root).lookupService(
+            'google.cloud.talent.v4beta1.TenantService'
+          )
+        : // tslint:disable-next-line no-any
           (protos as any).google.cloud.talent.v4beta1.TenantService,
-        opts) as Promise<{[method: string]: Function}>;
+      opts
+    ) as Promise<{[method: string]: Function}>;
 
     // Iterate over each of the methods that the service provides
     // and create an API call method for each.
-    const tenantServiceStubMethods =
-        ['createTenant', 'getTenant', 'updateTenant', 'deleteTenant', 'listTenants'];
+    const tenantServiceStubMethods = [
+      'createTenant',
+      'getTenant',
+      'updateTenant',
+      'deleteTenant',
+      'listTenants',
+    ];
 
     for (const methodName of tenantServiceStubMethods) {
       const innerCallPromise = this.tenantServiceStub.then(
@@ -197,16 +219,17 @@ export class TenantServiceClient {
           }
           return stub[methodName].apply(stub, args);
         },
-        (err: Error|null|undefined) => () => {
+        (err: Error | null | undefined) => () => {
           throw err;
-        });
+        }
+      );
 
       const apiCall = gaxModule.createApiCall(
         innerCallPromise,
         defaults[methodName],
         this._descriptors.page[methodName] ||
-            this._descriptors.stream[methodName] ||
-            this._descriptors.longrunning[methodName]
+          this._descriptors.stream[methodName] ||
+          this._descriptors.longrunning[methodName]
       );
 
       this._innerApiCalls[methodName] = (
@@ -248,7 +271,7 @@ export class TenantServiceClient {
   static get scopes() {
     return [
       'https://www.googleapis.com/auth/cloud-platform',
-      'https://www.googleapis.com/auth/jobs'
+      'https://www.googleapis.com/auth/jobs',
     ];
   }
 
@@ -259,8 +282,9 @@ export class TenantServiceClient {
    * @param {function(Error, string)} callback - the callback to
    *   be called with the current project Id.
    */
-  getProjectId(callback?: Callback<string, undefined, undefined>):
-      Promise<string>|void {
+  getProjectId(
+    callback?: Callback<string, undefined, undefined>
+  ): Promise<string> | void {
     if (callback) {
       this.auth.getProjectId(callback);
       return;
@@ -272,57 +296,70 @@ export class TenantServiceClient {
   // -- Service calls --
   // -------------------
   createTenant(
-      request: protosTypes.google.cloud.talent.v4beta1.ICreateTenantRequest,
-      options?: gax.CallOptions):
-      Promise<[
-        protosTypes.google.cloud.talent.v4beta1.ITenant,
-        protosTypes.google.cloud.talent.v4beta1.ICreateTenantRequest|undefined, {}|undefined
-      ]>;
+    request: protosTypes.google.cloud.talent.v4beta1.ICreateTenantRequest,
+    options?: gax.CallOptions
+  ): Promise<
+    [
+      protosTypes.google.cloud.talent.v4beta1.ITenant,
+      protosTypes.google.cloud.talent.v4beta1.ICreateTenantRequest | undefined,
+      {} | undefined
+    ]
+  >;
   createTenant(
-      request: protosTypes.google.cloud.talent.v4beta1.ICreateTenantRequest,
-      options: gax.CallOptions,
-      callback: Callback<
-          protosTypes.google.cloud.talent.v4beta1.ITenant,
-          protosTypes.google.cloud.talent.v4beta1.ICreateTenantRequest|undefined,
-          {}|undefined>): void;
-/**
- * Creates a new tenant entity.
- *
- * @param {Object} request
- *   The request object that will be sent.
- * @param {string} request.parent
- *   Required. Resource name of the project under which the tenant is created.
- *
- *   The format is "projects/{project_id}", for example,
- *   "projects/foo".
- * @param {google.cloud.talent.v4beta1.Tenant} request.tenant
- *   Required. The tenant to be created.
- * @param {object} [options]
- *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
- * @returns {Promise} - The promise which resolves to an array.
- *   The first element of the array is an object representing [Tenant]{@link google.cloud.talent.v4beta1.Tenant}.
- *   The promise has a method named "cancel" which cancels the ongoing API call.
- */
+    request: protosTypes.google.cloud.talent.v4beta1.ICreateTenantRequest,
+    options: gax.CallOptions,
+    callback: Callback<
+      protosTypes.google.cloud.talent.v4beta1.ITenant,
+      protosTypes.google.cloud.talent.v4beta1.ICreateTenantRequest | undefined,
+      {} | undefined
+    >
+  ): void;
+  /**
+   * Creates a new tenant entity.
+   *
+   * @param {Object} request
+   *   The request object that will be sent.
+   * @param {string} request.parent
+   *   Required. Resource name of the project under which the tenant is created.
+   *
+   *   The format is "projects/{project_id}", for example,
+   *   "projects/foo".
+   * @param {google.cloud.talent.v4beta1.Tenant} request.tenant
+   *   Required. The tenant to be created.
+   * @param {object} [options]
+   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+   * @returns {Promise} - The promise which resolves to an array.
+   *   The first element of the array is an object representing [Tenant]{@link google.cloud.talent.v4beta1.Tenant}.
+   *   The promise has a method named "cancel" which cancels the ongoing API call.
+   */
   createTenant(
-      request: protosTypes.google.cloud.talent.v4beta1.ICreateTenantRequest,
-      optionsOrCallback?: gax.CallOptions|Callback<
+    request: protosTypes.google.cloud.talent.v4beta1.ICreateTenantRequest,
+    optionsOrCallback?:
+      | gax.CallOptions
+      | Callback<
           protosTypes.google.cloud.talent.v4beta1.ITenant,
-          protosTypes.google.cloud.talent.v4beta1.ICreateTenantRequest|undefined, {}|undefined>,
-      callback?: Callback<
-          protosTypes.google.cloud.talent.v4beta1.ITenant,
-          protosTypes.google.cloud.talent.v4beta1.ICreateTenantRequest|undefined,
-          {}|undefined>):
-      Promise<[
-        protosTypes.google.cloud.talent.v4beta1.ITenant,
-        protosTypes.google.cloud.talent.v4beta1.ICreateTenantRequest|undefined, {}|undefined
-      ]>|void {
+          | protosTypes.google.cloud.talent.v4beta1.ICreateTenantRequest
+          | undefined,
+          {} | undefined
+        >,
+    callback?: Callback<
+      protosTypes.google.cloud.talent.v4beta1.ITenant,
+      protosTypes.google.cloud.talent.v4beta1.ICreateTenantRequest | undefined,
+      {} | undefined
+    >
+  ): Promise<
+    [
+      protosTypes.google.cloud.talent.v4beta1.ITenant,
+      protosTypes.google.cloud.talent.v4beta1.ICreateTenantRequest | undefined,
+      {} | undefined
+    ]
+  > | void {
     request = request || {};
     let options: gax.CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    }
-    else {
+    } else {
       options = optionsOrCallback as gax.CallOptions;
     }
     options = options || {};
@@ -331,60 +368,72 @@ export class TenantServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
-      'parent': request.parent || '',
+      parent: request.parent || '',
     });
     return this._innerApiCalls.createTenant(request, options, callback);
   }
   getTenant(
-      request: protosTypes.google.cloud.talent.v4beta1.IGetTenantRequest,
-      options?: gax.CallOptions):
-      Promise<[
-        protosTypes.google.cloud.talent.v4beta1.ITenant,
-        protosTypes.google.cloud.talent.v4beta1.IGetTenantRequest|undefined, {}|undefined
-      ]>;
+    request: protosTypes.google.cloud.talent.v4beta1.IGetTenantRequest,
+    options?: gax.CallOptions
+  ): Promise<
+    [
+      protosTypes.google.cloud.talent.v4beta1.ITenant,
+      protosTypes.google.cloud.talent.v4beta1.IGetTenantRequest | undefined,
+      {} | undefined
+    ]
+  >;
   getTenant(
-      request: protosTypes.google.cloud.talent.v4beta1.IGetTenantRequest,
-      options: gax.CallOptions,
-      callback: Callback<
-          protosTypes.google.cloud.talent.v4beta1.ITenant,
-          protosTypes.google.cloud.talent.v4beta1.IGetTenantRequest|undefined,
-          {}|undefined>): void;
-/**
- * Retrieves specified tenant.
- *
- * @param {Object} request
- *   The request object that will be sent.
- * @param {string} request.name
- *   Required. The resource name of the tenant to be retrieved.
- *
- *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
- *   "projects/foo/tenants/bar".
- * @param {object} [options]
- *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
- * @returns {Promise} - The promise which resolves to an array.
- *   The first element of the array is an object representing [Tenant]{@link google.cloud.talent.v4beta1.Tenant}.
- *   The promise has a method named "cancel" which cancels the ongoing API call.
- */
+    request: protosTypes.google.cloud.talent.v4beta1.IGetTenantRequest,
+    options: gax.CallOptions,
+    callback: Callback<
+      protosTypes.google.cloud.talent.v4beta1.ITenant,
+      protosTypes.google.cloud.talent.v4beta1.IGetTenantRequest | undefined,
+      {} | undefined
+    >
+  ): void;
+  /**
+   * Retrieves specified tenant.
+   *
+   * @param {Object} request
+   *   The request object that will be sent.
+   * @param {string} request.name
+   *   Required. The resource name of the tenant to be retrieved.
+   *
+   *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
+   *   "projects/foo/tenants/bar".
+   * @param {object} [options]
+   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+   * @returns {Promise} - The promise which resolves to an array.
+   *   The first element of the array is an object representing [Tenant]{@link google.cloud.talent.v4beta1.Tenant}.
+   *   The promise has a method named "cancel" which cancels the ongoing API call.
+   */
   getTenant(
-      request: protosTypes.google.cloud.talent.v4beta1.IGetTenantRequest,
-      optionsOrCallback?: gax.CallOptions|Callback<
+    request: protosTypes.google.cloud.talent.v4beta1.IGetTenantRequest,
+    optionsOrCallback?:
+      | gax.CallOptions
+      | Callback<
           protosTypes.google.cloud.talent.v4beta1.ITenant,
-          protosTypes.google.cloud.talent.v4beta1.IGetTenantRequest|undefined, {}|undefined>,
-      callback?: Callback<
-          protosTypes.google.cloud.talent.v4beta1.ITenant,
-          protosTypes.google.cloud.talent.v4beta1.IGetTenantRequest|undefined,
-          {}|undefined>):
-      Promise<[
-        protosTypes.google.cloud.talent.v4beta1.ITenant,
-        protosTypes.google.cloud.talent.v4beta1.IGetTenantRequest|undefined, {}|undefined
-      ]>|void {
+          protosTypes.google.cloud.talent.v4beta1.IGetTenantRequest | undefined,
+          {} | undefined
+        >,
+    callback?: Callback<
+      protosTypes.google.cloud.talent.v4beta1.ITenant,
+      protosTypes.google.cloud.talent.v4beta1.IGetTenantRequest | undefined,
+      {} | undefined
+    >
+  ): Promise<
+    [
+      protosTypes.google.cloud.talent.v4beta1.ITenant,
+      protosTypes.google.cloud.talent.v4beta1.IGetTenantRequest | undefined,
+      {} | undefined
+    ]
+  > | void {
     request = request || {};
     let options: gax.CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    }
-    else {
+    } else {
       options = optionsOrCallback as gax.CallOptions;
     }
     options = options || {};
@@ -393,65 +442,78 @@ export class TenantServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
-      'name': request.name || '',
+      name: request.name || '',
     });
     return this._innerApiCalls.getTenant(request, options, callback);
   }
   updateTenant(
-      request: protosTypes.google.cloud.talent.v4beta1.IUpdateTenantRequest,
-      options?: gax.CallOptions):
-      Promise<[
-        protosTypes.google.cloud.talent.v4beta1.ITenant,
-        protosTypes.google.cloud.talent.v4beta1.IUpdateTenantRequest|undefined, {}|undefined
-      ]>;
+    request: protosTypes.google.cloud.talent.v4beta1.IUpdateTenantRequest,
+    options?: gax.CallOptions
+  ): Promise<
+    [
+      protosTypes.google.cloud.talent.v4beta1.ITenant,
+      protosTypes.google.cloud.talent.v4beta1.IUpdateTenantRequest | undefined,
+      {} | undefined
+    ]
+  >;
   updateTenant(
-      request: protosTypes.google.cloud.talent.v4beta1.IUpdateTenantRequest,
-      options: gax.CallOptions,
-      callback: Callback<
-          protosTypes.google.cloud.talent.v4beta1.ITenant,
-          protosTypes.google.cloud.talent.v4beta1.IUpdateTenantRequest|undefined,
-          {}|undefined>): void;
-/**
- * Updates specified tenant.
- *
- * @param {Object} request
- *   The request object that will be sent.
- * @param {google.cloud.talent.v4beta1.Tenant} request.tenant
- *   Required. The tenant resource to replace the current resource in the system.
- * @param {google.protobuf.FieldMask} request.updateMask
- *   Strongly recommended for the best service experience.
- *
- *   If [update_mask][google.cloud.talent.v4beta1.UpdateTenantRequest.update_mask] is provided, only the specified fields in
- *   [tenant][google.cloud.talent.v4beta1.UpdateTenantRequest.tenant] are updated. Otherwise all the fields are updated.
- *
- *   A field mask to specify the tenant fields to be updated. Only
- *   top level fields of [Tenant][google.cloud.talent.v4beta1.Tenant] are supported.
- * @param {object} [options]
- *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
- * @returns {Promise} - The promise which resolves to an array.
- *   The first element of the array is an object representing [Tenant]{@link google.cloud.talent.v4beta1.Tenant}.
- *   The promise has a method named "cancel" which cancels the ongoing API call.
- */
+    request: protosTypes.google.cloud.talent.v4beta1.IUpdateTenantRequest,
+    options: gax.CallOptions,
+    callback: Callback<
+      protosTypes.google.cloud.talent.v4beta1.ITenant,
+      protosTypes.google.cloud.talent.v4beta1.IUpdateTenantRequest | undefined,
+      {} | undefined
+    >
+  ): void;
+  /**
+   * Updates specified tenant.
+   *
+   * @param {Object} request
+   *   The request object that will be sent.
+   * @param {google.cloud.talent.v4beta1.Tenant} request.tenant
+   *   Required. The tenant resource to replace the current resource in the system.
+   * @param {google.protobuf.FieldMask} request.updateMask
+   *   Strongly recommended for the best service experience.
+   *
+   *   If [update_mask][google.cloud.talent.v4beta1.UpdateTenantRequest.update_mask] is provided, only the specified fields in
+   *   [tenant][google.cloud.talent.v4beta1.UpdateTenantRequest.tenant] are updated. Otherwise all the fields are updated.
+   *
+   *   A field mask to specify the tenant fields to be updated. Only
+   *   top level fields of [Tenant][google.cloud.talent.v4beta1.Tenant] are supported.
+   * @param {object} [options]
+   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+   * @returns {Promise} - The promise which resolves to an array.
+   *   The first element of the array is an object representing [Tenant]{@link google.cloud.talent.v4beta1.Tenant}.
+   *   The promise has a method named "cancel" which cancels the ongoing API call.
+   */
   updateTenant(
-      request: protosTypes.google.cloud.talent.v4beta1.IUpdateTenantRequest,
-      optionsOrCallback?: gax.CallOptions|Callback<
+    request: protosTypes.google.cloud.talent.v4beta1.IUpdateTenantRequest,
+    optionsOrCallback?:
+      | gax.CallOptions
+      | Callback<
           protosTypes.google.cloud.talent.v4beta1.ITenant,
-          protosTypes.google.cloud.talent.v4beta1.IUpdateTenantRequest|undefined, {}|undefined>,
-      callback?: Callback<
-          protosTypes.google.cloud.talent.v4beta1.ITenant,
-          protosTypes.google.cloud.talent.v4beta1.IUpdateTenantRequest|undefined,
-          {}|undefined>):
-      Promise<[
-        protosTypes.google.cloud.talent.v4beta1.ITenant,
-        protosTypes.google.cloud.talent.v4beta1.IUpdateTenantRequest|undefined, {}|undefined
-      ]>|void {
+          | protosTypes.google.cloud.talent.v4beta1.IUpdateTenantRequest
+          | undefined,
+          {} | undefined
+        >,
+    callback?: Callback<
+      protosTypes.google.cloud.talent.v4beta1.ITenant,
+      protosTypes.google.cloud.talent.v4beta1.IUpdateTenantRequest | undefined,
+      {} | undefined
+    >
+  ): Promise<
+    [
+      protosTypes.google.cloud.talent.v4beta1.ITenant,
+      protosTypes.google.cloud.talent.v4beta1.IUpdateTenantRequest | undefined,
+      {} | undefined
+    ]
+  > | void {
     request = request || {};
     let options: gax.CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    }
-    else {
+    } else {
       options = optionsOrCallback as gax.CallOptions;
     }
     options = options || {};
@@ -465,55 +527,68 @@ export class TenantServiceClient {
     return this._innerApiCalls.updateTenant(request, options, callback);
   }
   deleteTenant(
-      request: protosTypes.google.cloud.talent.v4beta1.IDeleteTenantRequest,
-      options?: gax.CallOptions):
-      Promise<[
-        protosTypes.google.protobuf.IEmpty,
-        protosTypes.google.cloud.talent.v4beta1.IDeleteTenantRequest|undefined, {}|undefined
-      ]>;
+    request: protosTypes.google.cloud.talent.v4beta1.IDeleteTenantRequest,
+    options?: gax.CallOptions
+  ): Promise<
+    [
+      protosTypes.google.protobuf.IEmpty,
+      protosTypes.google.cloud.talent.v4beta1.IDeleteTenantRequest | undefined,
+      {} | undefined
+    ]
+  >;
   deleteTenant(
-      request: protosTypes.google.cloud.talent.v4beta1.IDeleteTenantRequest,
-      options: gax.CallOptions,
-      callback: Callback<
-          protosTypes.google.protobuf.IEmpty,
-          protosTypes.google.cloud.talent.v4beta1.IDeleteTenantRequest|undefined,
-          {}|undefined>): void;
-/**
- * Deletes specified tenant.
- *
- * @param {Object} request
- *   The request object that will be sent.
- * @param {string} request.name
- *   Required. The resource name of the tenant to be deleted.
- *
- *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
- *   "projects/foo/tenants/bar".
- * @param {object} [options]
- *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
- * @returns {Promise} - The promise which resolves to an array.
- *   The first element of the array is an object representing [Empty]{@link google.protobuf.Empty}.
- *   The promise has a method named "cancel" which cancels the ongoing API call.
- */
+    request: protosTypes.google.cloud.talent.v4beta1.IDeleteTenantRequest,
+    options: gax.CallOptions,
+    callback: Callback<
+      protosTypes.google.protobuf.IEmpty,
+      protosTypes.google.cloud.talent.v4beta1.IDeleteTenantRequest | undefined,
+      {} | undefined
+    >
+  ): void;
+  /**
+   * Deletes specified tenant.
+   *
+   * @param {Object} request
+   *   The request object that will be sent.
+   * @param {string} request.name
+   *   Required. The resource name of the tenant to be deleted.
+   *
+   *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
+   *   "projects/foo/tenants/bar".
+   * @param {object} [options]
+   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+   * @returns {Promise} - The promise which resolves to an array.
+   *   The first element of the array is an object representing [Empty]{@link google.protobuf.Empty}.
+   *   The promise has a method named "cancel" which cancels the ongoing API call.
+   */
   deleteTenant(
-      request: protosTypes.google.cloud.talent.v4beta1.IDeleteTenantRequest,
-      optionsOrCallback?: gax.CallOptions|Callback<
+    request: protosTypes.google.cloud.talent.v4beta1.IDeleteTenantRequest,
+    optionsOrCallback?:
+      | gax.CallOptions
+      | Callback<
           protosTypes.google.protobuf.IEmpty,
-          protosTypes.google.cloud.talent.v4beta1.IDeleteTenantRequest|undefined, {}|undefined>,
-      callback?: Callback<
-          protosTypes.google.protobuf.IEmpty,
-          protosTypes.google.cloud.talent.v4beta1.IDeleteTenantRequest|undefined,
-          {}|undefined>):
-      Promise<[
-        protosTypes.google.protobuf.IEmpty,
-        protosTypes.google.cloud.talent.v4beta1.IDeleteTenantRequest|undefined, {}|undefined
-      ]>|void {
+          | protosTypes.google.cloud.talent.v4beta1.IDeleteTenantRequest
+          | undefined,
+          {} | undefined
+        >,
+    callback?: Callback<
+      protosTypes.google.protobuf.IEmpty,
+      protosTypes.google.cloud.talent.v4beta1.IDeleteTenantRequest | undefined,
+      {} | undefined
+    >
+  ): Promise<
+    [
+      protosTypes.google.protobuf.IEmpty,
+      protosTypes.google.cloud.talent.v4beta1.IDeleteTenantRequest | undefined,
+      {} | undefined
+    ]
+  > | void {
     request = request || {};
     let options: gax.CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    }
-    else {
+    } else {
       options = optionsOrCallback as gax.CallOptions;
     }
     options = options || {};
@@ -522,81 +597,90 @@ export class TenantServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
-      'name': request.name || '',
+      name: request.name || '',
     });
     return this._innerApiCalls.deleteTenant(request, options, callback);
   }
 
   listTenants(
-      request: protosTypes.google.cloud.talent.v4beta1.IListTenantsRequest,
-      options?: gax.CallOptions):
-      Promise<[
-        protosTypes.google.cloud.talent.v4beta1.ITenant[],
-        protosTypes.google.cloud.talent.v4beta1.IListTenantsRequest|null,
-        protosTypes.google.cloud.talent.v4beta1.IListTenantsResponse
-      ]>;
+    request: protosTypes.google.cloud.talent.v4beta1.IListTenantsRequest,
+    options?: gax.CallOptions
+  ): Promise<
+    [
+      protosTypes.google.cloud.talent.v4beta1.ITenant[],
+      protosTypes.google.cloud.talent.v4beta1.IListTenantsRequest | null,
+      protosTypes.google.cloud.talent.v4beta1.IListTenantsResponse
+    ]
+  >;
   listTenants(
-      request: protosTypes.google.cloud.talent.v4beta1.IListTenantsRequest,
-      options: gax.CallOptions,
-      callback: Callback<
-          protosTypes.google.cloud.talent.v4beta1.ITenant[],
-          protosTypes.google.cloud.talent.v4beta1.IListTenantsRequest|null,
-          protosTypes.google.cloud.talent.v4beta1.IListTenantsResponse>): void;
-/**
- * Lists all tenants associated with the project.
- *
- * @param {Object} request
- *   The request object that will be sent.
- * @param {string} request.parent
- *   Required. Resource name of the project under which the tenant is created.
- *
- *   The format is "projects/{project_id}", for example,
- *   "projects/foo".
- * @param {string} request.pageToken
- *   The starting indicator from which to return results.
- * @param {number} request.pageSize
- *   The maximum number of tenants to be returned, at most 100.
- *   Default is 100 if a non-positive number is provided.
- * @param {object} [options]
- *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
- * @returns {Promise} - The promise which resolves to an array.
- *   The first element of the array is Array of [Tenant]{@link google.cloud.talent.v4beta1.Tenant}.
- *   The client library support auto-pagination by default: it will call the API as many
- *   times as needed and will merge results from all the pages into this array.
- *
- *   When autoPaginate: false is specified through options, the array has three elements.
- *   The first element is Array of [Tenant]{@link google.cloud.talent.v4beta1.Tenant} that corresponds to
- *   the one page received from the API server.
- *   If the second element is not null it contains the request object of type [ListTenantsRequest]{@link google.cloud.talent.v4beta1.ListTenantsRequest}
- *   that can be used to obtain the next page of the results.
- *   If it is null, the next page does not exist.
- *   The third element contains the raw response received from the API server. Its type is
- *   [ListTenantsResponse]{@link google.cloud.talent.v4beta1.ListTenantsResponse}.
- *
- *   The promise has a method named "cancel" which cancels the ongoing API call.
- */
+    request: protosTypes.google.cloud.talent.v4beta1.IListTenantsRequest,
+    options: gax.CallOptions,
+    callback: Callback<
+      protosTypes.google.cloud.talent.v4beta1.ITenant[],
+      protosTypes.google.cloud.talent.v4beta1.IListTenantsRequest | null,
+      protosTypes.google.cloud.talent.v4beta1.IListTenantsResponse
+    >
+  ): void;
+  /**
+   * Lists all tenants associated with the project.
+   *
+   * @param {Object} request
+   *   The request object that will be sent.
+   * @param {string} request.parent
+   *   Required. Resource name of the project under which the tenant is created.
+   *
+   *   The format is "projects/{project_id}", for example,
+   *   "projects/foo".
+   * @param {string} request.pageToken
+   *   The starting indicator from which to return results.
+   * @param {number} request.pageSize
+   *   The maximum number of tenants to be returned, at most 100.
+   *   Default is 100 if a non-positive number is provided.
+   * @param {object} [options]
+   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+   * @returns {Promise} - The promise which resolves to an array.
+   *   The first element of the array is Array of [Tenant]{@link google.cloud.talent.v4beta1.Tenant}.
+   *   The client library support auto-pagination by default: it will call the API as many
+   *   times as needed and will merge results from all the pages into this array.
+   *
+   *   When autoPaginate: false is specified through options, the array has three elements.
+   *   The first element is Array of [Tenant]{@link google.cloud.talent.v4beta1.Tenant} that corresponds to
+   *   the one page received from the API server.
+   *   If the second element is not null it contains the request object of type [ListTenantsRequest]{@link google.cloud.talent.v4beta1.ListTenantsRequest}
+   *   that can be used to obtain the next page of the results.
+   *   If it is null, the next page does not exist.
+   *   The third element contains the raw response received from the API server. Its type is
+   *   [ListTenantsResponse]{@link google.cloud.talent.v4beta1.ListTenantsResponse}.
+   *
+   *   The promise has a method named "cancel" which cancels the ongoing API call.
+   */
   listTenants(
-      request: protosTypes.google.cloud.talent.v4beta1.IListTenantsRequest,
-      optionsOrCallback?: gax.CallOptions|Callback<
+    request: protosTypes.google.cloud.talent.v4beta1.IListTenantsRequest,
+    optionsOrCallback?:
+      | gax.CallOptions
+      | Callback<
           protosTypes.google.cloud.talent.v4beta1.ITenant[],
-          protosTypes.google.cloud.talent.v4beta1.IListTenantsRequest|null,
-          protosTypes.google.cloud.talent.v4beta1.IListTenantsResponse>,
-      callback?: Callback<
-          protosTypes.google.cloud.talent.v4beta1.ITenant[],
-          protosTypes.google.cloud.talent.v4beta1.IListTenantsRequest|null,
-          protosTypes.google.cloud.talent.v4beta1.IListTenantsResponse>):
-      Promise<[
-        protosTypes.google.cloud.talent.v4beta1.ITenant[],
-        protosTypes.google.cloud.talent.v4beta1.IListTenantsRequest|null,
-        protosTypes.google.cloud.talent.v4beta1.IListTenantsResponse
-      ]>|void {
+          protosTypes.google.cloud.talent.v4beta1.IListTenantsRequest | null,
+          protosTypes.google.cloud.talent.v4beta1.IListTenantsResponse
+        >,
+    callback?: Callback<
+      protosTypes.google.cloud.talent.v4beta1.ITenant[],
+      protosTypes.google.cloud.talent.v4beta1.IListTenantsRequest | null,
+      protosTypes.google.cloud.talent.v4beta1.IListTenantsResponse
+    >
+  ): Promise<
+    [
+      protosTypes.google.cloud.talent.v4beta1.ITenant[],
+      protosTypes.google.cloud.talent.v4beta1.IListTenantsRequest | null,
+      protosTypes.google.cloud.talent.v4beta1.IListTenantsResponse
+    ]
+  > | void {
     request = request || {};
     let options: gax.CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    }
-    else {
+    } else {
       options = optionsOrCallback as gax.CallOptions;
     }
     options = options || {};
@@ -605,45 +689,45 @@ export class TenantServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
-      'parent': request.parent || '',
+      parent: request.parent || '',
     });
     return this._innerApiCalls.listTenants(request, options, callback);
   }
 
-/**
- * Equivalent to {@link listTenants}, but returns a NodeJS Stream object.
- *
- * This fetches the paged responses for {@link listTenants} continuously
- * and invokes the callback registered for 'data' event for each element in the
- * responses.
- *
- * The returned object has 'end' method when no more elements are required.
- *
- * autoPaginate option will be ignored.
- *
- * @see {@link https://nodejs.org/api/stream.html}
- *
- * @param {Object} request
- *   The request object that will be sent.
- * @param {string} request.parent
- *   Required. Resource name of the project under which the tenant is created.
- *
- *   The format is "projects/{project_id}", for example,
- *   "projects/foo".
- * @param {string} request.pageToken
- *   The starting indicator from which to return results.
- * @param {number} request.pageSize
- *   The maximum number of tenants to be returned, at most 100.
- *   Default is 100 if a non-positive number is provided.
- * @param {object} [options]
- *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
- * @returns {Stream}
- *   An object stream which emits an object representing [Tenant]{@link google.cloud.talent.v4beta1.Tenant} on 'data' event.
- */
+  /**
+   * Equivalent to {@link listTenants}, but returns a NodeJS Stream object.
+   *
+   * This fetches the paged responses for {@link listTenants} continuously
+   * and invokes the callback registered for 'data' event for each element in the
+   * responses.
+   *
+   * The returned object has 'end' method when no more elements are required.
+   *
+   * autoPaginate option will be ignored.
+   *
+   * @see {@link https://nodejs.org/api/stream.html}
+   *
+   * @param {Object} request
+   *   The request object that will be sent.
+   * @param {string} request.parent
+   *   Required. Resource name of the project under which the tenant is created.
+   *
+   *   The format is "projects/{project_id}", for example,
+   *   "projects/foo".
+   * @param {string} request.pageToken
+   *   The starting indicator from which to return results.
+   * @param {number} request.pageSize
+   *   The maximum number of tenants to be returned, at most 100.
+   *   Default is 100 if a non-positive number is provided.
+   * @param {object} [options]
+   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+   * @returns {Stream}
+   *   An object stream which emits an object representing [Tenant]{@link google.cloud.talent.v4beta1.Tenant} on 'data' event.
+   */
   listTenantsStream(
-      request?: protosTypes.google.cloud.talent.v4beta1.IListTenantsRequest,
-      options?: gax.CallOptions):
-    Transform{
+    request?: protosTypes.google.cloud.talent.v4beta1.IListTenantsRequest,
+    options?: gax.CallOptions
+  ): Transform {
     request = request || {};
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -651,7 +735,7 @@ export class TenantServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
-      'parent': request.parent || '',
+      parent: request.parent || '',
     });
     const callSettings = new gax.CallSettings(options);
     return this._descriptors.page.listTenants.createStream(
@@ -673,12 +757,17 @@ export class TenantServiceClient {
    * @param {string} application
    * @returns {string} Resource name string.
    */
-  applicationPath(project:string,tenant:string,profile:string,application:string) {
+  applicationPath(
+    project: string,
+    tenant: string,
+    profile: string,
+    application: string
+  ) {
     return this._pathTemplates.applicationPathTemplate.render({
-      project: project,
-      tenant: tenant,
-      profile: profile,
-      application: application,
+      project,
+      tenant,
+      profile,
+      application,
     });
   }
 
@@ -690,7 +779,8 @@ export class TenantServiceClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromApplicationName(applicationName: string) {
-    return this._pathTemplates.applicationPathTemplate.match(applicationName).project;
+    return this._pathTemplates.applicationPathTemplate.match(applicationName)
+      .project;
   }
 
   /**
@@ -701,7 +791,8 @@ export class TenantServiceClient {
    * @returns {string} A string representing the tenant.
    */
   matchTenantFromApplicationName(applicationName: string) {
-    return this._pathTemplates.applicationPathTemplate.match(applicationName).tenant;
+    return this._pathTemplates.applicationPathTemplate.match(applicationName)
+      .tenant;
   }
 
   /**
@@ -712,7 +803,8 @@ export class TenantServiceClient {
    * @returns {string} A string representing the profile.
    */
   matchProfileFromApplicationName(applicationName: string) {
-    return this._pathTemplates.applicationPathTemplate.match(applicationName).profile;
+    return this._pathTemplates.applicationPathTemplate.match(applicationName)
+      .profile;
   }
 
   /**
@@ -723,7 +815,8 @@ export class TenantServiceClient {
    * @returns {string} A string representing the application.
    */
   matchApplicationFromApplicationName(applicationName: string) {
-    return this._pathTemplates.applicationPathTemplate.match(applicationName).application;
+    return this._pathTemplates.applicationPathTemplate.match(applicationName)
+      .application;
   }
 
   /**
@@ -734,11 +827,11 @@ export class TenantServiceClient {
    * @param {string} profile
    * @returns {string} Resource name string.
    */
-  profilePath(project:string,tenant:string,profile:string) {
+  profilePath(project: string, tenant: string, profile: string) {
     return this._pathTemplates.profilePathTemplate.render({
-      project: project,
-      tenant: tenant,
-      profile: profile,
+      project,
+      tenant,
+      profile,
     });
   }
 
@@ -776,39 +869,16 @@ export class TenantServiceClient {
   }
 
   /**
-   * Return a fully-qualified project resource name string.
-   *
-   * @param {string} project
-   * @returns {string} Resource name string.
-   */
-  projectPath(project:string) {
-    return this._pathTemplates.projectPathTemplate.render({
-      project: project,
-    });
-  }
-
-  /**
-   * Parse the project from Project resource.
-   *
-   * @param {string} projectName
-   *   A fully-qualified path representing Project resource.
-   * @returns {string} A string representing the project.
-   */
-  matchProjectFromProjectName(projectName: string) {
-    return this._pathTemplates.projectPathTemplate.match(projectName).project;
-  }
-
-  /**
    * Return a fully-qualified projectCompany resource name string.
    *
    * @param {string} project
    * @param {string} company
    * @returns {string} Resource name string.
    */
-  projectCompanyPath(project:string,company:string) {
+  projectCompanyPath(project: string, company: string) {
     return this._pathTemplates.projectCompanyPathTemplate.render({
-      project: project,
-      company: company,
+      project,
+      company,
     });
   }
 
@@ -820,7 +890,9 @@ export class TenantServiceClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromProjectCompanyName(projectCompanyName: string) {
-    return this._pathTemplates.projectCompanyPathTemplate.match(projectCompanyName).project;
+    return this._pathTemplates.projectCompanyPathTemplate.match(
+      projectCompanyName
+    ).project;
   }
 
   /**
@@ -831,7 +903,9 @@ export class TenantServiceClient {
    * @returns {string} A string representing the company.
    */
   matchCompanyFromProjectCompanyName(projectCompanyName: string) {
-    return this._pathTemplates.projectCompanyPathTemplate.match(projectCompanyName).company;
+    return this._pathTemplates.projectCompanyPathTemplate.match(
+      projectCompanyName
+    ).company;
   }
 
   /**
@@ -841,10 +915,10 @@ export class TenantServiceClient {
    * @param {string} job
    * @returns {string} Resource name string.
    */
-  projectJobPath(project:string,job:string) {
+  projectJobPath(project: string, job: string) {
     return this._pathTemplates.projectJobPathTemplate.render({
-      project: project,
-      job: job,
+      project,
+      job,
     });
   }
 
@@ -856,7 +930,8 @@ export class TenantServiceClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromProjectJobName(projectJobName: string) {
-    return this._pathTemplates.projectJobPathTemplate.match(projectJobName).project;
+    return this._pathTemplates.projectJobPathTemplate.match(projectJobName)
+      .project;
   }
 
   /**
@@ -878,11 +953,11 @@ export class TenantServiceClient {
    * @param {string} company
    * @returns {string} Resource name string.
    */
-  projectTenantCompanyPath(project:string,tenant:string,company:string) {
+  projectTenantCompanyPath(project: string, tenant: string, company: string) {
     return this._pathTemplates.projectTenantCompanyPathTemplate.render({
-      project: project,
-      tenant: tenant,
-      company: company,
+      project,
+      tenant,
+      company,
     });
   }
 
@@ -894,7 +969,9 @@ export class TenantServiceClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromProjectTenantCompanyName(projectTenantCompanyName: string) {
-    return this._pathTemplates.projectTenantCompanyPathTemplate.match(projectTenantCompanyName).project;
+    return this._pathTemplates.projectTenantCompanyPathTemplate.match(
+      projectTenantCompanyName
+    ).project;
   }
 
   /**
@@ -905,7 +982,9 @@ export class TenantServiceClient {
    * @returns {string} A string representing the tenant.
    */
   matchTenantFromProjectTenantCompanyName(projectTenantCompanyName: string) {
-    return this._pathTemplates.projectTenantCompanyPathTemplate.match(projectTenantCompanyName).tenant;
+    return this._pathTemplates.projectTenantCompanyPathTemplate.match(
+      projectTenantCompanyName
+    ).tenant;
   }
 
   /**
@@ -916,7 +995,9 @@ export class TenantServiceClient {
    * @returns {string} A string representing the company.
    */
   matchCompanyFromProjectTenantCompanyName(projectTenantCompanyName: string) {
-    return this._pathTemplates.projectTenantCompanyPathTemplate.match(projectTenantCompanyName).company;
+    return this._pathTemplates.projectTenantCompanyPathTemplate.match(
+      projectTenantCompanyName
+    ).company;
   }
 
   /**
@@ -927,11 +1008,11 @@ export class TenantServiceClient {
    * @param {string} job
    * @returns {string} Resource name string.
    */
-  projectTenantJobPath(project:string,tenant:string,job:string) {
+  projectTenantJobPath(project: string, tenant: string, job: string) {
     return this._pathTemplates.projectTenantJobPathTemplate.render({
-      project: project,
-      tenant: tenant,
-      job: job,
+      project,
+      tenant,
+      job,
     });
   }
 
@@ -943,7 +1024,9 @@ export class TenantServiceClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromProjectTenantJobName(projectTenantJobName: string) {
-    return this._pathTemplates.projectTenantJobPathTemplate.match(projectTenantJobName).project;
+    return this._pathTemplates.projectTenantJobPathTemplate.match(
+      projectTenantJobName
+    ).project;
   }
 
   /**
@@ -954,7 +1037,9 @@ export class TenantServiceClient {
    * @returns {string} A string representing the tenant.
    */
   matchTenantFromProjectTenantJobName(projectTenantJobName: string) {
-    return this._pathTemplates.projectTenantJobPathTemplate.match(projectTenantJobName).tenant;
+    return this._pathTemplates.projectTenantJobPathTemplate.match(
+      projectTenantJobName
+    ).tenant;
   }
 
   /**
@@ -965,7 +1050,9 @@ export class TenantServiceClient {
    * @returns {string} A string representing the job.
    */
   matchJobFromProjectTenantJobName(projectTenantJobName: string) {
-    return this._pathTemplates.projectTenantJobPathTemplate.match(projectTenantJobName).job;
+    return this._pathTemplates.projectTenantJobPathTemplate.match(
+      projectTenantJobName
+    ).job;
   }
 
   /**
@@ -975,10 +1062,10 @@ export class TenantServiceClient {
    * @param {string} tenant
    * @returns {string} Resource name string.
    */
-  tenantPath(project:string,tenant:string) {
+  tenantPath(project: string, tenant: string) {
     return this._pathTemplates.tenantPathTemplate.render({
-      project: project,
-      tenant: tenant,
+      project,
+      tenant,
     });
   }
 

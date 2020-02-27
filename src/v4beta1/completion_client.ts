@@ -17,7 +17,13 @@
 // ** All changes to this file may be overwritten. **
 
 import * as gax from 'google-gax';
-import {APICallback, Callback, CallOptions, Descriptors, ClientOptions} from 'google-gax';
+import {
+  APICallback,
+  Callback,
+  CallOptions,
+  Descriptors,
+  ClientOptions,
+} from 'google-gax';
 import * as path from 'path';
 
 import * as protosTypes from '../../protos/protos';
@@ -69,10 +75,12 @@ export class CompletionClient {
   constructor(opts?: ClientOptions) {
     // Ensure that options include the service address and port.
     const staticMembers = this.constructor as typeof CompletionClient;
-    const servicePath = opts && opts.servicePath ?
-        opts.servicePath :
-        ((opts && opts.apiEndpoint) ? opts.apiEndpoint :
-                                      staticMembers.servicePath);
+    const servicePath =
+      opts && opts.servicePath
+        ? opts.servicePath
+        : opts && opts.apiEndpoint
+        ? opts.apiEndpoint
+        : staticMembers.servicePath;
     const port = opts && opts.port ? opts.port : staticMembers.port;
 
     if (!opts) {
@@ -82,8 +90,8 @@ export class CompletionClient {
     opts.port = opts.port || port;
     opts.clientConfig = opts.clientConfig || {};
 
-    const isBrowser = (typeof window !== 'undefined');
-    if (isBrowser){
+    const isBrowser = typeof window !== 'undefined';
+    if (isBrowser) {
       opts.fallback = true;
     }
     // If we are in browser, we are already using fallback because of the
@@ -97,13 +105,10 @@ export class CompletionClient {
     const gaxGrpc = new gaxModule.GrpcClient(opts);
 
     // Save the auth object to the client, for use by other methods.
-    this.auth = (gaxGrpc.auth as gax.GoogleAuth);
+    this.auth = gaxGrpc.auth as gax.GoogleAuth;
 
     // Determine the client header string.
-    const clientHeader = [
-      `gax/${gaxModule.version}`,
-      `gapic/${version}`,
-    ];
+    const clientHeader = [`gax/${gaxModule.version}`, `gapic/${version}`];
     if (typeof process !== 'undefined' && 'versions' in process) {
       clientHeader.push(`gl-node/${process.versions.node}`);
     } else {
@@ -119,11 +124,15 @@ export class CompletionClient {
     // For Node.js, pass the path to JSON proto file.
     // For browsers, pass the JSON content.
 
-    const nodejsProtoPath = path.join(__dirname, '..', '..', 'protos', 'protos.json');
+    const nodejsProtoPath = path.join(
+      __dirname,
+      '..',
+      '..',
+      'protos',
+      'protos.json'
+    );
     const protos = gaxGrpc.loadProto(
-      opts.fallback ?
-        require("../../protos/protos.json") :
-        nodejsProtoPath
+      opts.fallback ? require('../../protos/protos.json') : nodejsProtoPath
     );
 
     // This API contains "path templates"; forward-slash-separated
@@ -136,9 +145,7 @@ export class CompletionClient {
       profilePathTemplate: new gaxModule.PathTemplate(
         'projects/{project}/tenants/{tenant}/profiles/{profile}'
       ),
-      projectPathTemplate: new gaxModule.PathTemplate(
-        'projects/{project}'
-      ),
+      projectPathTemplate: new gaxModule.PathTemplate('projects/{project}'),
       projectCompanyPathTemplate: new gaxModule.PathTemplate(
         'projects/{project}/companies/{company}'
       ),
@@ -158,8 +165,11 @@ export class CompletionClient {
 
     // Put together the default options sent with requests.
     const defaults = gaxGrpc.constructSettings(
-        'google.cloud.talent.v4beta1.Completion', gapicConfig as gax.ClientConfig,
-        opts.clientConfig || {}, {'x-goog-api-client': clientHeader.join(' ')});
+      'google.cloud.talent.v4beta1.Completion',
+      gapicConfig as gax.ClientConfig,
+      opts.clientConfig || {},
+      {'x-goog-api-client': clientHeader.join(' ')}
+    );
 
     // Set up a dictionary of "inner API calls"; the core implementation
     // of calling the API is handled in `google-gax`, with this code
@@ -169,16 +179,18 @@ export class CompletionClient {
     // Put together the "service stub" for
     // google.cloud.talent.v4beta1.Completion.
     this.completionStub = gaxGrpc.createStub(
-        opts.fallback ?
-          (protos as protobuf.Root).lookupService('google.cloud.talent.v4beta1.Completion') :
-          // tslint:disable-next-line no-any
+      opts.fallback
+        ? (protos as protobuf.Root).lookupService(
+            'google.cloud.talent.v4beta1.Completion'
+          )
+        : // tslint:disable-next-line no-any
           (protos as any).google.cloud.talent.v4beta1.Completion,
-        opts) as Promise<{[method: string]: Function}>;
+      opts
+    ) as Promise<{[method: string]: Function}>;
 
     // Iterate over each of the methods that the service provides
     // and create an API call method for each.
-    const completionStubMethods =
-        ['completeQuery'];
+    const completionStubMethods = ['completeQuery'];
 
     for (const methodName of completionStubMethods) {
       const innerCallPromise = this.completionStub.then(
@@ -188,16 +200,17 @@ export class CompletionClient {
           }
           return stub[methodName].apply(stub, args);
         },
-        (err: Error|null|undefined) => () => {
+        (err: Error | null | undefined) => () => {
           throw err;
-        });
+        }
+      );
 
       const apiCall = gaxModule.createApiCall(
         innerCallPromise,
         defaults[methodName],
         this._descriptors.page[methodName] ||
-            this._descriptors.stream[methodName] ||
-            this._descriptors.longrunning[methodName]
+          this._descriptors.stream[methodName] ||
+          this._descriptors.longrunning[methodName]
       );
 
       this._innerApiCalls[methodName] = (
@@ -239,7 +252,7 @@ export class CompletionClient {
   static get scopes() {
     return [
       'https://www.googleapis.com/auth/cloud-platform',
-      'https://www.googleapis.com/auth/jobs'
+      'https://www.googleapis.com/auth/jobs',
     ];
   }
 
@@ -250,8 +263,9 @@ export class CompletionClient {
    * @param {function(Error, string)} callback - the callback to
    *   be called with the current project Id.
    */
-  getProjectId(callback?: Callback<string, undefined, undefined>):
-      Promise<string>|void {
+  getProjectId(
+    callback?: Callback<string, undefined, undefined>
+  ): Promise<string> | void {
     if (callback) {
       this.auth.getProjectId(callback);
       return;
@@ -263,87 +277,100 @@ export class CompletionClient {
   // -- Service calls --
   // -------------------
   completeQuery(
-      request: protosTypes.google.cloud.talent.v4beta1.ICompleteQueryRequest,
-      options?: gax.CallOptions):
-      Promise<[
-        protosTypes.google.cloud.talent.v4beta1.ICompleteQueryResponse,
-        protosTypes.google.cloud.talent.v4beta1.ICompleteQueryRequest|undefined, {}|undefined
-      ]>;
+    request: protosTypes.google.cloud.talent.v4beta1.ICompleteQueryRequest,
+    options?: gax.CallOptions
+  ): Promise<
+    [
+      protosTypes.google.cloud.talent.v4beta1.ICompleteQueryResponse,
+      protosTypes.google.cloud.talent.v4beta1.ICompleteQueryRequest | undefined,
+      {} | undefined
+    ]
+  >;
   completeQuery(
-      request: protosTypes.google.cloud.talent.v4beta1.ICompleteQueryRequest,
-      options: gax.CallOptions,
-      callback: Callback<
-          protosTypes.google.cloud.talent.v4beta1.ICompleteQueryResponse,
-          protosTypes.google.cloud.talent.v4beta1.ICompleteQueryRequest|undefined,
-          {}|undefined>): void;
-/**
- * Completes the specified prefix with keyword suggestions.
- * Intended for use by a job search auto-complete search box.
- *
- * @param {Object} request
- *   The request object that will be sent.
- * @param {string} request.parent
- *   Required. Resource name of tenant the completion is performed within.
- *
- *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
- *   "projects/foo/tenant/bar".
- *
- *   If tenant id is unspecified, the default tenant is used, for
- *   example, "projects/foo".
- * @param {string} request.query
- *   Required. The query used to generate suggestions.
- *
- *   The maximum number of allowed characters is 255.
- * @param {string[]} request.languageCodes
- *   The list of languages of the query. This is
- *   the BCP-47 language code, such as "en-US" or "sr-Latn".
- *   For more information, see
- *   [Tags for Identifying Languages](https://tools.ietf.org/html/bcp47).
- *
- *   The maximum number of allowed characters is 255.
- * @param {number} request.pageSize
- *   Required. Completion result count.
- *
- *   The maximum allowed page size is 10.
- * @param {string} request.company
- *   If provided, restricts completion to specified company.
- *
- *   The format is
- *   "projects/{project_id}/tenants/{tenant_id}/companies/{company_id}", for
- *   example, "projects/foo/tenants/bar/companies/baz".
- *
- *   If tenant id is unspecified, the default tenant is used, for
- *   example, "projects/foo".
- * @param {google.cloud.talent.v4beta1.CompleteQueryRequest.CompletionScope} request.scope
- *   The scope of the completion. The defaults is [CompletionScope.PUBLIC][google.cloud.talent.v4beta1.CompleteQueryRequest.CompletionScope.PUBLIC].
- * @param {google.cloud.talent.v4beta1.CompleteQueryRequest.CompletionType} request.type
- *   The completion topic. The default is [CompletionType.COMBINED][google.cloud.talent.v4beta1.CompleteQueryRequest.CompletionType.COMBINED].
- * @param {object} [options]
- *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
- * @returns {Promise} - The promise which resolves to an array.
- *   The first element of the array is an object representing [CompleteQueryResponse]{@link google.cloud.talent.v4beta1.CompleteQueryResponse}.
- *   The promise has a method named "cancel" which cancels the ongoing API call.
- */
+    request: protosTypes.google.cloud.talent.v4beta1.ICompleteQueryRequest,
+    options: gax.CallOptions,
+    callback: Callback<
+      protosTypes.google.cloud.talent.v4beta1.ICompleteQueryResponse,
+      protosTypes.google.cloud.talent.v4beta1.ICompleteQueryRequest | undefined,
+      {} | undefined
+    >
+  ): void;
+  /**
+   * Completes the specified prefix with keyword suggestions.
+   * Intended for use by a job search auto-complete search box.
+   *
+   * @param {Object} request
+   *   The request object that will be sent.
+   * @param {string} request.parent
+   *   Required. Resource name of tenant the completion is performed within.
+   *
+   *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
+   *   "projects/foo/tenant/bar".
+   *
+   *   If tenant id is unspecified, the default tenant is used, for
+   *   example, "projects/foo".
+   * @param {string} request.query
+   *   Required. The query used to generate suggestions.
+   *
+   *   The maximum number of allowed characters is 255.
+   * @param {string[]} request.languageCodes
+   *   The list of languages of the query. This is
+   *   the BCP-47 language code, such as "en-US" or "sr-Latn".
+   *   For more information, see
+   *   [Tags for Identifying Languages](https://tools.ietf.org/html/bcp47).
+   *
+   *   The maximum number of allowed characters is 255.
+   * @param {number} request.pageSize
+   *   Required. Completion result count.
+   *
+   *   The maximum allowed page size is 10.
+   * @param {string} request.company
+   *   If provided, restricts completion to specified company.
+   *
+   *   The format is
+   *   "projects/{project_id}/tenants/{tenant_id}/companies/{company_id}", for
+   *   example, "projects/foo/tenants/bar/companies/baz".
+   *
+   *   If tenant id is unspecified, the default tenant is used, for
+   *   example, "projects/foo".
+   * @param {google.cloud.talent.v4beta1.CompleteQueryRequest.CompletionScope} request.scope
+   *   The scope of the completion. The defaults is [CompletionScope.PUBLIC][google.cloud.talent.v4beta1.CompleteQueryRequest.CompletionScope.PUBLIC].
+   * @param {google.cloud.talent.v4beta1.CompleteQueryRequest.CompletionType} request.type
+   *   The completion topic. The default is [CompletionType.COMBINED][google.cloud.talent.v4beta1.CompleteQueryRequest.CompletionType.COMBINED].
+   * @param {object} [options]
+   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+   * @returns {Promise} - The promise which resolves to an array.
+   *   The first element of the array is an object representing [CompleteQueryResponse]{@link google.cloud.talent.v4beta1.CompleteQueryResponse}.
+   *   The promise has a method named "cancel" which cancels the ongoing API call.
+   */
   completeQuery(
-      request: protosTypes.google.cloud.talent.v4beta1.ICompleteQueryRequest,
-      optionsOrCallback?: gax.CallOptions|Callback<
+    request: protosTypes.google.cloud.talent.v4beta1.ICompleteQueryRequest,
+    optionsOrCallback?:
+      | gax.CallOptions
+      | Callback<
           protosTypes.google.cloud.talent.v4beta1.ICompleteQueryResponse,
-          protosTypes.google.cloud.talent.v4beta1.ICompleteQueryRequest|undefined, {}|undefined>,
-      callback?: Callback<
-          protosTypes.google.cloud.talent.v4beta1.ICompleteQueryResponse,
-          protosTypes.google.cloud.talent.v4beta1.ICompleteQueryRequest|undefined,
-          {}|undefined>):
-      Promise<[
-        protosTypes.google.cloud.talent.v4beta1.ICompleteQueryResponse,
-        protosTypes.google.cloud.talent.v4beta1.ICompleteQueryRequest|undefined, {}|undefined
-      ]>|void {
+          | protosTypes.google.cloud.talent.v4beta1.ICompleteQueryRequest
+          | undefined,
+          {} | undefined
+        >,
+    callback?: Callback<
+      protosTypes.google.cloud.talent.v4beta1.ICompleteQueryResponse,
+      protosTypes.google.cloud.talent.v4beta1.ICompleteQueryRequest | undefined,
+      {} | undefined
+    >
+  ): Promise<
+    [
+      protosTypes.google.cloud.talent.v4beta1.ICompleteQueryResponse,
+      protosTypes.google.cloud.talent.v4beta1.ICompleteQueryRequest | undefined,
+      {} | undefined
+    ]
+  > | void {
     request = request || {};
     let options: gax.CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    }
-    else {
+    } else {
       options = optionsOrCallback as gax.CallOptions;
     }
     options = options || {};
@@ -352,7 +379,7 @@ export class CompletionClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
-      'parent': request.parent || '',
+      parent: request.parent || '',
     });
     return this._innerApiCalls.completeQuery(request, options, callback);
   }
@@ -370,12 +397,17 @@ export class CompletionClient {
    * @param {string} application
    * @returns {string} Resource name string.
    */
-  applicationPath(project:string,tenant:string,profile:string,application:string) {
+  applicationPath(
+    project: string,
+    tenant: string,
+    profile: string,
+    application: string
+  ) {
     return this._pathTemplates.applicationPathTemplate.render({
-      project: project,
-      tenant: tenant,
-      profile: profile,
-      application: application,
+      project,
+      tenant,
+      profile,
+      application,
     });
   }
 
@@ -387,7 +419,8 @@ export class CompletionClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromApplicationName(applicationName: string) {
-    return this._pathTemplates.applicationPathTemplate.match(applicationName).project;
+    return this._pathTemplates.applicationPathTemplate.match(applicationName)
+      .project;
   }
 
   /**
@@ -398,7 +431,8 @@ export class CompletionClient {
    * @returns {string} A string representing the tenant.
    */
   matchTenantFromApplicationName(applicationName: string) {
-    return this._pathTemplates.applicationPathTemplate.match(applicationName).tenant;
+    return this._pathTemplates.applicationPathTemplate.match(applicationName)
+      .tenant;
   }
 
   /**
@@ -409,7 +443,8 @@ export class CompletionClient {
    * @returns {string} A string representing the profile.
    */
   matchProfileFromApplicationName(applicationName: string) {
-    return this._pathTemplates.applicationPathTemplate.match(applicationName).profile;
+    return this._pathTemplates.applicationPathTemplate.match(applicationName)
+      .profile;
   }
 
   /**
@@ -420,7 +455,8 @@ export class CompletionClient {
    * @returns {string} A string representing the application.
    */
   matchApplicationFromApplicationName(applicationName: string) {
-    return this._pathTemplates.applicationPathTemplate.match(applicationName).application;
+    return this._pathTemplates.applicationPathTemplate.match(applicationName)
+      .application;
   }
 
   /**
@@ -431,11 +467,11 @@ export class CompletionClient {
    * @param {string} profile
    * @returns {string} Resource name string.
    */
-  profilePath(project:string,tenant:string,profile:string) {
+  profilePath(project: string, tenant: string, profile: string) {
     return this._pathTemplates.profilePathTemplate.render({
-      project: project,
-      tenant: tenant,
-      profile: profile,
+      project,
+      tenant,
+      profile,
     });
   }
 
@@ -478,9 +514,9 @@ export class CompletionClient {
    * @param {string} project
    * @returns {string} Resource name string.
    */
-  projectPath(project:string) {
+  projectPath(project: string) {
     return this._pathTemplates.projectPathTemplate.render({
-      project: project,
+      project,
     });
   }
 
@@ -488,7 +524,7 @@ export class CompletionClient {
    * Parse the project from Project resource.
    *
    * @param {string} projectName
-   *   A fully-qualified path representing Project resource.
+   *   A fully-qualified path representing project resource.
    * @returns {string} A string representing the project.
    */
   matchProjectFromProjectName(projectName: string) {
@@ -502,10 +538,10 @@ export class CompletionClient {
    * @param {string} company
    * @returns {string} Resource name string.
    */
-  projectCompanyPath(project:string,company:string) {
+  projectCompanyPath(project: string, company: string) {
     return this._pathTemplates.projectCompanyPathTemplate.render({
-      project: project,
-      company: company,
+      project,
+      company,
     });
   }
 
@@ -517,7 +553,9 @@ export class CompletionClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromProjectCompanyName(projectCompanyName: string) {
-    return this._pathTemplates.projectCompanyPathTemplate.match(projectCompanyName).project;
+    return this._pathTemplates.projectCompanyPathTemplate.match(
+      projectCompanyName
+    ).project;
   }
 
   /**
@@ -528,7 +566,9 @@ export class CompletionClient {
    * @returns {string} A string representing the company.
    */
   matchCompanyFromProjectCompanyName(projectCompanyName: string) {
-    return this._pathTemplates.projectCompanyPathTemplate.match(projectCompanyName).company;
+    return this._pathTemplates.projectCompanyPathTemplate.match(
+      projectCompanyName
+    ).company;
   }
 
   /**
@@ -538,10 +578,10 @@ export class CompletionClient {
    * @param {string} job
    * @returns {string} Resource name string.
    */
-  projectJobPath(project:string,job:string) {
+  projectJobPath(project: string, job: string) {
     return this._pathTemplates.projectJobPathTemplate.render({
-      project: project,
-      job: job,
+      project,
+      job,
     });
   }
 
@@ -553,7 +593,8 @@ export class CompletionClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromProjectJobName(projectJobName: string) {
-    return this._pathTemplates.projectJobPathTemplate.match(projectJobName).project;
+    return this._pathTemplates.projectJobPathTemplate.match(projectJobName)
+      .project;
   }
 
   /**
@@ -575,11 +616,11 @@ export class CompletionClient {
    * @param {string} company
    * @returns {string} Resource name string.
    */
-  projectTenantCompanyPath(project:string,tenant:string,company:string) {
+  projectTenantCompanyPath(project: string, tenant: string, company: string) {
     return this._pathTemplates.projectTenantCompanyPathTemplate.render({
-      project: project,
-      tenant: tenant,
-      company: company,
+      project,
+      tenant,
+      company,
     });
   }
 
@@ -591,7 +632,9 @@ export class CompletionClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromProjectTenantCompanyName(projectTenantCompanyName: string) {
-    return this._pathTemplates.projectTenantCompanyPathTemplate.match(projectTenantCompanyName).project;
+    return this._pathTemplates.projectTenantCompanyPathTemplate.match(
+      projectTenantCompanyName
+    ).project;
   }
 
   /**
@@ -602,7 +645,9 @@ export class CompletionClient {
    * @returns {string} A string representing the tenant.
    */
   matchTenantFromProjectTenantCompanyName(projectTenantCompanyName: string) {
-    return this._pathTemplates.projectTenantCompanyPathTemplate.match(projectTenantCompanyName).tenant;
+    return this._pathTemplates.projectTenantCompanyPathTemplate.match(
+      projectTenantCompanyName
+    ).tenant;
   }
 
   /**
@@ -613,7 +658,9 @@ export class CompletionClient {
    * @returns {string} A string representing the company.
    */
   matchCompanyFromProjectTenantCompanyName(projectTenantCompanyName: string) {
-    return this._pathTemplates.projectTenantCompanyPathTemplate.match(projectTenantCompanyName).company;
+    return this._pathTemplates.projectTenantCompanyPathTemplate.match(
+      projectTenantCompanyName
+    ).company;
   }
 
   /**
@@ -624,11 +671,11 @@ export class CompletionClient {
    * @param {string} job
    * @returns {string} Resource name string.
    */
-  projectTenantJobPath(project:string,tenant:string,job:string) {
+  projectTenantJobPath(project: string, tenant: string, job: string) {
     return this._pathTemplates.projectTenantJobPathTemplate.render({
-      project: project,
-      tenant: tenant,
-      job: job,
+      project,
+      tenant,
+      job,
     });
   }
 
@@ -640,7 +687,9 @@ export class CompletionClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromProjectTenantJobName(projectTenantJobName: string) {
-    return this._pathTemplates.projectTenantJobPathTemplate.match(projectTenantJobName).project;
+    return this._pathTemplates.projectTenantJobPathTemplate.match(
+      projectTenantJobName
+    ).project;
   }
 
   /**
@@ -651,7 +700,9 @@ export class CompletionClient {
    * @returns {string} A string representing the tenant.
    */
   matchTenantFromProjectTenantJobName(projectTenantJobName: string) {
-    return this._pathTemplates.projectTenantJobPathTemplate.match(projectTenantJobName).tenant;
+    return this._pathTemplates.projectTenantJobPathTemplate.match(
+      projectTenantJobName
+    ).tenant;
   }
 
   /**
@@ -662,7 +713,9 @@ export class CompletionClient {
    * @returns {string} A string representing the job.
    */
   matchJobFromProjectTenantJobName(projectTenantJobName: string) {
-    return this._pathTemplates.projectTenantJobPathTemplate.match(projectTenantJobName).job;
+    return this._pathTemplates.projectTenantJobPathTemplate.match(
+      projectTenantJobName
+    ).job;
   }
 
   /**
@@ -672,10 +725,10 @@ export class CompletionClient {
    * @param {string} tenant
    * @returns {string} Resource name string.
    */
-  tenantPath(project:string,tenant:string) {
+  tenantPath(project: string, tenant: string) {
     return this._pathTemplates.tenantPathTemplate.render({
-      project: project,
-      tenant: tenant,
+      project,
+      tenant,
     });
   }
 

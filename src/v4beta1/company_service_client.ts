@@ -17,18 +17,10 @@
 // ** All changes to this file may be overwritten. **
 
 import * as gax from 'google-gax';
-import {
-  APICallback,
-  Callback,
-  CallOptions,
-  Descriptors,
-  ClientOptions,
-  PaginationCallback,
-  PaginationResponse,
-} from 'google-gax';
+import {APICallback, Callback, CallOptions, Descriptors, ClientOptions, PaginationCallback} from 'google-gax';
 import * as path from 'path';
 
-import {Transform} from 'stream';
+import { Transform } from 'stream';
 import * as protosTypes from '../../protos/protos';
 import * as gapicConfig from './company_service_client_config.json';
 
@@ -40,12 +32,7 @@ const version = require('../../../package.json').version;
  * @memberof v4beta1
  */
 export class CompanyServiceClient {
-  private _descriptors: Descriptors = {
-    page: {},
-    stream: {},
-    longrunning: {},
-    batching: {},
-  };
+  private _descriptors: Descriptors = {page: {}, stream: {}, longrunning: {}, batching: {}};
   private _innerApiCalls: {[name: string]: Function};
   private _pathTemplates: {[name: string]: gax.PathTemplate};
   private _terminated = false;
@@ -86,12 +73,10 @@ export class CompanyServiceClient {
   constructor(opts?: ClientOptions) {
     // Ensure that options include the service address and port.
     const staticMembers = this.constructor as typeof CompanyServiceClient;
-    const servicePath =
-      opts && opts.servicePath
-        ? opts.servicePath
-        : opts && opts.apiEndpoint
-        ? opts.apiEndpoint
-        : staticMembers.servicePath;
+    const servicePath = opts && opts.servicePath ?
+        opts.servicePath :
+        ((opts && opts.apiEndpoint) ? opts.apiEndpoint :
+                                      staticMembers.servicePath);
     const port = opts && opts.port ? opts.port : staticMembers.port;
 
     if (!opts) {
@@ -101,8 +86,8 @@ export class CompanyServiceClient {
     opts.port = opts.port || port;
     opts.clientConfig = opts.clientConfig || {};
 
-    const isBrowser = typeof window !== 'undefined';
-    if (isBrowser) {
+    const isBrowser = (typeof window !== 'undefined');
+    if (isBrowser){
       opts.fallback = true;
     }
     // If we are in browser, we are already using fallback because of the
@@ -119,10 +104,13 @@ export class CompanyServiceClient {
     this._opts = opts;
 
     // Save the auth object to the client, for use by other methods.
-    this.auth = this._gaxGrpc.auth as gax.GoogleAuth;
+    this.auth = (this._gaxGrpc.auth as gax.GoogleAuth);
 
     // Determine the client header string.
-    const clientHeader = [`gax/${this._gaxModule.version}`, `gapic/${version}`];
+    const clientHeader = [
+      `gax/${this._gaxModule.version}`,
+      `gapic/${version}`,
+    ];
     if (typeof process !== 'undefined' && 'versions' in process) {
       clientHeader.push(`gl-node/${process.versions.node}`);
     } else {
@@ -138,15 +126,11 @@ export class CompanyServiceClient {
     // For Node.js, pass the path to JSON proto file.
     // For browsers, pass the JSON content.
 
-    const nodejsProtoPath = path.join(
-      __dirname,
-      '..',
-      '..',
-      'protos',
-      'protos.json'
-    );
+    const nodejsProtoPath = path.join(__dirname, '..', '..', 'protos', 'protos.json');
     this._protos = this._gaxGrpc.loadProto(
-      opts.fallback ? require('../../protos/protos.json') : nodejsProtoPath
+      opts.fallback ?
+        require("../../protos/protos.json") :
+        nodejsProtoPath
     );
 
     // This API contains "path templates"; forward-slash-separated
@@ -180,20 +164,14 @@ export class CompanyServiceClient {
     // (e.g. 50 results at a time, with tokens to get subsequent
     // pages). Denote the keys used for pagination and results.
     this._descriptors.page = {
-      listCompanies: new this._gaxModule.PageDescriptor(
-        'pageToken',
-        'nextPageToken',
-        'companies'
-      ),
+      listCompanies:
+          new this._gaxModule.PageDescriptor('pageToken', 'nextPageToken', 'companies')
     };
 
     // Put together the default options sent with requests.
     this._defaults = this._gaxGrpc.constructSettings(
-      'google.cloud.talent.v4beta1.CompanyService',
-      gapicConfig as gax.ClientConfig,
-      opts.clientConfig || {},
-      {'x-goog-api-client': clientHeader.join(' ')}
-    );
+        'google.cloud.talent.v4beta1.CompanyService', gapicConfig as gax.ClientConfig,
+        opts.clientConfig || {}, {'x-goog-api-client': clientHeader.join(' ')});
 
     // Set up a dictionary of "inner API calls"; the core implementation
     // of calling the API is handled in `google-gax`, with this code
@@ -221,24 +199,16 @@ export class CompanyServiceClient {
     // Put together the "service stub" for
     // google.cloud.talent.v4beta1.CompanyService.
     this.companyServiceStub = this._gaxGrpc.createStub(
-      this._opts.fallback
-        ? (this._protos as protobuf.Root).lookupService(
-            'google.cloud.talent.v4beta1.CompanyService'
-          )
-        : // tslint:disable-next-line no-any
+        this._opts.fallback ?
+          (this._protos as protobuf.Root).lookupService('google.cloud.talent.v4beta1.CompanyService') :
+          /* eslint-disable @typescript-eslint/no-explicit-any */
           (this._protos as any).google.cloud.talent.v4beta1.CompanyService,
-      this._opts
-    ) as Promise<{[method: string]: Function}>;
+        this._opts) as Promise<{[method: string]: Function}>;
 
     // Iterate over each of the methods that the service provides
     // and create an API call method for each.
-    const companyServiceStubMethods = [
-      'createCompany',
-      'getCompany',
-      'updateCompany',
-      'deleteCompany',
-      'listCompanies',
-    ];
+    const companyServiceStubMethods =
+        ['createCompany', 'getCompany', 'updateCompany', 'deleteCompany', 'listCompanies'];
 
     for (const methodName of companyServiceStubMethods) {
       const innerCallPromise = this.companyServiceStub.then(
@@ -249,17 +219,16 @@ export class CompanyServiceClient {
           const func = stub[methodName];
           return func.apply(stub, args);
         },
-        (err: Error | null | undefined) => () => {
+        (err: Error|null|undefined) => () => {
           throw err;
-        }
-      );
+        });
 
       const apiCall = this._gaxModule.createApiCall(
         innerCallPromise,
         this._defaults[methodName],
         this._descriptors.page[methodName] ||
-          this._descriptors.stream[methodName] ||
-          this._descriptors.longrunning[methodName]
+            this._descriptors.stream[methodName] ||
+            this._descriptors.longrunning[methodName]
       );
 
       this._innerApiCalls[methodName] = (
@@ -303,7 +272,7 @@ export class CompanyServiceClient {
   static get scopes() {
     return [
       'https://www.googleapis.com/auth/cloud-platform',
-      'https://www.googleapis.com/auth/jobs',
+      'https://www.googleapis.com/auth/jobs'
     ];
   }
 
@@ -314,9 +283,8 @@ export class CompanyServiceClient {
    * @param {function(Error, string)} callback - the callback to
    *   be called with the current project Id.
    */
-  getProjectId(
-    callback?: Callback<string, undefined, undefined>
-  ): Promise<string> | void {
+  getProjectId(callback?: Callback<string, undefined, undefined>):
+      Promise<string>|void {
     if (callback) {
       this.auth.getProjectId(callback);
       return;
@@ -328,71 +296,58 @@ export class CompanyServiceClient {
   // -- Service calls --
   // -------------------
   createCompany(
-    request: protosTypes.google.cloud.talent.v4beta1.ICreateCompanyRequest,
-    options?: gax.CallOptions
-  ): Promise<
-    [
-      protosTypes.google.cloud.talent.v4beta1.ICompany,
-      protosTypes.google.cloud.talent.v4beta1.ICreateCompanyRequest | undefined,
-      {} | undefined
-    ]
-  >;
+      request: protosTypes.google.cloud.talent.v4beta1.ICreateCompanyRequest,
+      options?: gax.CallOptions):
+      Promise<[
+        protosTypes.google.cloud.talent.v4beta1.ICompany,
+        protosTypes.google.cloud.talent.v4beta1.ICreateCompanyRequest|undefined, {}|undefined
+      ]>;
   createCompany(
-    request: protosTypes.google.cloud.talent.v4beta1.ICreateCompanyRequest,
-    options: gax.CallOptions,
-    callback: Callback<
-      protosTypes.google.cloud.talent.v4beta1.ICompany,
-      protosTypes.google.cloud.talent.v4beta1.ICreateCompanyRequest | undefined,
-      {} | undefined
-    >
-  ): void;
-  /**
-   * Creates a new company entity.
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {string} request.parent
-   *   Required. Resource name of the tenant under which the company is created.
-   *
-   *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
-   *   "projects/foo/tenant/bar". If tenant id is unspecified, a default tenant
-   *   is created, for example, "projects/foo".
-   * @param {google.cloud.talent.v4beta1.Company} request.company
-   *   Required. The company to be created.
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [Company]{@link google.cloud.talent.v4beta1.Company}.
-   *   The promise has a method named "cancel" which cancels the ongoing API call.
-   */
-  createCompany(
-    request: protosTypes.google.cloud.talent.v4beta1.ICreateCompanyRequest,
-    optionsOrCallback?:
-      | gax.CallOptions
-      | Callback<
+      request: protosTypes.google.cloud.talent.v4beta1.ICreateCompanyRequest,
+      options: gax.CallOptions,
+      callback: Callback<
           protosTypes.google.cloud.talent.v4beta1.ICompany,
-          | protosTypes.google.cloud.talent.v4beta1.ICreateCompanyRequest
-          | undefined,
-          {} | undefined
-        >,
-    callback?: Callback<
-      protosTypes.google.cloud.talent.v4beta1.ICompany,
-      protosTypes.google.cloud.talent.v4beta1.ICreateCompanyRequest | undefined,
-      {} | undefined
-    >
-  ): Promise<
-    [
-      protosTypes.google.cloud.talent.v4beta1.ICompany,
-      protosTypes.google.cloud.talent.v4beta1.ICreateCompanyRequest | undefined,
-      {} | undefined
-    ]
-  > | void {
+          protosTypes.google.cloud.talent.v4beta1.ICreateCompanyRequest|undefined,
+          {}|undefined>): void;
+/**
+ * Creates a new company entity.
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {string} request.parent
+ *   Required. Resource name of the tenant under which the company is created.
+ *
+ *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
+ *   "projects/foo/tenant/bar". If tenant id is unspecified, a default tenant
+ *   is created, for example, "projects/foo".
+ * @param {google.cloud.talent.v4beta1.Company} request.company
+ *   Required. The company to be created.
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Promise} - The promise which resolves to an array.
+ *   The first element of the array is an object representing [Company]{@link google.cloud.talent.v4beta1.Company}.
+ *   The promise has a method named "cancel" which cancels the ongoing API call.
+ */
+  createCompany(
+      request: protosTypes.google.cloud.talent.v4beta1.ICreateCompanyRequest,
+      optionsOrCallback?: gax.CallOptions|Callback<
+          protosTypes.google.cloud.talent.v4beta1.ICompany,
+          protosTypes.google.cloud.talent.v4beta1.ICreateCompanyRequest|undefined, {}|undefined>,
+      callback?: Callback<
+          protosTypes.google.cloud.talent.v4beta1.ICompany,
+          protosTypes.google.cloud.talent.v4beta1.ICreateCompanyRequest|undefined,
+          {}|undefined>):
+      Promise<[
+        protosTypes.google.cloud.talent.v4beta1.ICompany,
+        protosTypes.google.cloud.talent.v4beta1.ICreateCompanyRequest|undefined, {}|undefined
+      ]>|void {
     request = request || {};
     let options: gax.CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    } else {
+    }
+    else {
       options = optionsOrCallback as gax.CallOptions;
     }
     options = options || {};
@@ -401,78 +356,65 @@ export class CompanyServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
-      parent: request.parent || '',
+      'parent': request.parent || '',
     });
     this.initialize();
     return this._innerApiCalls.createCompany(request, options, callback);
   }
   getCompany(
-    request: protosTypes.google.cloud.talent.v4beta1.IGetCompanyRequest,
-    options?: gax.CallOptions
-  ): Promise<
-    [
-      protosTypes.google.cloud.talent.v4beta1.ICompany,
-      protosTypes.google.cloud.talent.v4beta1.IGetCompanyRequest | undefined,
-      {} | undefined
-    ]
-  >;
+      request: protosTypes.google.cloud.talent.v4beta1.IGetCompanyRequest,
+      options?: gax.CallOptions):
+      Promise<[
+        protosTypes.google.cloud.talent.v4beta1.ICompany,
+        protosTypes.google.cloud.talent.v4beta1.IGetCompanyRequest|undefined, {}|undefined
+      ]>;
   getCompany(
-    request: protosTypes.google.cloud.talent.v4beta1.IGetCompanyRequest,
-    options: gax.CallOptions,
-    callback: Callback<
-      protosTypes.google.cloud.talent.v4beta1.ICompany,
-      protosTypes.google.cloud.talent.v4beta1.IGetCompanyRequest | undefined,
-      {} | undefined
-    >
-  ): void;
-  /**
-   * Retrieves specified company.
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {string} request.name
-   *   Required. The resource name of the company to be retrieved.
-   *
-   *   The format is
-   *   "projects/{project_id}/tenants/{tenant_id}/companies/{company_id}", for
-   *   example, "projects/api-test-project/tenants/foo/companies/bar".
-   *
-   *   If tenant id is unspecified, the default tenant is used, for
-   *   example, "projects/api-test-project/companies/bar".
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [Company]{@link google.cloud.talent.v4beta1.Company}.
-   *   The promise has a method named "cancel" which cancels the ongoing API call.
-   */
-  getCompany(
-    request: protosTypes.google.cloud.talent.v4beta1.IGetCompanyRequest,
-    optionsOrCallback?:
-      | gax.CallOptions
-      | Callback<
+      request: protosTypes.google.cloud.talent.v4beta1.IGetCompanyRequest,
+      options: gax.CallOptions,
+      callback: Callback<
           protosTypes.google.cloud.talent.v4beta1.ICompany,
-          | protosTypes.google.cloud.talent.v4beta1.IGetCompanyRequest
-          | undefined,
-          {} | undefined
-        >,
-    callback?: Callback<
-      protosTypes.google.cloud.talent.v4beta1.ICompany,
-      protosTypes.google.cloud.talent.v4beta1.IGetCompanyRequest | undefined,
-      {} | undefined
-    >
-  ): Promise<
-    [
-      protosTypes.google.cloud.talent.v4beta1.ICompany,
-      protosTypes.google.cloud.talent.v4beta1.IGetCompanyRequest | undefined,
-      {} | undefined
-    ]
-  > | void {
+          protosTypes.google.cloud.talent.v4beta1.IGetCompanyRequest|undefined,
+          {}|undefined>): void;
+/**
+ * Retrieves specified company.
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {string} request.name
+ *   Required. The resource name of the company to be retrieved.
+ *
+ *   The format is
+ *   "projects/{project_id}/tenants/{tenant_id}/companies/{company_id}", for
+ *   example, "projects/api-test-project/tenants/foo/companies/bar".
+ *
+ *   If tenant id is unspecified, the default tenant is used, for
+ *   example, "projects/api-test-project/companies/bar".
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Promise} - The promise which resolves to an array.
+ *   The first element of the array is an object representing [Company]{@link google.cloud.talent.v4beta1.Company}.
+ *   The promise has a method named "cancel" which cancels the ongoing API call.
+ */
+  getCompany(
+      request: protosTypes.google.cloud.talent.v4beta1.IGetCompanyRequest,
+      optionsOrCallback?: gax.CallOptions|Callback<
+          protosTypes.google.cloud.talent.v4beta1.ICompany,
+          protosTypes.google.cloud.talent.v4beta1.IGetCompanyRequest|undefined, {}|undefined>,
+      callback?: Callback<
+          protosTypes.google.cloud.talent.v4beta1.ICompany,
+          protosTypes.google.cloud.talent.v4beta1.IGetCompanyRequest|undefined,
+          {}|undefined>):
+      Promise<[
+        protosTypes.google.cloud.talent.v4beta1.ICompany,
+        protosTypes.google.cloud.talent.v4beta1.IGetCompanyRequest|undefined, {}|undefined
+      ]>|void {
     request = request || {};
     let options: gax.CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    } else {
+    }
+    else {
       options = optionsOrCallback as gax.CallOptions;
     }
     options = options || {};
@@ -481,79 +423,66 @@ export class CompanyServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
-      name: request.name || '',
+      'name': request.name || '',
     });
     this.initialize();
     return this._innerApiCalls.getCompany(request, options, callback);
   }
   updateCompany(
-    request: protosTypes.google.cloud.talent.v4beta1.IUpdateCompanyRequest,
-    options?: gax.CallOptions
-  ): Promise<
-    [
-      protosTypes.google.cloud.talent.v4beta1.ICompany,
-      protosTypes.google.cloud.talent.v4beta1.IUpdateCompanyRequest | undefined,
-      {} | undefined
-    ]
-  >;
+      request: protosTypes.google.cloud.talent.v4beta1.IUpdateCompanyRequest,
+      options?: gax.CallOptions):
+      Promise<[
+        protosTypes.google.cloud.talent.v4beta1.ICompany,
+        protosTypes.google.cloud.talent.v4beta1.IUpdateCompanyRequest|undefined, {}|undefined
+      ]>;
   updateCompany(
-    request: protosTypes.google.cloud.talent.v4beta1.IUpdateCompanyRequest,
-    options: gax.CallOptions,
-    callback: Callback<
-      protosTypes.google.cloud.talent.v4beta1.ICompany,
-      protosTypes.google.cloud.talent.v4beta1.IUpdateCompanyRequest | undefined,
-      {} | undefined
-    >
-  ): void;
-  /**
-   * Updates specified company.
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {google.cloud.talent.v4beta1.Company} request.company
-   *   Required. The company resource to replace the current resource in the system.
-   * @param {google.protobuf.FieldMask} request.updateMask
-   *   Strongly recommended for the best service experience.
-   *
-   *   If {@link google.cloud.talent.v4beta1.UpdateCompanyRequest.update_mask|update_mask} is provided, only the specified fields in
-   *   {@link google.cloud.talent.v4beta1.UpdateCompanyRequest.company|company} are updated. Otherwise all the fields are updated.
-   *
-   *   A field mask to specify the company fields to be updated. Only
-   *   top level fields of {@link google.cloud.talent.v4beta1.Company|Company} are supported.
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [Company]{@link google.cloud.talent.v4beta1.Company}.
-   *   The promise has a method named "cancel" which cancels the ongoing API call.
-   */
-  updateCompany(
-    request: protosTypes.google.cloud.talent.v4beta1.IUpdateCompanyRequest,
-    optionsOrCallback?:
-      | gax.CallOptions
-      | Callback<
+      request: protosTypes.google.cloud.talent.v4beta1.IUpdateCompanyRequest,
+      options: gax.CallOptions,
+      callback: Callback<
           protosTypes.google.cloud.talent.v4beta1.ICompany,
-          | protosTypes.google.cloud.talent.v4beta1.IUpdateCompanyRequest
-          | undefined,
-          {} | undefined
-        >,
-    callback?: Callback<
-      protosTypes.google.cloud.talent.v4beta1.ICompany,
-      protosTypes.google.cloud.talent.v4beta1.IUpdateCompanyRequest | undefined,
-      {} | undefined
-    >
-  ): Promise<
-    [
-      protosTypes.google.cloud.talent.v4beta1.ICompany,
-      protosTypes.google.cloud.talent.v4beta1.IUpdateCompanyRequest | undefined,
-      {} | undefined
-    ]
-  > | void {
+          protosTypes.google.cloud.talent.v4beta1.IUpdateCompanyRequest|undefined,
+          {}|undefined>): void;
+/**
+ * Updates specified company.
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {google.cloud.talent.v4beta1.Company} request.company
+ *   Required. The company resource to replace the current resource in the system.
+ * @param {google.protobuf.FieldMask} request.updateMask
+ *   Strongly recommended for the best service experience.
+ *
+ *   If {@link google.cloud.talent.v4beta1.UpdateCompanyRequest.update_mask|update_mask} is provided, only the specified fields in
+ *   {@link google.cloud.talent.v4beta1.UpdateCompanyRequest.company|company} are updated. Otherwise all the fields are updated.
+ *
+ *   A field mask to specify the company fields to be updated. Only
+ *   top level fields of {@link google.cloud.talent.v4beta1.Company|Company} are supported.
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Promise} - The promise which resolves to an array.
+ *   The first element of the array is an object representing [Company]{@link google.cloud.talent.v4beta1.Company}.
+ *   The promise has a method named "cancel" which cancels the ongoing API call.
+ */
+  updateCompany(
+      request: protosTypes.google.cloud.talent.v4beta1.IUpdateCompanyRequest,
+      optionsOrCallback?: gax.CallOptions|Callback<
+          protosTypes.google.cloud.talent.v4beta1.ICompany,
+          protosTypes.google.cloud.talent.v4beta1.IUpdateCompanyRequest|undefined, {}|undefined>,
+      callback?: Callback<
+          protosTypes.google.cloud.talent.v4beta1.ICompany,
+          protosTypes.google.cloud.talent.v4beta1.IUpdateCompanyRequest|undefined,
+          {}|undefined>):
+      Promise<[
+        protosTypes.google.cloud.talent.v4beta1.ICompany,
+        protosTypes.google.cloud.talent.v4beta1.IUpdateCompanyRequest|undefined, {}|undefined
+      ]>|void {
     request = request || {};
     let options: gax.CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    } else {
+    }
+    else {
       options = optionsOrCallback as gax.CallOptions;
     }
     options = options || {};
@@ -568,73 +497,60 @@ export class CompanyServiceClient {
     return this._innerApiCalls.updateCompany(request, options, callback);
   }
   deleteCompany(
-    request: protosTypes.google.cloud.talent.v4beta1.IDeleteCompanyRequest,
-    options?: gax.CallOptions
-  ): Promise<
-    [
-      protosTypes.google.protobuf.IEmpty,
-      protosTypes.google.cloud.talent.v4beta1.IDeleteCompanyRequest | undefined,
-      {} | undefined
-    ]
-  >;
+      request: protosTypes.google.cloud.talent.v4beta1.IDeleteCompanyRequest,
+      options?: gax.CallOptions):
+      Promise<[
+        protosTypes.google.protobuf.IEmpty,
+        protosTypes.google.cloud.talent.v4beta1.IDeleteCompanyRequest|undefined, {}|undefined
+      ]>;
   deleteCompany(
-    request: protosTypes.google.cloud.talent.v4beta1.IDeleteCompanyRequest,
-    options: gax.CallOptions,
-    callback: Callback<
-      protosTypes.google.protobuf.IEmpty,
-      protosTypes.google.cloud.talent.v4beta1.IDeleteCompanyRequest | undefined,
-      {} | undefined
-    >
-  ): void;
-  /**
-   * Deletes specified company.
-   * Prerequisite: The company has no jobs associated with it.
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {string} request.name
-   *   Required. The resource name of the company to be deleted.
-   *
-   *   The format is
-   *   "projects/{project_id}/tenants/{tenant_id}/companies/{company_id}", for
-   *   example, "projects/foo/tenants/bar/companies/baz".
-   *
-   *   If tenant id is unspecified, the default tenant is used, for
-   *   example, "projects/foo/companies/bar".
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [Empty]{@link google.protobuf.Empty}.
-   *   The promise has a method named "cancel" which cancels the ongoing API call.
-   */
-  deleteCompany(
-    request: protosTypes.google.cloud.talent.v4beta1.IDeleteCompanyRequest,
-    optionsOrCallback?:
-      | gax.CallOptions
-      | Callback<
+      request: protosTypes.google.cloud.talent.v4beta1.IDeleteCompanyRequest,
+      options: gax.CallOptions,
+      callback: Callback<
           protosTypes.google.protobuf.IEmpty,
-          | protosTypes.google.cloud.talent.v4beta1.IDeleteCompanyRequest
-          | undefined,
-          {} | undefined
-        >,
-    callback?: Callback<
-      protosTypes.google.protobuf.IEmpty,
-      protosTypes.google.cloud.talent.v4beta1.IDeleteCompanyRequest | undefined,
-      {} | undefined
-    >
-  ): Promise<
-    [
-      protosTypes.google.protobuf.IEmpty,
-      protosTypes.google.cloud.talent.v4beta1.IDeleteCompanyRequest | undefined,
-      {} | undefined
-    ]
-  > | void {
+          protosTypes.google.cloud.talent.v4beta1.IDeleteCompanyRequest|undefined,
+          {}|undefined>): void;
+/**
+ * Deletes specified company.
+ * Prerequisite: The company has no jobs associated with it.
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {string} request.name
+ *   Required. The resource name of the company to be deleted.
+ *
+ *   The format is
+ *   "projects/{project_id}/tenants/{tenant_id}/companies/{company_id}", for
+ *   example, "projects/foo/tenants/bar/companies/baz".
+ *
+ *   If tenant id is unspecified, the default tenant is used, for
+ *   example, "projects/foo/companies/bar".
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Promise} - The promise which resolves to an array.
+ *   The first element of the array is an object representing [Empty]{@link google.protobuf.Empty}.
+ *   The promise has a method named "cancel" which cancels the ongoing API call.
+ */
+  deleteCompany(
+      request: protosTypes.google.cloud.talent.v4beta1.IDeleteCompanyRequest,
+      optionsOrCallback?: gax.CallOptions|Callback<
+          protosTypes.google.protobuf.IEmpty,
+          protosTypes.google.cloud.talent.v4beta1.IDeleteCompanyRequest|undefined, {}|undefined>,
+      callback?: Callback<
+          protosTypes.google.protobuf.IEmpty,
+          protosTypes.google.cloud.talent.v4beta1.IDeleteCompanyRequest|undefined,
+          {}|undefined>):
+      Promise<[
+        protosTypes.google.protobuf.IEmpty,
+        protosTypes.google.cloud.talent.v4beta1.IDeleteCompanyRequest|undefined, {}|undefined
+      ]>|void {
     request = request || {};
     let options: gax.CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    } else {
+    }
+    else {
       options = optionsOrCallback as gax.CallOptions;
     }
     options = options || {};
@@ -643,101 +559,92 @@ export class CompanyServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
-      name: request.name || '',
+      'name': request.name || '',
     });
     this.initialize();
     return this._innerApiCalls.deleteCompany(request, options, callback);
   }
 
   listCompanies(
-    request: protosTypes.google.cloud.talent.v4beta1.IListCompaniesRequest,
-    options?: gax.CallOptions
-  ): Promise<
-    [
-      protosTypes.google.cloud.talent.v4beta1.ICompany[],
-      protosTypes.google.cloud.talent.v4beta1.IListCompaniesRequest | null,
-      protosTypes.google.cloud.talent.v4beta1.IListCompaniesResponse
-    ]
-  >;
+      request: protosTypes.google.cloud.talent.v4beta1.IListCompaniesRequest,
+      options?: gax.CallOptions):
+      Promise<[
+        protosTypes.google.cloud.talent.v4beta1.ICompany[],
+        protosTypes.google.cloud.talent.v4beta1.IListCompaniesRequest|null,
+        protosTypes.google.cloud.talent.v4beta1.IListCompaniesResponse
+      ]>;
   listCompanies(
-    request: protosTypes.google.cloud.talent.v4beta1.IListCompaniesRequest,
-    options: gax.CallOptions,
-    callback: Callback<
-      protosTypes.google.cloud.talent.v4beta1.ICompany[],
-      protosTypes.google.cloud.talent.v4beta1.IListCompaniesRequest | null,
-      protosTypes.google.cloud.talent.v4beta1.IListCompaniesResponse
-    >
-  ): void;
-  /**
-   * Lists all companies associated with the project.
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {string} request.parent
-   *   Required. Resource name of the tenant under which the company is created.
-   *
-   *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
-   *   "projects/foo/tenant/bar".
-   *
-   *   If tenant id is unspecified, the default tenant will be used, for
-   *   example, "projects/foo".
-   * @param {string} request.pageToken
-   *   The starting indicator from which to return results.
-   * @param {number} request.pageSize
-   *   The maximum number of companies to be returned, at most 100.
-   *   Default is 100 if a non-positive number is provided.
-   * @param {boolean} request.requireOpenJobs
-   *   Set to true if the companies requested must have open jobs.
-   *
-   *   Defaults to false.
-   *
-   *   If true, at most {@link google.cloud.talent.v4beta1.ListCompaniesRequest.page_size|page_size} of companies are fetched, among which
-   *   only those with open jobs are returned.
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is Array of [Company]{@link google.cloud.talent.v4beta1.Company}.
-   *   The client library support auto-pagination by default: it will call the API as many
-   *   times as needed and will merge results from all the pages into this array.
-   *
-   *   When autoPaginate: false is specified through options, the array has three elements.
-   *   The first element is Array of [Company]{@link google.cloud.talent.v4beta1.Company} that corresponds to
-   *   the one page received from the API server.
-   *   If the second element is not null it contains the request object of type [ListCompaniesRequest]{@link google.cloud.talent.v4beta1.ListCompaniesRequest}
-   *   that can be used to obtain the next page of the results.
-   *   If it is null, the next page does not exist.
-   *   The third element contains the raw response received from the API server. Its type is
-   *   [ListCompaniesResponse]{@link google.cloud.talent.v4beta1.ListCompaniesResponse}.
-   *
-   *   The promise has a method named "cancel" which cancels the ongoing API call.
-   */
-  listCompanies(
-    request: protosTypes.google.cloud.talent.v4beta1.IListCompaniesRequest,
-    optionsOrCallback?:
-      | gax.CallOptions
-      | Callback<
+      request: protosTypes.google.cloud.talent.v4beta1.IListCompaniesRequest,
+      options: gax.CallOptions,
+      callback: PaginationCallback<
           protosTypes.google.cloud.talent.v4beta1.ICompany[],
-          protosTypes.google.cloud.talent.v4beta1.IListCompaniesRequest | null,
-          protosTypes.google.cloud.talent.v4beta1.IListCompaniesResponse
-        >,
-    callback?: Callback<
-      protosTypes.google.cloud.talent.v4beta1.ICompany[],
-      protosTypes.google.cloud.talent.v4beta1.IListCompaniesRequest | null,
-      protosTypes.google.cloud.talent.v4beta1.IListCompaniesResponse
-    >
-  ): Promise<
-    [
-      protosTypes.google.cloud.talent.v4beta1.ICompany[],
-      protosTypes.google.cloud.talent.v4beta1.IListCompaniesRequest | null,
-      protosTypes.google.cloud.talent.v4beta1.IListCompaniesResponse
-    ]
-  > | void {
+          protosTypes.google.cloud.talent.v4beta1.IListCompaniesRequest|null,
+          protosTypes.google.cloud.talent.v4beta1.IListCompaniesResponse>): void;
+/**
+ * Lists all companies associated with the project.
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {string} request.parent
+ *   Required. Resource name of the tenant under which the company is created.
+ *
+ *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
+ *   "projects/foo/tenant/bar".
+ *
+ *   If tenant id is unspecified, the default tenant will be used, for
+ *   example, "projects/foo".
+ * @param {string} request.pageToken
+ *   The starting indicator from which to return results.
+ * @param {number} request.pageSize
+ *   The maximum number of companies to be returned, at most 100.
+ *   Default is 100 if a non-positive number is provided.
+ * @param {boolean} request.requireOpenJobs
+ *   Set to true if the companies requested must have open jobs.
+ *
+ *   Defaults to false.
+ *
+ *   If true, at most {@link google.cloud.talent.v4beta1.ListCompaniesRequest.page_size|page_size} of companies are fetched, among which
+ *   only those with open jobs are returned.
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Promise} - The promise which resolves to an array.
+ *   The first element of the array is Array of [Company]{@link google.cloud.talent.v4beta1.Company}.
+ *   The client library support auto-pagination by default: it will call the API as many
+ *   times as needed and will merge results from all the pages into this array.
+ *
+ *   When autoPaginate: false is specified through options, the array has three elements.
+ *   The first element is Array of [Company]{@link google.cloud.talent.v4beta1.Company} that corresponds to
+ *   the one page received from the API server.
+ *   If the second element is not null it contains the request object of type [ListCompaniesRequest]{@link google.cloud.talent.v4beta1.ListCompaniesRequest}
+ *   that can be used to obtain the next page of the results.
+ *   If it is null, the next page does not exist.
+ *   The third element contains the raw response received from the API server. Its type is
+ *   [ListCompaniesResponse]{@link google.cloud.talent.v4beta1.ListCompaniesResponse}.
+ *
+ *   The promise has a method named "cancel" which cancels the ongoing API call.
+ */
+  listCompanies(
+      request: protosTypes.google.cloud.talent.v4beta1.IListCompaniesRequest,
+      optionsOrCallback?: gax.CallOptions|PaginationCallback<
+          protosTypes.google.cloud.talent.v4beta1.ICompany[],
+          protosTypes.google.cloud.talent.v4beta1.IListCompaniesRequest|null,
+          protosTypes.google.cloud.talent.v4beta1.IListCompaniesResponse>,
+      callback?: PaginationCallback<
+          protosTypes.google.cloud.talent.v4beta1.ICompany[],
+          protosTypes.google.cloud.talent.v4beta1.IListCompaniesRequest|null,
+          protosTypes.google.cloud.talent.v4beta1.IListCompaniesResponse>):
+      Promise<[
+        protosTypes.google.cloud.talent.v4beta1.ICompany[],
+        protosTypes.google.cloud.talent.v4beta1.IListCompaniesRequest|null,
+        protosTypes.google.cloud.talent.v4beta1.IListCompaniesResponse
+      ]>|void {
     request = request || {};
     let options: gax.CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    } else {
+    }
+    else {
       options = optionsOrCallback as gax.CallOptions;
     }
     options = options || {};
@@ -746,56 +653,56 @@ export class CompanyServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
-      parent: request.parent || '',
+      'parent': request.parent || '',
     });
     this.initialize();
     return this._innerApiCalls.listCompanies(request, options, callback);
   }
 
-  /**
-   * Equivalent to {@link listCompanies}, but returns a NodeJS Stream object.
-   *
-   * This fetches the paged responses for {@link listCompanies} continuously
-   * and invokes the callback registered for 'data' event for each element in the
-   * responses.
-   *
-   * The returned object has 'end' method when no more elements are required.
-   *
-   * autoPaginate option will be ignored.
-   *
-   * @see {@link https://nodejs.org/api/stream.html}
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {string} request.parent
-   *   Required. Resource name of the tenant under which the company is created.
-   *
-   *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
-   *   "projects/foo/tenant/bar".
-   *
-   *   If tenant id is unspecified, the default tenant will be used, for
-   *   example, "projects/foo".
-   * @param {string} request.pageToken
-   *   The starting indicator from which to return results.
-   * @param {number} request.pageSize
-   *   The maximum number of companies to be returned, at most 100.
-   *   Default is 100 if a non-positive number is provided.
-   * @param {boolean} request.requireOpenJobs
-   *   Set to true if the companies requested must have open jobs.
-   *
-   *   Defaults to false.
-   *
-   *   If true, at most {@link google.cloud.talent.v4beta1.ListCompaniesRequest.page_size|page_size} of companies are fetched, among which
-   *   only those with open jobs are returned.
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Stream}
-   *   An object stream which emits an object representing [Company]{@link google.cloud.talent.v4beta1.Company} on 'data' event.
-   */
+/**
+ * Equivalent to {@link listCompanies}, but returns a NodeJS Stream object.
+ *
+ * This fetches the paged responses for {@link listCompanies} continuously
+ * and invokes the callback registered for 'data' event for each element in the
+ * responses.
+ *
+ * The returned object has 'end' method when no more elements are required.
+ *
+ * autoPaginate option will be ignored.
+ *
+ * @see {@link https://nodejs.org/api/stream.html}
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {string} request.parent
+ *   Required. Resource name of the tenant under which the company is created.
+ *
+ *   The format is "projects/{project_id}/tenants/{tenant_id}", for example,
+ *   "projects/foo/tenant/bar".
+ *
+ *   If tenant id is unspecified, the default tenant will be used, for
+ *   example, "projects/foo".
+ * @param {string} request.pageToken
+ *   The starting indicator from which to return results.
+ * @param {number} request.pageSize
+ *   The maximum number of companies to be returned, at most 100.
+ *   Default is 100 if a non-positive number is provided.
+ * @param {boolean} request.requireOpenJobs
+ *   Set to true if the companies requested must have open jobs.
+ *
+ *   Defaults to false.
+ *
+ *   If true, at most {@link google.cloud.talent.v4beta1.ListCompaniesRequest.page_size|page_size} of companies are fetched, among which
+ *   only those with open jobs are returned.
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Stream}
+ *   An object stream which emits an object representing [Company]{@link google.cloud.talent.v4beta1.Company} on 'data' event.
+ */
   listCompaniesStream(
-    request?: protosTypes.google.cloud.talent.v4beta1.IListCompaniesRequest,
-    options?: gax.CallOptions
-  ): Transform {
+      request?: protosTypes.google.cloud.talent.v4beta1.IListCompaniesRequest,
+      options?: gax.CallOptions):
+    Transform{
     request = request || {};
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -803,7 +710,7 @@ export class CompanyServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
-      parent: request.parent || '',
+      'parent': request.parent || '',
     });
     const callSettings = new gax.CallSettings(options);
     this.initialize();
@@ -826,17 +733,12 @@ export class CompanyServiceClient {
    * @param {string} application
    * @returns {string} Resource name string.
    */
-  applicationPath(
-    project: string,
-    tenant: string,
-    profile: string,
-    application: string
-  ) {
+  applicationPath(project:string,tenant:string,profile:string,application:string) {
     return this._pathTemplates.applicationPathTemplate.render({
-      project,
-      tenant,
-      profile,
-      application,
+      project: project,
+      tenant: tenant,
+      profile: profile,
+      application: application,
     });
   }
 
@@ -848,8 +750,7 @@ export class CompanyServiceClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromApplicationName(applicationName: string) {
-    return this._pathTemplates.applicationPathTemplate.match(applicationName)
-      .project;
+    return this._pathTemplates.applicationPathTemplate.match(applicationName).project;
   }
 
   /**
@@ -860,8 +761,7 @@ export class CompanyServiceClient {
    * @returns {string} A string representing the tenant.
    */
   matchTenantFromApplicationName(applicationName: string) {
-    return this._pathTemplates.applicationPathTemplate.match(applicationName)
-      .tenant;
+    return this._pathTemplates.applicationPathTemplate.match(applicationName).tenant;
   }
 
   /**
@@ -872,8 +772,7 @@ export class CompanyServiceClient {
    * @returns {string} A string representing the profile.
    */
   matchProfileFromApplicationName(applicationName: string) {
-    return this._pathTemplates.applicationPathTemplate.match(applicationName)
-      .profile;
+    return this._pathTemplates.applicationPathTemplate.match(applicationName).profile;
   }
 
   /**
@@ -884,8 +783,7 @@ export class CompanyServiceClient {
    * @returns {string} A string representing the application.
    */
   matchApplicationFromApplicationName(applicationName: string) {
-    return this._pathTemplates.applicationPathTemplate.match(applicationName)
-      .application;
+    return this._pathTemplates.applicationPathTemplate.match(applicationName).application;
   }
 
   /**
@@ -896,11 +794,11 @@ export class CompanyServiceClient {
    * @param {string} profile
    * @returns {string} Resource name string.
    */
-  profilePath(project: string, tenant: string, profile: string) {
+  profilePath(project:string,tenant:string,profile:string) {
     return this._pathTemplates.profilePathTemplate.render({
-      project,
-      tenant,
-      profile,
+      project: project,
+      tenant: tenant,
+      profile: profile,
     });
   }
 
@@ -944,10 +842,10 @@ export class CompanyServiceClient {
    * @param {string} company
    * @returns {string} Resource name string.
    */
-  projectCompanyPath(project: string, company: string) {
+  projectCompanyPath(project:string,company:string) {
     return this._pathTemplates.projectCompanyPathTemplate.render({
-      project,
-      company,
+      project: project,
+      company: company,
     });
   }
 
@@ -959,9 +857,7 @@ export class CompanyServiceClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromProjectCompanyName(projectCompanyName: string) {
-    return this._pathTemplates.projectCompanyPathTemplate.match(
-      projectCompanyName
-    ).project;
+    return this._pathTemplates.projectCompanyPathTemplate.match(projectCompanyName).project;
   }
 
   /**
@@ -972,9 +868,7 @@ export class CompanyServiceClient {
    * @returns {string} A string representing the company.
    */
   matchCompanyFromProjectCompanyName(projectCompanyName: string) {
-    return this._pathTemplates.projectCompanyPathTemplate.match(
-      projectCompanyName
-    ).company;
+    return this._pathTemplates.projectCompanyPathTemplate.match(projectCompanyName).company;
   }
 
   /**
@@ -984,10 +878,10 @@ export class CompanyServiceClient {
    * @param {string} job
    * @returns {string} Resource name string.
    */
-  projectJobPath(project: string, job: string) {
+  projectJobPath(project:string,job:string) {
     return this._pathTemplates.projectJobPathTemplate.render({
-      project,
-      job,
+      project: project,
+      job: job,
     });
   }
 
@@ -999,8 +893,7 @@ export class CompanyServiceClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromProjectJobName(projectJobName: string) {
-    return this._pathTemplates.projectJobPathTemplate.match(projectJobName)
-      .project;
+    return this._pathTemplates.projectJobPathTemplate.match(projectJobName).project;
   }
 
   /**
@@ -1022,11 +915,11 @@ export class CompanyServiceClient {
    * @param {string} company
    * @returns {string} Resource name string.
    */
-  projectTenantCompanyPath(project: string, tenant: string, company: string) {
+  projectTenantCompanyPath(project:string,tenant:string,company:string) {
     return this._pathTemplates.projectTenantCompanyPathTemplate.render({
-      project,
-      tenant,
-      company,
+      project: project,
+      tenant: tenant,
+      company: company,
     });
   }
 
@@ -1038,9 +931,7 @@ export class CompanyServiceClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromProjectTenantCompanyName(projectTenantCompanyName: string) {
-    return this._pathTemplates.projectTenantCompanyPathTemplate.match(
-      projectTenantCompanyName
-    ).project;
+    return this._pathTemplates.projectTenantCompanyPathTemplate.match(projectTenantCompanyName).project;
   }
 
   /**
@@ -1051,9 +942,7 @@ export class CompanyServiceClient {
    * @returns {string} A string representing the tenant.
    */
   matchTenantFromProjectTenantCompanyName(projectTenantCompanyName: string) {
-    return this._pathTemplates.projectTenantCompanyPathTemplate.match(
-      projectTenantCompanyName
-    ).tenant;
+    return this._pathTemplates.projectTenantCompanyPathTemplate.match(projectTenantCompanyName).tenant;
   }
 
   /**
@@ -1064,9 +953,7 @@ export class CompanyServiceClient {
    * @returns {string} A string representing the company.
    */
   matchCompanyFromProjectTenantCompanyName(projectTenantCompanyName: string) {
-    return this._pathTemplates.projectTenantCompanyPathTemplate.match(
-      projectTenantCompanyName
-    ).company;
+    return this._pathTemplates.projectTenantCompanyPathTemplate.match(projectTenantCompanyName).company;
   }
 
   /**
@@ -1077,11 +964,11 @@ export class CompanyServiceClient {
    * @param {string} job
    * @returns {string} Resource name string.
    */
-  projectTenantJobPath(project: string, tenant: string, job: string) {
+  projectTenantJobPath(project:string,tenant:string,job:string) {
     return this._pathTemplates.projectTenantJobPathTemplate.render({
-      project,
-      tenant,
-      job,
+      project: project,
+      tenant: tenant,
+      job: job,
     });
   }
 
@@ -1093,9 +980,7 @@ export class CompanyServiceClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromProjectTenantJobName(projectTenantJobName: string) {
-    return this._pathTemplates.projectTenantJobPathTemplate.match(
-      projectTenantJobName
-    ).project;
+    return this._pathTemplates.projectTenantJobPathTemplate.match(projectTenantJobName).project;
   }
 
   /**
@@ -1106,9 +991,7 @@ export class CompanyServiceClient {
    * @returns {string} A string representing the tenant.
    */
   matchTenantFromProjectTenantJobName(projectTenantJobName: string) {
-    return this._pathTemplates.projectTenantJobPathTemplate.match(
-      projectTenantJobName
-    ).tenant;
+    return this._pathTemplates.projectTenantJobPathTemplate.match(projectTenantJobName).tenant;
   }
 
   /**
@@ -1119,9 +1002,7 @@ export class CompanyServiceClient {
    * @returns {string} A string representing the job.
    */
   matchJobFromProjectTenantJobName(projectTenantJobName: string) {
-    return this._pathTemplates.projectTenantJobPathTemplate.match(
-      projectTenantJobName
-    ).job;
+    return this._pathTemplates.projectTenantJobPathTemplate.match(projectTenantJobName).job;
   }
 
   /**
@@ -1131,10 +1012,10 @@ export class CompanyServiceClient {
    * @param {string} tenant
    * @returns {string} Resource name string.
    */
-  tenantPath(project: string, tenant: string) {
+  tenantPath(project:string,tenant:string) {
     return this._pathTemplates.tenantPathTemplate.render({
-      project,
-      tenant,
+      project: project,
+      tenant: tenant,
     });
   }
 

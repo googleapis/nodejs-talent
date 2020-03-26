@@ -17,18 +17,10 @@
 // ** All changes to this file may be overwritten. **
 
 import * as gax from 'google-gax';
-import {
-  APICallback,
-  Callback,
-  CallOptions,
-  Descriptors,
-  ClientOptions,
-  PaginationCallback,
-  PaginationResponse,
-} from 'google-gax';
+import {APICallback, Callback, CallOptions, Descriptors, ClientOptions, PaginationCallback} from 'google-gax';
 import * as path from 'path';
 
-import {Transform} from 'stream';
+import { Transform } from 'stream';
 import * as protosTypes from '../../protos/protos';
 import * as gapicConfig from './profile_service_client_config.json';
 
@@ -41,12 +33,7 @@ const version = require('../../../package.json').version;
  * @memberof v4beta1
  */
 export class ProfileServiceClient {
-  private _descriptors: Descriptors = {
-    page: {},
-    stream: {},
-    longrunning: {},
-    batching: {},
-  };
+  private _descriptors: Descriptors = {page: {}, stream: {}, longrunning: {}, batching: {}};
   private _innerApiCalls: {[name: string]: Function};
   private _pathTemplates: {[name: string]: gax.PathTemplate};
   private _terminated = false;
@@ -87,12 +74,10 @@ export class ProfileServiceClient {
   constructor(opts?: ClientOptions) {
     // Ensure that options include the service address and port.
     const staticMembers = this.constructor as typeof ProfileServiceClient;
-    const servicePath =
-      opts && opts.servicePath
-        ? opts.servicePath
-        : opts && opts.apiEndpoint
-        ? opts.apiEndpoint
-        : staticMembers.servicePath;
+    const servicePath = opts && opts.servicePath ?
+        opts.servicePath :
+        ((opts && opts.apiEndpoint) ? opts.apiEndpoint :
+                                      staticMembers.servicePath);
     const port = opts && opts.port ? opts.port : staticMembers.port;
 
     if (!opts) {
@@ -102,8 +87,8 @@ export class ProfileServiceClient {
     opts.port = opts.port || port;
     opts.clientConfig = opts.clientConfig || {};
 
-    const isBrowser = typeof window !== 'undefined';
-    if (isBrowser) {
+    const isBrowser = (typeof window !== 'undefined');
+    if (isBrowser){
       opts.fallback = true;
     }
     // If we are in browser, we are already using fallback because of the
@@ -120,10 +105,13 @@ export class ProfileServiceClient {
     this._opts = opts;
 
     // Save the auth object to the client, for use by other methods.
-    this.auth = this._gaxGrpc.auth as gax.GoogleAuth;
+    this.auth = (this._gaxGrpc.auth as gax.GoogleAuth);
 
     // Determine the client header string.
-    const clientHeader = [`gax/${this._gaxModule.version}`, `gapic/${version}`];
+    const clientHeader = [
+      `gax/${this._gaxModule.version}`,
+      `gapic/${version}`,
+    ];
     if (typeof process !== 'undefined' && 'versions' in process) {
       clientHeader.push(`gl-node/${process.versions.node}`);
     } else {
@@ -139,15 +127,11 @@ export class ProfileServiceClient {
     // For Node.js, pass the path to JSON proto file.
     // For browsers, pass the JSON content.
 
-    const nodejsProtoPath = path.join(
-      __dirname,
-      '..',
-      '..',
-      'protos',
-      'protos.json'
-    );
+    const nodejsProtoPath = path.join(__dirname, '..', '..', 'protos', 'protos.json');
     this._protos = this._gaxGrpc.loadProto(
-      opts.fallback ? require('../../protos/protos.json') : nodejsProtoPath
+      opts.fallback ?
+        require("../../protos/protos.json") :
+        nodejsProtoPath
     );
 
     // This API contains "path templates"; forward-slash-separated
@@ -181,20 +165,14 @@ export class ProfileServiceClient {
     // (e.g. 50 results at a time, with tokens to get subsequent
     // pages). Denote the keys used for pagination and results.
     this._descriptors.page = {
-      listProfiles: new this._gaxModule.PageDescriptor(
-        'pageToken',
-        'nextPageToken',
-        'profiles'
-      ),
+      listProfiles:
+          new this._gaxModule.PageDescriptor('pageToken', 'nextPageToken', 'profiles')
     };
 
     // Put together the default options sent with requests.
     this._defaults = this._gaxGrpc.constructSettings(
-      'google.cloud.talent.v4beta1.ProfileService',
-      gapicConfig as gax.ClientConfig,
-      opts.clientConfig || {},
-      {'x-goog-api-client': clientHeader.join(' ')}
-    );
+        'google.cloud.talent.v4beta1.ProfileService', gapicConfig as gax.ClientConfig,
+        opts.clientConfig || {}, {'x-goog-api-client': clientHeader.join(' ')});
 
     // Set up a dictionary of "inner API calls"; the core implementation
     // of calling the API is handled in `google-gax`, with this code
@@ -222,25 +200,16 @@ export class ProfileServiceClient {
     // Put together the "service stub" for
     // google.cloud.talent.v4beta1.ProfileService.
     this.profileServiceStub = this._gaxGrpc.createStub(
-      this._opts.fallback
-        ? (this._protos as protobuf.Root).lookupService(
-            'google.cloud.talent.v4beta1.ProfileService'
-          )
-        : // tslint:disable-next-line no-any
+        this._opts.fallback ?
+          (this._protos as protobuf.Root).lookupService('google.cloud.talent.v4beta1.ProfileService') :
+          /* eslint-disable @typescript-eslint/no-explicit-any */
           (this._protos as any).google.cloud.talent.v4beta1.ProfileService,
-      this._opts
-    ) as Promise<{[method: string]: Function}>;
+        this._opts) as Promise<{[method: string]: Function}>;
 
     // Iterate over each of the methods that the service provides
     // and create an API call method for each.
-    const profileServiceStubMethods = [
-      'listProfiles',
-      'createProfile',
-      'getProfile',
-      'updateProfile',
-      'deleteProfile',
-      'searchProfiles',
-    ];
+    const profileServiceStubMethods =
+        ['listProfiles', 'createProfile', 'getProfile', 'updateProfile', 'deleteProfile', 'searchProfiles'];
 
     for (const methodName of profileServiceStubMethods) {
       const innerCallPromise = this.profileServiceStub.then(
@@ -251,17 +220,16 @@ export class ProfileServiceClient {
           const func = stub[methodName];
           return func.apply(stub, args);
         },
-        (err: Error | null | undefined) => () => {
+        (err: Error|null|undefined) => () => {
           throw err;
-        }
-      );
+        });
 
       const apiCall = this._gaxModule.createApiCall(
         innerCallPromise,
         this._defaults[methodName],
         this._descriptors.page[methodName] ||
-          this._descriptors.stream[methodName] ||
-          this._descriptors.longrunning[methodName]
+            this._descriptors.stream[methodName] ||
+            this._descriptors.longrunning[methodName]
       );
 
       this._innerApiCalls[methodName] = (
@@ -305,7 +273,7 @@ export class ProfileServiceClient {
   static get scopes() {
     return [
       'https://www.googleapis.com/auth/cloud-platform',
-      'https://www.googleapis.com/auth/jobs',
+      'https://www.googleapis.com/auth/jobs'
     ];
   }
 
@@ -316,9 +284,8 @@ export class ProfileServiceClient {
    * @param {function(Error, string)} callback - the callback to
    *   be called with the current project Id.
    */
-  getProjectId(
-    callback?: Callback<string, undefined, undefined>
-  ): Promise<string> | void {
+  getProjectId(callback?: Callback<string, undefined, undefined>):
+      Promise<string>|void {
     if (callback) {
       this.auth.getProjectId(callback);
       return;
@@ -330,70 +297,57 @@ export class ProfileServiceClient {
   // -- Service calls --
   // -------------------
   createProfile(
-    request: protosTypes.google.cloud.talent.v4beta1.ICreateProfileRequest,
-    options?: gax.CallOptions
-  ): Promise<
-    [
-      protosTypes.google.cloud.talent.v4beta1.IProfile,
-      protosTypes.google.cloud.talent.v4beta1.ICreateProfileRequest | undefined,
-      {} | undefined
-    ]
-  >;
+      request: protosTypes.google.cloud.talent.v4beta1.ICreateProfileRequest,
+      options?: gax.CallOptions):
+      Promise<[
+        protosTypes.google.cloud.talent.v4beta1.IProfile,
+        protosTypes.google.cloud.talent.v4beta1.ICreateProfileRequest|undefined, {}|undefined
+      ]>;
   createProfile(
-    request: protosTypes.google.cloud.talent.v4beta1.ICreateProfileRequest,
-    options: gax.CallOptions,
-    callback: Callback<
-      protosTypes.google.cloud.talent.v4beta1.IProfile,
-      protosTypes.google.cloud.talent.v4beta1.ICreateProfileRequest | undefined,
-      {} | undefined
-    >
-  ): void;
-  /**
-   * Creates and returns a new profile.
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {string} request.parent
-   *   Required. The name of the tenant this profile belongs to.
-   *
-   *   The format is "projects/{project_id}/tenants/{tenant_id}". For example,
-   *   "projects/foo/tenants/bar".
-   * @param {google.cloud.talent.v4beta1.Profile} request.profile
-   *   Required. The profile to be created.
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [Profile]{@link google.cloud.talent.v4beta1.Profile}.
-   *   The promise has a method named "cancel" which cancels the ongoing API call.
-   */
-  createProfile(
-    request: protosTypes.google.cloud.talent.v4beta1.ICreateProfileRequest,
-    optionsOrCallback?:
-      | gax.CallOptions
-      | Callback<
+      request: protosTypes.google.cloud.talent.v4beta1.ICreateProfileRequest,
+      options: gax.CallOptions,
+      callback: Callback<
           protosTypes.google.cloud.talent.v4beta1.IProfile,
-          | protosTypes.google.cloud.talent.v4beta1.ICreateProfileRequest
-          | undefined,
-          {} | undefined
-        >,
-    callback?: Callback<
-      protosTypes.google.cloud.talent.v4beta1.IProfile,
-      protosTypes.google.cloud.talent.v4beta1.ICreateProfileRequest | undefined,
-      {} | undefined
-    >
-  ): Promise<
-    [
-      protosTypes.google.cloud.talent.v4beta1.IProfile,
-      protosTypes.google.cloud.talent.v4beta1.ICreateProfileRequest | undefined,
-      {} | undefined
-    ]
-  > | void {
+          protosTypes.google.cloud.talent.v4beta1.ICreateProfileRequest|undefined,
+          {}|undefined>): void;
+/**
+ * Creates and returns a new profile.
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {string} request.parent
+ *   Required. The name of the tenant this profile belongs to.
+ *
+ *   The format is "projects/{project_id}/tenants/{tenant_id}". For example,
+ *   "projects/foo/tenants/bar".
+ * @param {google.cloud.talent.v4beta1.Profile} request.profile
+ *   Required. The profile to be created.
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Promise} - The promise which resolves to an array.
+ *   The first element of the array is an object representing [Profile]{@link google.cloud.talent.v4beta1.Profile}.
+ *   The promise has a method named "cancel" which cancels the ongoing API call.
+ */
+  createProfile(
+      request: protosTypes.google.cloud.talent.v4beta1.ICreateProfileRequest,
+      optionsOrCallback?: gax.CallOptions|Callback<
+          protosTypes.google.cloud.talent.v4beta1.IProfile,
+          protosTypes.google.cloud.talent.v4beta1.ICreateProfileRequest|undefined, {}|undefined>,
+      callback?: Callback<
+          protosTypes.google.cloud.talent.v4beta1.IProfile,
+          protosTypes.google.cloud.talent.v4beta1.ICreateProfileRequest|undefined,
+          {}|undefined>):
+      Promise<[
+        protosTypes.google.cloud.talent.v4beta1.IProfile,
+        protosTypes.google.cloud.talent.v4beta1.ICreateProfileRequest|undefined, {}|undefined
+      ]>|void {
     request = request || {};
     let options: gax.CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    } else {
+    }
+    else {
       options = optionsOrCallback as gax.CallOptions;
     }
     options = options || {};
@@ -402,75 +356,62 @@ export class ProfileServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
-      parent: request.parent || '',
+      'parent': request.parent || '',
     });
     this.initialize();
     return this._innerApiCalls.createProfile(request, options, callback);
   }
   getProfile(
-    request: protosTypes.google.cloud.talent.v4beta1.IGetProfileRequest,
-    options?: gax.CallOptions
-  ): Promise<
-    [
-      protosTypes.google.cloud.talent.v4beta1.IProfile,
-      protosTypes.google.cloud.talent.v4beta1.IGetProfileRequest | undefined,
-      {} | undefined
-    ]
-  >;
+      request: protosTypes.google.cloud.talent.v4beta1.IGetProfileRequest,
+      options?: gax.CallOptions):
+      Promise<[
+        protosTypes.google.cloud.talent.v4beta1.IProfile,
+        protosTypes.google.cloud.talent.v4beta1.IGetProfileRequest|undefined, {}|undefined
+      ]>;
   getProfile(
-    request: protosTypes.google.cloud.talent.v4beta1.IGetProfileRequest,
-    options: gax.CallOptions,
-    callback: Callback<
-      protosTypes.google.cloud.talent.v4beta1.IProfile,
-      protosTypes.google.cloud.talent.v4beta1.IGetProfileRequest | undefined,
-      {} | undefined
-    >
-  ): void;
-  /**
-   * Gets the specified profile.
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {string} request.name
-   *   Required. Resource name of the profile to get.
-   *
-   *   The format is
-   *   "projects/{project_id}/tenants/{tenant_id}/profiles/{profile_id}". For
-   *   example, "projects/foo/tenants/bar/profiles/baz".
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [Profile]{@link google.cloud.talent.v4beta1.Profile}.
-   *   The promise has a method named "cancel" which cancels the ongoing API call.
-   */
-  getProfile(
-    request: protosTypes.google.cloud.talent.v4beta1.IGetProfileRequest,
-    optionsOrCallback?:
-      | gax.CallOptions
-      | Callback<
+      request: protosTypes.google.cloud.talent.v4beta1.IGetProfileRequest,
+      options: gax.CallOptions,
+      callback: Callback<
           protosTypes.google.cloud.talent.v4beta1.IProfile,
-          | protosTypes.google.cloud.talent.v4beta1.IGetProfileRequest
-          | undefined,
-          {} | undefined
-        >,
-    callback?: Callback<
-      protosTypes.google.cloud.talent.v4beta1.IProfile,
-      protosTypes.google.cloud.talent.v4beta1.IGetProfileRequest | undefined,
-      {} | undefined
-    >
-  ): Promise<
-    [
-      protosTypes.google.cloud.talent.v4beta1.IProfile,
-      protosTypes.google.cloud.talent.v4beta1.IGetProfileRequest | undefined,
-      {} | undefined
-    ]
-  > | void {
+          protosTypes.google.cloud.talent.v4beta1.IGetProfileRequest|undefined,
+          {}|undefined>): void;
+/**
+ * Gets the specified profile.
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {string} request.name
+ *   Required. Resource name of the profile to get.
+ *
+ *   The format is
+ *   "projects/{project_id}/tenants/{tenant_id}/profiles/{profile_id}". For
+ *   example, "projects/foo/tenants/bar/profiles/baz".
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Promise} - The promise which resolves to an array.
+ *   The first element of the array is an object representing [Profile]{@link google.cloud.talent.v4beta1.Profile}.
+ *   The promise has a method named "cancel" which cancels the ongoing API call.
+ */
+  getProfile(
+      request: protosTypes.google.cloud.talent.v4beta1.IGetProfileRequest,
+      optionsOrCallback?: gax.CallOptions|Callback<
+          protosTypes.google.cloud.talent.v4beta1.IProfile,
+          protosTypes.google.cloud.talent.v4beta1.IGetProfileRequest|undefined, {}|undefined>,
+      callback?: Callback<
+          protosTypes.google.cloud.talent.v4beta1.IProfile,
+          protosTypes.google.cloud.talent.v4beta1.IGetProfileRequest|undefined,
+          {}|undefined>):
+      Promise<[
+        protosTypes.google.cloud.talent.v4beta1.IProfile,
+        protosTypes.google.cloud.talent.v4beta1.IGetProfileRequest|undefined, {}|undefined
+      ]>|void {
     request = request || {};
     let options: gax.CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    } else {
+    }
+    else {
       options = optionsOrCallback as gax.CallOptions;
     }
     options = options || {};
@@ -479,75 +420,62 @@ export class ProfileServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
-      name: request.name || '',
+      'name': request.name || '',
     });
     this.initialize();
     return this._innerApiCalls.getProfile(request, options, callback);
   }
   updateProfile(
-    request: protosTypes.google.cloud.talent.v4beta1.IUpdateProfileRequest,
-    options?: gax.CallOptions
-  ): Promise<
-    [
-      protosTypes.google.cloud.talent.v4beta1.IProfile,
-      protosTypes.google.cloud.talent.v4beta1.IUpdateProfileRequest | undefined,
-      {} | undefined
-    ]
-  >;
+      request: protosTypes.google.cloud.talent.v4beta1.IUpdateProfileRequest,
+      options?: gax.CallOptions):
+      Promise<[
+        protosTypes.google.cloud.talent.v4beta1.IProfile,
+        protosTypes.google.cloud.talent.v4beta1.IUpdateProfileRequest|undefined, {}|undefined
+      ]>;
   updateProfile(
-    request: protosTypes.google.cloud.talent.v4beta1.IUpdateProfileRequest,
-    options: gax.CallOptions,
-    callback: Callback<
-      protosTypes.google.cloud.talent.v4beta1.IProfile,
-      protosTypes.google.cloud.talent.v4beta1.IUpdateProfileRequest | undefined,
-      {} | undefined
-    >
-  ): void;
-  /**
-   * Updates the specified profile and returns the updated result.
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {google.cloud.talent.v4beta1.Profile} request.profile
-   *   Required. Profile to be updated.
-   * @param {google.protobuf.FieldMask} request.updateMask
-   *   A field mask to specify the profile fields to update.
-   *
-   *   A full update is performed if it is unset.
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [Profile]{@link google.cloud.talent.v4beta1.Profile}.
-   *   The promise has a method named "cancel" which cancels the ongoing API call.
-   */
-  updateProfile(
-    request: protosTypes.google.cloud.talent.v4beta1.IUpdateProfileRequest,
-    optionsOrCallback?:
-      | gax.CallOptions
-      | Callback<
+      request: protosTypes.google.cloud.talent.v4beta1.IUpdateProfileRequest,
+      options: gax.CallOptions,
+      callback: Callback<
           protosTypes.google.cloud.talent.v4beta1.IProfile,
-          | protosTypes.google.cloud.talent.v4beta1.IUpdateProfileRequest
-          | undefined,
-          {} | undefined
-        >,
-    callback?: Callback<
-      protosTypes.google.cloud.talent.v4beta1.IProfile,
-      protosTypes.google.cloud.talent.v4beta1.IUpdateProfileRequest | undefined,
-      {} | undefined
-    >
-  ): Promise<
-    [
-      protosTypes.google.cloud.talent.v4beta1.IProfile,
-      protosTypes.google.cloud.talent.v4beta1.IUpdateProfileRequest | undefined,
-      {} | undefined
-    ]
-  > | void {
+          protosTypes.google.cloud.talent.v4beta1.IUpdateProfileRequest|undefined,
+          {}|undefined>): void;
+/**
+ * Updates the specified profile and returns the updated result.
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {google.cloud.talent.v4beta1.Profile} request.profile
+ *   Required. Profile to be updated.
+ * @param {google.protobuf.FieldMask} request.updateMask
+ *   A field mask to specify the profile fields to update.
+ *
+ *   A full update is performed if it is unset.
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Promise} - The promise which resolves to an array.
+ *   The first element of the array is an object representing [Profile]{@link google.cloud.talent.v4beta1.Profile}.
+ *   The promise has a method named "cancel" which cancels the ongoing API call.
+ */
+  updateProfile(
+      request: protosTypes.google.cloud.talent.v4beta1.IUpdateProfileRequest,
+      optionsOrCallback?: gax.CallOptions|Callback<
+          protosTypes.google.cloud.talent.v4beta1.IProfile,
+          protosTypes.google.cloud.talent.v4beta1.IUpdateProfileRequest|undefined, {}|undefined>,
+      callback?: Callback<
+          protosTypes.google.cloud.talent.v4beta1.IProfile,
+          protosTypes.google.cloud.talent.v4beta1.IUpdateProfileRequest|undefined,
+          {}|undefined>):
+      Promise<[
+        protosTypes.google.cloud.talent.v4beta1.IProfile,
+        protosTypes.google.cloud.talent.v4beta1.IUpdateProfileRequest|undefined, {}|undefined
+      ]>|void {
     request = request || {};
     let options: gax.CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    } else {
+    }
+    else {
       options = optionsOrCallback as gax.CallOptions;
     }
     options = options || {};
@@ -562,71 +490,58 @@ export class ProfileServiceClient {
     return this._innerApiCalls.updateProfile(request, options, callback);
   }
   deleteProfile(
-    request: protosTypes.google.cloud.talent.v4beta1.IDeleteProfileRequest,
-    options?: gax.CallOptions
-  ): Promise<
-    [
-      protosTypes.google.protobuf.IEmpty,
-      protosTypes.google.cloud.talent.v4beta1.IDeleteProfileRequest | undefined,
-      {} | undefined
-    ]
-  >;
+      request: protosTypes.google.cloud.talent.v4beta1.IDeleteProfileRequest,
+      options?: gax.CallOptions):
+      Promise<[
+        protosTypes.google.protobuf.IEmpty,
+        protosTypes.google.cloud.talent.v4beta1.IDeleteProfileRequest|undefined, {}|undefined
+      ]>;
   deleteProfile(
-    request: protosTypes.google.cloud.talent.v4beta1.IDeleteProfileRequest,
-    options: gax.CallOptions,
-    callback: Callback<
-      protosTypes.google.protobuf.IEmpty,
-      protosTypes.google.cloud.talent.v4beta1.IDeleteProfileRequest | undefined,
-      {} | undefined
-    >
-  ): void;
-  /**
-   * Deletes the specified profile.
-   * Prerequisite: The profile has no associated applications or assignments
-   * associated.
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {string} request.name
-   *   Required. Resource name of the profile to be deleted.
-   *
-   *   The format is
-   *   "projects/{project_id}/tenants/{tenant_id}/profiles/{profile_id}". For
-   *   example, "projects/foo/tenants/bar/profiles/baz".
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [Empty]{@link google.protobuf.Empty}.
-   *   The promise has a method named "cancel" which cancels the ongoing API call.
-   */
-  deleteProfile(
-    request: protosTypes.google.cloud.talent.v4beta1.IDeleteProfileRequest,
-    optionsOrCallback?:
-      | gax.CallOptions
-      | Callback<
+      request: protosTypes.google.cloud.talent.v4beta1.IDeleteProfileRequest,
+      options: gax.CallOptions,
+      callback: Callback<
           protosTypes.google.protobuf.IEmpty,
-          | protosTypes.google.cloud.talent.v4beta1.IDeleteProfileRequest
-          | undefined,
-          {} | undefined
-        >,
-    callback?: Callback<
-      protosTypes.google.protobuf.IEmpty,
-      protosTypes.google.cloud.talent.v4beta1.IDeleteProfileRequest | undefined,
-      {} | undefined
-    >
-  ): Promise<
-    [
-      protosTypes.google.protobuf.IEmpty,
-      protosTypes.google.cloud.talent.v4beta1.IDeleteProfileRequest | undefined,
-      {} | undefined
-    ]
-  > | void {
+          protosTypes.google.cloud.talent.v4beta1.IDeleteProfileRequest|undefined,
+          {}|undefined>): void;
+/**
+ * Deletes the specified profile.
+ * Prerequisite: The profile has no associated applications or assignments
+ * associated.
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {string} request.name
+ *   Required. Resource name of the profile to be deleted.
+ *
+ *   The format is
+ *   "projects/{project_id}/tenants/{tenant_id}/profiles/{profile_id}". For
+ *   example, "projects/foo/tenants/bar/profiles/baz".
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Promise} - The promise which resolves to an array.
+ *   The first element of the array is an object representing [Empty]{@link google.protobuf.Empty}.
+ *   The promise has a method named "cancel" which cancels the ongoing API call.
+ */
+  deleteProfile(
+      request: protosTypes.google.cloud.talent.v4beta1.IDeleteProfileRequest,
+      optionsOrCallback?: gax.CallOptions|Callback<
+          protosTypes.google.protobuf.IEmpty,
+          protosTypes.google.cloud.talent.v4beta1.IDeleteProfileRequest|undefined, {}|undefined>,
+      callback?: Callback<
+          protosTypes.google.protobuf.IEmpty,
+          protosTypes.google.cloud.talent.v4beta1.IDeleteProfileRequest|undefined,
+          {}|undefined>):
+      Promise<[
+        protosTypes.google.protobuf.IEmpty,
+        protosTypes.google.cloud.talent.v4beta1.IDeleteProfileRequest|undefined, {}|undefined
+      ]>|void {
     request = request || {};
     let options: gax.CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    } else {
+    }
+    else {
       options = optionsOrCallback as gax.CallOptions;
     }
     options = options || {};
@@ -635,254 +550,233 @@ export class ProfileServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
-      name: request.name || '',
+      'name': request.name || '',
     });
     this.initialize();
     return this._innerApiCalls.deleteProfile(request, options, callback);
   }
   searchProfiles(
-    request: protosTypes.google.cloud.talent.v4beta1.ISearchProfilesRequest,
-    options?: gax.CallOptions
-  ): Promise<
-    [
-      protosTypes.google.cloud.talent.v4beta1.ISearchProfilesResponse,
-      (
-        | protosTypes.google.cloud.talent.v4beta1.ISearchProfilesRequest
-        | undefined
-      ),
-      {} | undefined
-    ]
-  >;
+      request: protosTypes.google.cloud.talent.v4beta1.ISearchProfilesRequest,
+      options?: gax.CallOptions):
+      Promise<[
+        protosTypes.google.cloud.talent.v4beta1.ISearchProfilesResponse,
+        protosTypes.google.cloud.talent.v4beta1.ISearchProfilesRequest|undefined, {}|undefined
+      ]>;
   searchProfiles(
-    request: protosTypes.google.cloud.talent.v4beta1.ISearchProfilesRequest,
-    options: gax.CallOptions,
-    callback: Callback<
-      protosTypes.google.cloud.talent.v4beta1.ISearchProfilesResponse,
-      | protosTypes.google.cloud.talent.v4beta1.ISearchProfilesRequest
-      | undefined,
-      {} | undefined
-    >
-  ): void;
-  /**
-   * Searches for profiles within a tenant.
-   *
-   * For example, search by raw queries "software engineer in Mountain View" or
-   * search by structured filters (location filter, education filter, etc.).
-   *
-   * See {@link google.cloud.talent.v4beta1.SearchProfilesRequest|SearchProfilesRequest} for more information.
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {string} request.parent
-   *   Required. The resource name of the tenant to search within.
-   *
-   *   The format is "projects/{project_id}/tenants/{tenant_id}". For example,
-   *   "projects/foo/tenants/bar".
-   * @param {google.cloud.talent.v4beta1.RequestMetadata} request.requestMetadata
-   *   Required. The meta information collected about the profile search user. This is used
-   *   to improve the search quality of the service. These values are provided by
-   *   users, and must be precise and consistent.
-   * @param {google.cloud.talent.v4beta1.ProfileQuery} request.profileQuery
-   *   Search query to execute. See {@link google.cloud.talent.v4beta1.ProfileQuery|ProfileQuery} for more details.
-   * @param {number} request.pageSize
-   *   A limit on the number of profiles returned in the search results.
-   *   A value above the default value 10 can increase search response time.
-   *
-   *   The maximum value allowed is 100. Otherwise an error is thrown.
-   * @param {string} request.pageToken
-   *   The pageToken, similar to offset enables users of the API to paginate
-   *   through the search results. To retrieve the first page of results, set the
-   *   pageToken to empty. The search response includes a
-   *   {@link google.cloud.talent.v4beta1.SearchProfilesResponse.next_page_token|nextPageToken} field that can be
-   *   used to populate the pageToken field for the next page of results. Using
-   *   pageToken instead of offset increases the performance of the API,
-   *   especially compared to larger offset values.
-   * @param {number} request.offset
-   *   An integer that specifies the current offset (that is, starting result) in
-   *   search results. This field is only considered if {@link google.cloud.talent.v4beta1.SearchProfilesRequest.page_token|page_token} is unset.
-   *
-   *   The maximum allowed value is 5000. Otherwise an error is thrown.
-   *
-   *   For example, 0 means to search from the first profile, and 10 means to
-   *   search from the 11th profile. This can be used for pagination, for example
-   *   pageSize = 10 and offset = 10 means to search from the second page.
-   * @param {boolean} request.disableSpellCheck
-   *   This flag controls the spell-check feature. If `false`, the
-   *   service attempts to correct a misspelled query.
-   *
-   *   For example, "enginee" is corrected to "engineer".
-   * @param {string} request.orderBy
-   *   The criteria that determines how search results are sorted.
-   *   Defaults is "relevance desc" if no value is specified.
-   *
-   *   Supported options are:
-   *
-   *   * "relevance desc": By descending relevance, as determined by the API
-   *      algorithms.
-   *   * "update_date desc": Sort by {@link google.cloud.talent.v4beta1.Profile.update_time|Profile.update_time} in descending order
-   *     (recently updated profiles first).
-   *   * "create_date desc": Sort by {@link google.cloud.talent.v4beta1.Profile.create_time|Profile.create_time} in descending order
-   *     (recently created profiles first).
-   *   * "first_name": Sort by {@link google.cloud.talent.v4beta1.PersonName.PersonStructuredName.given_name|PersonName.PersonStructuredName.given_name} in
-   *     ascending order.
-   *   * "first_name desc": Sort by {@link google.cloud.talent.v4beta1.PersonName.PersonStructuredName.given_name|PersonName.PersonStructuredName.given_name}
-   *     in descending order.
-   *   * "last_name": Sort by {@link google.cloud.talent.v4beta1.PersonName.PersonStructuredName.family_name|PersonName.PersonStructuredName.family_name} in
-   *     ascending order.
-   *   * "last_name desc": Sort by {@link google.cloud.talent.v4beta1.PersonName.PersonStructuredName.family_name|PersonName.PersonStructuredName.family_name}
-   *     in ascending order.
-   * @param {boolean} request.caseSensitiveSort
-   *   When sort by field is based on alphabetical order, sort values case
-   *   sensitively (based on ASCII) when the value is set to true. Default value
-   *   is case in-sensitive sort (false).
-   * @param {number[]} request.histogramQueries
-   *   A list of expressions specifies histogram requests against matching
-   *   profiles for {@link google.cloud.talent.v4beta1.SearchProfilesRequest|SearchProfilesRequest}.
-   *
-   *   The expression syntax looks like a function definition with parameters.
-   *
-   *   Function syntax: function_name(histogram_facet[, list of buckets])
-   *
-   *   Data types:
-   *
-   *   * Histogram facet: facet names with format {@link a-zA-Z0-9_|a-zA-Z}+.
-   *   * String: string like "any string with backslash escape for quote(\")."
-   *   * Number: whole number and floating point number like 10, -1 and -0.01.
-   *   * List: list of elements with comma(,) separator surrounded by square
-   *   brackets. For example, [1, 2, 3] and ["one", "two", "three"].
-   *
-   *   Built-in constants:
-   *
-   *   * MIN (minimum number similar to java Double.MIN_VALUE)
-   *   * MAX (maximum number similar to java Double.MAX_VALUE)
-   *
-   *   Built-in functions:
-   *
-   *   * bucket(start, end[, label])
-   *   Bucket build-in function creates a bucket with range of [start, end). Note
-   *   that the end is exclusive.
-   *   For example, bucket(1, MAX, "positive number") or bucket(1, 10).
-   *
-   *   Histogram Facets:
-   *
-   *   * admin1: Admin1 is a global placeholder for referring to state, province,
-   *   or the particular term a country uses to define the geographic structure
-   *   below the country level. Examples include states codes such as "CA", "IL",
-   *   "NY", and provinces, such as "BC".
-   *   * locality: Locality is a global placeholder for referring to city, town,
-   *   or the particular term a country uses to define the geographic structure
-   *   below the admin1 level. Examples include city names such as
-   *   "Mountain View" and "New York".
-   *   * extended_locality: Extended locality is concatenated version of admin1
-   *   and locality with comma separator. For example, "Mountain View, CA" and
-   *   "New York, NY".
-   *   * postal_code: Postal code of profile which follows locale code.
-   *   * country: Country code (ISO-3166-1 alpha-2 code) of profile, such as US,
-   *    JP, GB.
-   *   * job_title: Normalized job titles specified in EmploymentHistory.
-   *   * company_name: Normalized company name of profiles to match on.
-   *   * institution: The school name. For example, "MIT",
-   *   "University of California, Berkeley"
-   *   * degree: Highest education degree in ISCED code. Each value in degree
-   *   covers a specific level of education, without any expansion to upper nor
-   *   lower levels of education degree.
-   *   * experience_in_months: experience in months. 0 means 0 month to 1 month
-   *   (exclusive).
-   *   * application_date: The application date specifies application start dates.
-   *   See {@link google.cloud.talent.v4beta1.ApplicationDateFilter|ApplicationDateFilter} for more details.
-   *   * application_outcome_notes: The application outcome reason specifies the
-   *   reasons behind the outcome of the job application.
-   *   See {@link google.cloud.talent.v4beta1.ApplicationOutcomeNotesFilter|ApplicationOutcomeNotesFilter} for more details.
-   *   * application_job_title: The application job title specifies the job
-   *   applied for in the application.
-   *   See {@link google.cloud.talent.v4beta1.ApplicationJobFilter|ApplicationJobFilter} for more details.
-   *   * hirable_status: Hirable status specifies the profile's hirable status.
-   *   * string_custom_attribute: String custom attributes. Values can be accessed
-   *   via square bracket notation like string_custom_attribute["key1"].
-   *   * numeric_custom_attribute: Numeric custom attributes. Values can be
-   *   accessed via square bracket notation like numeric_custom_attribute["key1"].
-   *
-   *   Example expressions:
-   *
-   *   * count(admin1)
-   *   * count(experience_in_months, [bucket(0, 12, "1 year"),
-   *   bucket(12, 36, "1-3 years"), bucket(36, MAX, "3+ years")])
-   *   * count(string_custom_attribute["assigned_recruiter"])
-   *   * count(numeric_custom_attribute["favorite_number"],
-   *   [bucket(MIN, 0, "negative"), bucket(0, MAX, "non-negative")])
-   * @param {string} request.resultSetId
-   *   An id that uniquely identifies the result set of a
-   *   {@link google.cloud.talent.v4beta1.ProfileService.SearchProfiles|SearchProfiles} call. The id should be
-   *   retrieved from the
-   *   {@link google.cloud.talent.v4beta1.SearchProfilesResponse|SearchProfilesResponse} message returned from a previous
-   *   invocation of {@link google.cloud.talent.v4beta1.ProfileService.SearchProfiles|SearchProfiles}.
-   *
-   *   A result set is an ordered list of search results.
-   *
-   *   If this field is not set, a new result set is computed based on the
-   *   {@link google.cloud.talent.v4beta1.SearchProfilesRequest.profile_query|profile_query}.  A new {@link google.cloud.talent.v4beta1.SearchProfilesRequest.result_set_id|result_set_id} is returned as a handle to
-   *   access this result set.
-   *
-   *   If this field is set, the service will ignore the resource and
-   *   {@link google.cloud.talent.v4beta1.SearchProfilesRequest.profile_query|profile_query} values, and simply retrieve a page of results from the
-   *   corresponding result set.  In this case, one and only one of {@link google.cloud.talent.v4beta1.SearchProfilesRequest.page_token|page_token}
-   *   or {@link google.cloud.talent.v4beta1.SearchProfilesRequest.offset|offset} must be set.
-   *
-   *   A typical use case is to invoke {@link google.cloud.talent.v4beta1.SearchProfilesRequest|SearchProfilesRequest} without this
-   *   field, then use the resulting {@link google.cloud.talent.v4beta1.SearchProfilesRequest.result_set_id|result_set_id} in
-   *   {@link google.cloud.talent.v4beta1.SearchProfilesResponse|SearchProfilesResponse} to page through the results.
-   * @param {boolean} request.strictKeywordsSearch
-   *   This flag is used to indicate whether the service will attempt to
-   *   understand synonyms and terms related to the search query or treat the
-   *   query "as is" when it generates a set of results. By default this flag is
-   *   set to false, thus allowing expanded results to also be returned. For
-   *   example a search for "software engineer" might also return candidates who
-   *   have experience in jobs similar to software engineer positions. By setting
-   *   this flag to true, the service will only attempt to deliver candidates has
-   *   software engineer in his/her global fields by treating "software engineer"
-   *   as a keyword.
-   *
-   *   It is recommended to provide a feature in the UI (such as a checkbox) to
-   *   allow recruiters to set this flag to true if they intend to search for
-   *   longer boolean strings.
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [SearchProfilesResponse]{@link google.cloud.talent.v4beta1.SearchProfilesResponse}.
-   *   The promise has a method named "cancel" which cancels the ongoing API call.
-   */
-  searchProfiles(
-    request: protosTypes.google.cloud.talent.v4beta1.ISearchProfilesRequest,
-    optionsOrCallback?:
-      | gax.CallOptions
-      | Callback<
+      request: protosTypes.google.cloud.talent.v4beta1.ISearchProfilesRequest,
+      options: gax.CallOptions,
+      callback: Callback<
           protosTypes.google.cloud.talent.v4beta1.ISearchProfilesResponse,
-          | protosTypes.google.cloud.talent.v4beta1.ISearchProfilesRequest
-          | undefined,
-          {} | undefined
-        >,
-    callback?: Callback<
-      protosTypes.google.cloud.talent.v4beta1.ISearchProfilesResponse,
-      | protosTypes.google.cloud.talent.v4beta1.ISearchProfilesRequest
-      | undefined,
-      {} | undefined
-    >
-  ): Promise<
-    [
-      protosTypes.google.cloud.talent.v4beta1.ISearchProfilesResponse,
-      (
-        | protosTypes.google.cloud.talent.v4beta1.ISearchProfilesRequest
-        | undefined
-      ),
-      {} | undefined
-    ]
-  > | void {
+          protosTypes.google.cloud.talent.v4beta1.ISearchProfilesRequest|undefined,
+          {}|undefined>): void;
+/**
+ * Searches for profiles within a tenant.
+ *
+ * For example, search by raw queries "software engineer in Mountain View" or
+ * search by structured filters (location filter, education filter, etc.).
+ *
+ * See {@link google.cloud.talent.v4beta1.SearchProfilesRequest|SearchProfilesRequest} for more information.
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {string} request.parent
+ *   Required. The resource name of the tenant to search within.
+ *
+ *   The format is "projects/{project_id}/tenants/{tenant_id}". For example,
+ *   "projects/foo/tenants/bar".
+ * @param {google.cloud.talent.v4beta1.RequestMetadata} request.requestMetadata
+ *   Required. The meta information collected about the profile search user. This is used
+ *   to improve the search quality of the service. These values are provided by
+ *   users, and must be precise and consistent.
+ * @param {google.cloud.talent.v4beta1.ProfileQuery} request.profileQuery
+ *   Search query to execute. See {@link google.cloud.talent.v4beta1.ProfileQuery|ProfileQuery} for more details.
+ * @param {number} request.pageSize
+ *   A limit on the number of profiles returned in the search results.
+ *   A value above the default value 10 can increase search response time.
+ *
+ *   The maximum value allowed is 100. Otherwise an error is thrown.
+ * @param {string} request.pageToken
+ *   The pageToken, similar to offset enables users of the API to paginate
+ *   through the search results. To retrieve the first page of results, set the
+ *   pageToken to empty. The search response includes a
+ *   {@link google.cloud.talent.v4beta1.SearchProfilesResponse.next_page_token|nextPageToken} field that can be
+ *   used to populate the pageToken field for the next page of results. Using
+ *   pageToken instead of offset increases the performance of the API,
+ *   especially compared to larger offset values.
+ * @param {number} request.offset
+ *   An integer that specifies the current offset (that is, starting result) in
+ *   search results. This field is only considered if {@link google.cloud.talent.v4beta1.SearchProfilesRequest.page_token|page_token} is unset.
+ *
+ *   The maximum allowed value is 5000. Otherwise an error is thrown.
+ *
+ *   For example, 0 means to search from the first profile, and 10 means to
+ *   search from the 11th profile. This can be used for pagination, for example
+ *   pageSize = 10 and offset = 10 means to search from the second page.
+ * @param {boolean} request.disableSpellCheck
+ *   This flag controls the spell-check feature. If `false`, the
+ *   service attempts to correct a misspelled query.
+ *
+ *   For example, "enginee" is corrected to "engineer".
+ * @param {string} request.orderBy
+ *   The criteria that determines how search results are sorted.
+ *   Defaults is "relevance desc" if no value is specified.
+ *
+ *   Supported options are:
+ *
+ *   * "relevance desc": By descending relevance, as determined by the API
+ *      algorithms.
+ *   * "update_date desc": Sort by {@link google.cloud.talent.v4beta1.Profile.update_time|Profile.update_time} in descending order
+ *     (recently updated profiles first).
+ *   * "create_date desc": Sort by {@link google.cloud.talent.v4beta1.Profile.create_time|Profile.create_time} in descending order
+ *     (recently created profiles first).
+ *   * "first_name": Sort by {@link google.cloud.talent.v4beta1.PersonName.PersonStructuredName.given_name|PersonName.PersonStructuredName.given_name} in
+ *     ascending order.
+ *   * "first_name desc": Sort by {@link google.cloud.talent.v4beta1.PersonName.PersonStructuredName.given_name|PersonName.PersonStructuredName.given_name}
+ *     in descending order.
+ *   * "last_name": Sort by {@link google.cloud.talent.v4beta1.PersonName.PersonStructuredName.family_name|PersonName.PersonStructuredName.family_name} in
+ *     ascending order.
+ *   * "last_name desc": Sort by {@link google.cloud.talent.v4beta1.PersonName.PersonStructuredName.family_name|PersonName.PersonStructuredName.family_name}
+ *     in ascending order.
+ * @param {boolean} request.caseSensitiveSort
+ *   When sort by field is based on alphabetical order, sort values case
+ *   sensitively (based on ASCII) when the value is set to true. Default value
+ *   is case in-sensitive sort (false).
+ * @param {number[]} request.histogramQueries
+ *   A list of expressions specifies histogram requests against matching
+ *   profiles for {@link google.cloud.talent.v4beta1.SearchProfilesRequest|SearchProfilesRequest}.
+ *
+ *   The expression syntax looks like a function definition with parameters.
+ *
+ *   Function syntax: function_name(histogram_facet[, list of buckets])
+ *
+ *   Data types:
+ *
+ *   * Histogram facet: facet names with format {@link a-zA-Z0-9_|a-zA-Z}+.
+ *   * String: string like "any string with backslash escape for quote(\")."
+ *   * Number: whole number and floating point number like 10, -1 and -0.01.
+ *   * List: list of elements with comma(,) separator surrounded by square
+ *   brackets. For example, [1, 2, 3] and ["one", "two", "three"].
+ *
+ *   Built-in constants:
+ *
+ *   * MIN (minimum number similar to java Double.MIN_VALUE)
+ *   * MAX (maximum number similar to java Double.MAX_VALUE)
+ *
+ *   Built-in functions:
+ *
+ *   * bucket(start, end[, label])
+ *   Bucket build-in function creates a bucket with range of [start, end). Note
+ *   that the end is exclusive.
+ *   For example, bucket(1, MAX, "positive number") or bucket(1, 10).
+ *
+ *   Histogram Facets:
+ *
+ *   * admin1: Admin1 is a global placeholder for referring to state, province,
+ *   or the particular term a country uses to define the geographic structure
+ *   below the country level. Examples include states codes such as "CA", "IL",
+ *   "NY", and provinces, such as "BC".
+ *   * locality: Locality is a global placeholder for referring to city, town,
+ *   or the particular term a country uses to define the geographic structure
+ *   below the admin1 level. Examples include city names such as
+ *   "Mountain View" and "New York".
+ *   * extended_locality: Extended locality is concatenated version of admin1
+ *   and locality with comma separator. For example, "Mountain View, CA" and
+ *   "New York, NY".
+ *   * postal_code: Postal code of profile which follows locale code.
+ *   * country: Country code (ISO-3166-1 alpha-2 code) of profile, such as US,
+ *    JP, GB.
+ *   * job_title: Normalized job titles specified in EmploymentHistory.
+ *   * company_name: Normalized company name of profiles to match on.
+ *   * institution: The school name. For example, "MIT",
+ *   "University of California, Berkeley"
+ *   * degree: Highest education degree in ISCED code. Each value in degree
+ *   covers a specific level of education, without any expansion to upper nor
+ *   lower levels of education degree.
+ *   * experience_in_months: experience in months. 0 means 0 month to 1 month
+ *   (exclusive).
+ *   * application_date: The application date specifies application start dates.
+ *   See {@link google.cloud.talent.v4beta1.ApplicationDateFilter|ApplicationDateFilter} for more details.
+ *   * application_outcome_notes: The application outcome reason specifies the
+ *   reasons behind the outcome of the job application.
+ *   See {@link google.cloud.talent.v4beta1.ApplicationOutcomeNotesFilter|ApplicationOutcomeNotesFilter} for more details.
+ *   * application_job_title: The application job title specifies the job
+ *   applied for in the application.
+ *   See {@link google.cloud.talent.v4beta1.ApplicationJobFilter|ApplicationJobFilter} for more details.
+ *   * hirable_status: Hirable status specifies the profile's hirable status.
+ *   * string_custom_attribute: String custom attributes. Values can be accessed
+ *   via square bracket notation like string_custom_attribute["key1"].
+ *   * numeric_custom_attribute: Numeric custom attributes. Values can be
+ *   accessed via square bracket notation like numeric_custom_attribute["key1"].
+ *
+ *   Example expressions:
+ *
+ *   * count(admin1)
+ *   * count(experience_in_months, [bucket(0, 12, "1 year"),
+ *   bucket(12, 36, "1-3 years"), bucket(36, MAX, "3+ years")])
+ *   * count(string_custom_attribute["assigned_recruiter"])
+ *   * count(numeric_custom_attribute["favorite_number"],
+ *   [bucket(MIN, 0, "negative"), bucket(0, MAX, "non-negative")])
+ * @param {string} request.resultSetId
+ *   An id that uniquely identifies the result set of a
+ *   {@link google.cloud.talent.v4beta1.ProfileService.SearchProfiles|SearchProfiles} call. The id should be
+ *   retrieved from the
+ *   {@link google.cloud.talent.v4beta1.SearchProfilesResponse|SearchProfilesResponse} message returned from a previous
+ *   invocation of {@link google.cloud.talent.v4beta1.ProfileService.SearchProfiles|SearchProfiles}.
+ *
+ *   A result set is an ordered list of search results.
+ *
+ *   If this field is not set, a new result set is computed based on the
+ *   {@link google.cloud.talent.v4beta1.SearchProfilesRequest.profile_query|profile_query}.  A new {@link google.cloud.talent.v4beta1.SearchProfilesRequest.result_set_id|result_set_id} is returned as a handle to
+ *   access this result set.
+ *
+ *   If this field is set, the service will ignore the resource and
+ *   {@link google.cloud.talent.v4beta1.SearchProfilesRequest.profile_query|profile_query} values, and simply retrieve a page of results from the
+ *   corresponding result set.  In this case, one and only one of {@link google.cloud.talent.v4beta1.SearchProfilesRequest.page_token|page_token}
+ *   or {@link google.cloud.talent.v4beta1.SearchProfilesRequest.offset|offset} must be set.
+ *
+ *   A typical use case is to invoke {@link google.cloud.talent.v4beta1.SearchProfilesRequest|SearchProfilesRequest} without this
+ *   field, then use the resulting {@link google.cloud.talent.v4beta1.SearchProfilesRequest.result_set_id|result_set_id} in
+ *   {@link google.cloud.talent.v4beta1.SearchProfilesResponse|SearchProfilesResponse} to page through the results.
+ * @param {boolean} request.strictKeywordsSearch
+ *   This flag is used to indicate whether the service will attempt to
+ *   understand synonyms and terms related to the search query or treat the
+ *   query "as is" when it generates a set of results. By default this flag is
+ *   set to false, thus allowing expanded results to also be returned. For
+ *   example a search for "software engineer" might also return candidates who
+ *   have experience in jobs similar to software engineer positions. By setting
+ *   this flag to true, the service will only attempt to deliver candidates has
+ *   software engineer in his/her global fields by treating "software engineer"
+ *   as a keyword.
+ *
+ *   It is recommended to provide a feature in the UI (such as a checkbox) to
+ *   allow recruiters to set this flag to true if they intend to search for
+ *   longer boolean strings.
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Promise} - The promise which resolves to an array.
+ *   The first element of the array is an object representing [SearchProfilesResponse]{@link google.cloud.talent.v4beta1.SearchProfilesResponse}.
+ *   The promise has a method named "cancel" which cancels the ongoing API call.
+ */
+  searchProfiles(
+      request: protosTypes.google.cloud.talent.v4beta1.ISearchProfilesRequest,
+      optionsOrCallback?: gax.CallOptions|Callback<
+          protosTypes.google.cloud.talent.v4beta1.ISearchProfilesResponse,
+          protosTypes.google.cloud.talent.v4beta1.ISearchProfilesRequest|undefined, {}|undefined>,
+      callback?: Callback<
+          protosTypes.google.cloud.talent.v4beta1.ISearchProfilesResponse,
+          protosTypes.google.cloud.talent.v4beta1.ISearchProfilesRequest|undefined,
+          {}|undefined>):
+      Promise<[
+        protosTypes.google.cloud.talent.v4beta1.ISearchProfilesResponse,
+        protosTypes.google.cloud.talent.v4beta1.ISearchProfilesRequest|undefined, {}|undefined
+      ]>|void {
     request = request || {};
     let options: gax.CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    } else {
+    }
+    else {
       options = optionsOrCallback as gax.CallOptions;
     }
     options = options || {};
@@ -891,120 +785,111 @@ export class ProfileServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
-      parent: request.parent || '',
+      'parent': request.parent || '',
     });
     this.initialize();
     return this._innerApiCalls.searchProfiles(request, options, callback);
   }
 
   listProfiles(
-    request: protosTypes.google.cloud.talent.v4beta1.IListProfilesRequest,
-    options?: gax.CallOptions
-  ): Promise<
-    [
-      protosTypes.google.cloud.talent.v4beta1.IProfile[],
-      protosTypes.google.cloud.talent.v4beta1.IListProfilesRequest | null,
-      protosTypes.google.cloud.talent.v4beta1.IListProfilesResponse
-    ]
-  >;
+      request: protosTypes.google.cloud.talent.v4beta1.IListProfilesRequest,
+      options?: gax.CallOptions):
+      Promise<[
+        protosTypes.google.cloud.talent.v4beta1.IProfile[],
+        protosTypes.google.cloud.talent.v4beta1.IListProfilesRequest|null,
+        protosTypes.google.cloud.talent.v4beta1.IListProfilesResponse
+      ]>;
   listProfiles(
-    request: protosTypes.google.cloud.talent.v4beta1.IListProfilesRequest,
-    options: gax.CallOptions,
-    callback: Callback<
-      protosTypes.google.cloud.talent.v4beta1.IProfile[],
-      protosTypes.google.cloud.talent.v4beta1.IListProfilesRequest | null,
-      protosTypes.google.cloud.talent.v4beta1.IListProfilesResponse
-    >
-  ): void;
-  /**
-   * Lists profiles by filter. The order is unspecified.
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {string} request.parent
-   *   Required. The resource name of the tenant under which the profile is created.
-   *
-   *   The format is "projects/{project_id}/tenants/{tenant_id}". For example,
-   *   "projects/foo/tenants/bar".
-   * @param {string} request.filter
-   *   The filter string specifies the profiles to be enumerated.
-   *
-   *   Supported operator: =, AND
-   *
-   *   The field(s) eligible for filtering are:
-   *
-   *   * `externalId`
-   *   * `groupId`
-   *
-   *   externalId and groupId cannot be specified at the same time. If both
-   *   externalId and groupId are provided, the API will return a bad request
-   *   error.
-   *
-   *   Sample Query:
-   *
-   *   * externalId = "externalId-1"
-   *   * groupId = "groupId-1"
-   * @param {string} request.pageToken
-   *   The token that specifies the current offset (that is, starting result).
-   *
-   *   Please set the value to {@link google.cloud.talent.v4beta1.ListProfilesResponse.next_page_token|ListProfilesResponse.next_page_token} to
-   *   continue the list.
-   * @param {number} request.pageSize
-   *   The maximum number of profiles to be returned, at most 100.
-   *
-   *   Default is 100 unless a positive number smaller than 100 is specified.
-   * @param {google.protobuf.FieldMask} request.readMask
-   *   A field mask to specify the profile fields to be listed in response.
-   *   All fields are listed if it is unset.
-   *
-   *   Valid values are:
-   *
-   *   * name
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is Array of [Profile]{@link google.cloud.talent.v4beta1.Profile}.
-   *   The client library support auto-pagination by default: it will call the API as many
-   *   times as needed and will merge results from all the pages into this array.
-   *
-   *   When autoPaginate: false is specified through options, the array has three elements.
-   *   The first element is Array of [Profile]{@link google.cloud.talent.v4beta1.Profile} that corresponds to
-   *   the one page received from the API server.
-   *   If the second element is not null it contains the request object of type [ListProfilesRequest]{@link google.cloud.talent.v4beta1.ListProfilesRequest}
-   *   that can be used to obtain the next page of the results.
-   *   If it is null, the next page does not exist.
-   *   The third element contains the raw response received from the API server. Its type is
-   *   [ListProfilesResponse]{@link google.cloud.talent.v4beta1.ListProfilesResponse}.
-   *
-   *   The promise has a method named "cancel" which cancels the ongoing API call.
-   */
-  listProfiles(
-    request: protosTypes.google.cloud.talent.v4beta1.IListProfilesRequest,
-    optionsOrCallback?:
-      | gax.CallOptions
-      | Callback<
+      request: protosTypes.google.cloud.talent.v4beta1.IListProfilesRequest,
+      options: gax.CallOptions,
+      callback: PaginationCallback<
           protosTypes.google.cloud.talent.v4beta1.IProfile[],
-          protosTypes.google.cloud.talent.v4beta1.IListProfilesRequest | null,
-          protosTypes.google.cloud.talent.v4beta1.IListProfilesResponse
-        >,
-    callback?: Callback<
-      protosTypes.google.cloud.talent.v4beta1.IProfile[],
-      protosTypes.google.cloud.talent.v4beta1.IListProfilesRequest | null,
-      protosTypes.google.cloud.talent.v4beta1.IListProfilesResponse
-    >
-  ): Promise<
-    [
-      protosTypes.google.cloud.talent.v4beta1.IProfile[],
-      protosTypes.google.cloud.talent.v4beta1.IListProfilesRequest | null,
-      protosTypes.google.cloud.talent.v4beta1.IListProfilesResponse
-    ]
-  > | void {
+          protosTypes.google.cloud.talent.v4beta1.IListProfilesRequest|null,
+          protosTypes.google.cloud.talent.v4beta1.IListProfilesResponse>): void;
+/**
+ * Lists profiles by filter. The order is unspecified.
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {string} request.parent
+ *   Required. The resource name of the tenant under which the profile is created.
+ *
+ *   The format is "projects/{project_id}/tenants/{tenant_id}". For example,
+ *   "projects/foo/tenants/bar".
+ * @param {string} request.filter
+ *   The filter string specifies the profiles to be enumerated.
+ *
+ *   Supported operator: =, AND
+ *
+ *   The field(s) eligible for filtering are:
+ *
+ *   * `externalId`
+ *   * `groupId`
+ *
+ *   externalId and groupId cannot be specified at the same time. If both
+ *   externalId and groupId are provided, the API will return a bad request
+ *   error.
+ *
+ *   Sample Query:
+ *
+ *   * externalId = "externalId-1"
+ *   * groupId = "groupId-1"
+ * @param {string} request.pageToken
+ *   The token that specifies the current offset (that is, starting result).
+ *
+ *   Please set the value to {@link google.cloud.talent.v4beta1.ListProfilesResponse.next_page_token|ListProfilesResponse.next_page_token} to
+ *   continue the list.
+ * @param {number} request.pageSize
+ *   The maximum number of profiles to be returned, at most 100.
+ *
+ *   Default is 100 unless a positive number smaller than 100 is specified.
+ * @param {google.protobuf.FieldMask} request.readMask
+ *   A field mask to specify the profile fields to be listed in response.
+ *   All fields are listed if it is unset.
+ *
+ *   Valid values are:
+ *
+ *   * name
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Promise} - The promise which resolves to an array.
+ *   The first element of the array is Array of [Profile]{@link google.cloud.talent.v4beta1.Profile}.
+ *   The client library support auto-pagination by default: it will call the API as many
+ *   times as needed and will merge results from all the pages into this array.
+ *
+ *   When autoPaginate: false is specified through options, the array has three elements.
+ *   The first element is Array of [Profile]{@link google.cloud.talent.v4beta1.Profile} that corresponds to
+ *   the one page received from the API server.
+ *   If the second element is not null it contains the request object of type [ListProfilesRequest]{@link google.cloud.talent.v4beta1.ListProfilesRequest}
+ *   that can be used to obtain the next page of the results.
+ *   If it is null, the next page does not exist.
+ *   The third element contains the raw response received from the API server. Its type is
+ *   [ListProfilesResponse]{@link google.cloud.talent.v4beta1.ListProfilesResponse}.
+ *
+ *   The promise has a method named "cancel" which cancels the ongoing API call.
+ */
+  listProfiles(
+      request: protosTypes.google.cloud.talent.v4beta1.IListProfilesRequest,
+      optionsOrCallback?: gax.CallOptions|PaginationCallback<
+          protosTypes.google.cloud.talent.v4beta1.IProfile[],
+          protosTypes.google.cloud.talent.v4beta1.IListProfilesRequest|null,
+          protosTypes.google.cloud.talent.v4beta1.IListProfilesResponse>,
+      callback?: PaginationCallback<
+          protosTypes.google.cloud.talent.v4beta1.IProfile[],
+          protosTypes.google.cloud.talent.v4beta1.IListProfilesRequest|null,
+          protosTypes.google.cloud.talent.v4beta1.IListProfilesResponse>):
+      Promise<[
+        protosTypes.google.cloud.talent.v4beta1.IProfile[],
+        protosTypes.google.cloud.talent.v4beta1.IListProfilesRequest|null,
+        protosTypes.google.cloud.talent.v4beta1.IListProfilesResponse
+      ]>|void {
     request = request || {};
     let options: gax.CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    } else {
+    }
+    else {
       options = optionsOrCallback as gax.CallOptions;
     }
     options = options || {};
@@ -1013,75 +898,75 @@ export class ProfileServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
-      parent: request.parent || '',
+      'parent': request.parent || '',
     });
     this.initialize();
     return this._innerApiCalls.listProfiles(request, options, callback);
   }
 
-  /**
-   * Equivalent to {@link listProfiles}, but returns a NodeJS Stream object.
-   *
-   * This fetches the paged responses for {@link listProfiles} continuously
-   * and invokes the callback registered for 'data' event for each element in the
-   * responses.
-   *
-   * The returned object has 'end' method when no more elements are required.
-   *
-   * autoPaginate option will be ignored.
-   *
-   * @see {@link https://nodejs.org/api/stream.html}
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {string} request.parent
-   *   Required. The resource name of the tenant under which the profile is created.
-   *
-   *   The format is "projects/{project_id}/tenants/{tenant_id}". For example,
-   *   "projects/foo/tenants/bar".
-   * @param {string} request.filter
-   *   The filter string specifies the profiles to be enumerated.
-   *
-   *   Supported operator: =, AND
-   *
-   *   The field(s) eligible for filtering are:
-   *
-   *   * `externalId`
-   *   * `groupId`
-   *
-   *   externalId and groupId cannot be specified at the same time. If both
-   *   externalId and groupId are provided, the API will return a bad request
-   *   error.
-   *
-   *   Sample Query:
-   *
-   *   * externalId = "externalId-1"
-   *   * groupId = "groupId-1"
-   * @param {string} request.pageToken
-   *   The token that specifies the current offset (that is, starting result).
-   *
-   *   Please set the value to {@link google.cloud.talent.v4beta1.ListProfilesResponse.next_page_token|ListProfilesResponse.next_page_token} to
-   *   continue the list.
-   * @param {number} request.pageSize
-   *   The maximum number of profiles to be returned, at most 100.
-   *
-   *   Default is 100 unless a positive number smaller than 100 is specified.
-   * @param {google.protobuf.FieldMask} request.readMask
-   *   A field mask to specify the profile fields to be listed in response.
-   *   All fields are listed if it is unset.
-   *
-   *   Valid values are:
-   *
-   *   * name
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Stream}
-   *   An object stream which emits an object representing [Profile]{@link google.cloud.talent.v4beta1.Profile} on 'data' event.
-   */
+/**
+ * Equivalent to {@link listProfiles}, but returns a NodeJS Stream object.
+ *
+ * This fetches the paged responses for {@link listProfiles} continuously
+ * and invokes the callback registered for 'data' event for each element in the
+ * responses.
+ *
+ * The returned object has 'end' method when no more elements are required.
+ *
+ * autoPaginate option will be ignored.
+ *
+ * @see {@link https://nodejs.org/api/stream.html}
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {string} request.parent
+ *   Required. The resource name of the tenant under which the profile is created.
+ *
+ *   The format is "projects/{project_id}/tenants/{tenant_id}". For example,
+ *   "projects/foo/tenants/bar".
+ * @param {string} request.filter
+ *   The filter string specifies the profiles to be enumerated.
+ *
+ *   Supported operator: =, AND
+ *
+ *   The field(s) eligible for filtering are:
+ *
+ *   * `externalId`
+ *   * `groupId`
+ *
+ *   externalId and groupId cannot be specified at the same time. If both
+ *   externalId and groupId are provided, the API will return a bad request
+ *   error.
+ *
+ *   Sample Query:
+ *
+ *   * externalId = "externalId-1"
+ *   * groupId = "groupId-1"
+ * @param {string} request.pageToken
+ *   The token that specifies the current offset (that is, starting result).
+ *
+ *   Please set the value to {@link google.cloud.talent.v4beta1.ListProfilesResponse.next_page_token|ListProfilesResponse.next_page_token} to
+ *   continue the list.
+ * @param {number} request.pageSize
+ *   The maximum number of profiles to be returned, at most 100.
+ *
+ *   Default is 100 unless a positive number smaller than 100 is specified.
+ * @param {google.protobuf.FieldMask} request.readMask
+ *   A field mask to specify the profile fields to be listed in response.
+ *   All fields are listed if it is unset.
+ *
+ *   Valid values are:
+ *
+ *   * name
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Stream}
+ *   An object stream which emits an object representing [Profile]{@link google.cloud.talent.v4beta1.Profile} on 'data' event.
+ */
   listProfilesStream(
-    request?: protosTypes.google.cloud.talent.v4beta1.IListProfilesRequest,
-    options?: gax.CallOptions
-  ): Transform {
+      request?: protosTypes.google.cloud.talent.v4beta1.IListProfilesRequest,
+      options?: gax.CallOptions):
+    Transform{
     request = request || {};
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -1089,7 +974,7 @@ export class ProfileServiceClient {
     options.otherArgs.headers[
       'x-goog-request-params'
     ] = gax.routingHeader.fromParams({
-      parent: request.parent || '',
+      'parent': request.parent || '',
     });
     const callSettings = new gax.CallSettings(options);
     this.initialize();
@@ -1112,17 +997,12 @@ export class ProfileServiceClient {
    * @param {string} application
    * @returns {string} Resource name string.
    */
-  applicationPath(
-    project: string,
-    tenant: string,
-    profile: string,
-    application: string
-  ) {
+  applicationPath(project:string,tenant:string,profile:string,application:string) {
     return this._pathTemplates.applicationPathTemplate.render({
-      project,
-      tenant,
-      profile,
-      application,
+      project: project,
+      tenant: tenant,
+      profile: profile,
+      application: application,
     });
   }
 
@@ -1134,8 +1014,7 @@ export class ProfileServiceClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromApplicationName(applicationName: string) {
-    return this._pathTemplates.applicationPathTemplate.match(applicationName)
-      .project;
+    return this._pathTemplates.applicationPathTemplate.match(applicationName).project;
   }
 
   /**
@@ -1146,8 +1025,7 @@ export class ProfileServiceClient {
    * @returns {string} A string representing the tenant.
    */
   matchTenantFromApplicationName(applicationName: string) {
-    return this._pathTemplates.applicationPathTemplate.match(applicationName)
-      .tenant;
+    return this._pathTemplates.applicationPathTemplate.match(applicationName).tenant;
   }
 
   /**
@@ -1158,8 +1036,7 @@ export class ProfileServiceClient {
    * @returns {string} A string representing the profile.
    */
   matchProfileFromApplicationName(applicationName: string) {
-    return this._pathTemplates.applicationPathTemplate.match(applicationName)
-      .profile;
+    return this._pathTemplates.applicationPathTemplate.match(applicationName).profile;
   }
 
   /**
@@ -1170,8 +1047,7 @@ export class ProfileServiceClient {
    * @returns {string} A string representing the application.
    */
   matchApplicationFromApplicationName(applicationName: string) {
-    return this._pathTemplates.applicationPathTemplate.match(applicationName)
-      .application;
+    return this._pathTemplates.applicationPathTemplate.match(applicationName).application;
   }
 
   /**
@@ -1182,11 +1058,11 @@ export class ProfileServiceClient {
    * @param {string} profile
    * @returns {string} Resource name string.
    */
-  profilePath(project: string, tenant: string, profile: string) {
+  profilePath(project:string,tenant:string,profile:string) {
     return this._pathTemplates.profilePathTemplate.render({
-      project,
-      tenant,
-      profile,
+      project: project,
+      tenant: tenant,
+      profile: profile,
     });
   }
 
@@ -1230,10 +1106,10 @@ export class ProfileServiceClient {
    * @param {string} company
    * @returns {string} Resource name string.
    */
-  projectCompanyPath(project: string, company: string) {
+  projectCompanyPath(project:string,company:string) {
     return this._pathTemplates.projectCompanyPathTemplate.render({
-      project,
-      company,
+      project: project,
+      company: company,
     });
   }
 
@@ -1245,9 +1121,7 @@ export class ProfileServiceClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromProjectCompanyName(projectCompanyName: string) {
-    return this._pathTemplates.projectCompanyPathTemplate.match(
-      projectCompanyName
-    ).project;
+    return this._pathTemplates.projectCompanyPathTemplate.match(projectCompanyName).project;
   }
 
   /**
@@ -1258,9 +1132,7 @@ export class ProfileServiceClient {
    * @returns {string} A string representing the company.
    */
   matchCompanyFromProjectCompanyName(projectCompanyName: string) {
-    return this._pathTemplates.projectCompanyPathTemplate.match(
-      projectCompanyName
-    ).company;
+    return this._pathTemplates.projectCompanyPathTemplate.match(projectCompanyName).company;
   }
 
   /**
@@ -1270,10 +1142,10 @@ export class ProfileServiceClient {
    * @param {string} job
    * @returns {string} Resource name string.
    */
-  projectJobPath(project: string, job: string) {
+  projectJobPath(project:string,job:string) {
     return this._pathTemplates.projectJobPathTemplate.render({
-      project,
-      job,
+      project: project,
+      job: job,
     });
   }
 
@@ -1285,8 +1157,7 @@ export class ProfileServiceClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromProjectJobName(projectJobName: string) {
-    return this._pathTemplates.projectJobPathTemplate.match(projectJobName)
-      .project;
+    return this._pathTemplates.projectJobPathTemplate.match(projectJobName).project;
   }
 
   /**
@@ -1308,11 +1179,11 @@ export class ProfileServiceClient {
    * @param {string} company
    * @returns {string} Resource name string.
    */
-  projectTenantCompanyPath(project: string, tenant: string, company: string) {
+  projectTenantCompanyPath(project:string,tenant:string,company:string) {
     return this._pathTemplates.projectTenantCompanyPathTemplate.render({
-      project,
-      tenant,
-      company,
+      project: project,
+      tenant: tenant,
+      company: company,
     });
   }
 
@@ -1324,9 +1195,7 @@ export class ProfileServiceClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromProjectTenantCompanyName(projectTenantCompanyName: string) {
-    return this._pathTemplates.projectTenantCompanyPathTemplate.match(
-      projectTenantCompanyName
-    ).project;
+    return this._pathTemplates.projectTenantCompanyPathTemplate.match(projectTenantCompanyName).project;
   }
 
   /**
@@ -1337,9 +1206,7 @@ export class ProfileServiceClient {
    * @returns {string} A string representing the tenant.
    */
   matchTenantFromProjectTenantCompanyName(projectTenantCompanyName: string) {
-    return this._pathTemplates.projectTenantCompanyPathTemplate.match(
-      projectTenantCompanyName
-    ).tenant;
+    return this._pathTemplates.projectTenantCompanyPathTemplate.match(projectTenantCompanyName).tenant;
   }
 
   /**
@@ -1350,9 +1217,7 @@ export class ProfileServiceClient {
    * @returns {string} A string representing the company.
    */
   matchCompanyFromProjectTenantCompanyName(projectTenantCompanyName: string) {
-    return this._pathTemplates.projectTenantCompanyPathTemplate.match(
-      projectTenantCompanyName
-    ).company;
+    return this._pathTemplates.projectTenantCompanyPathTemplate.match(projectTenantCompanyName).company;
   }
 
   /**
@@ -1363,11 +1228,11 @@ export class ProfileServiceClient {
    * @param {string} job
    * @returns {string} Resource name string.
    */
-  projectTenantJobPath(project: string, tenant: string, job: string) {
+  projectTenantJobPath(project:string,tenant:string,job:string) {
     return this._pathTemplates.projectTenantJobPathTemplate.render({
-      project,
-      tenant,
-      job,
+      project: project,
+      tenant: tenant,
+      job: job,
     });
   }
 
@@ -1379,9 +1244,7 @@ export class ProfileServiceClient {
    * @returns {string} A string representing the project.
    */
   matchProjectFromProjectTenantJobName(projectTenantJobName: string) {
-    return this._pathTemplates.projectTenantJobPathTemplate.match(
-      projectTenantJobName
-    ).project;
+    return this._pathTemplates.projectTenantJobPathTemplate.match(projectTenantJobName).project;
   }
 
   /**
@@ -1392,9 +1255,7 @@ export class ProfileServiceClient {
    * @returns {string} A string representing the tenant.
    */
   matchTenantFromProjectTenantJobName(projectTenantJobName: string) {
-    return this._pathTemplates.projectTenantJobPathTemplate.match(
-      projectTenantJobName
-    ).tenant;
+    return this._pathTemplates.projectTenantJobPathTemplate.match(projectTenantJobName).tenant;
   }
 
   /**
@@ -1405,9 +1266,7 @@ export class ProfileServiceClient {
    * @returns {string} A string representing the job.
    */
   matchJobFromProjectTenantJobName(projectTenantJobName: string) {
-    return this._pathTemplates.projectTenantJobPathTemplate.match(
-      projectTenantJobName
-    ).job;
+    return this._pathTemplates.projectTenantJobPathTemplate.match(projectTenantJobName).job;
   }
 
   /**
@@ -1417,10 +1276,10 @@ export class ProfileServiceClient {
    * @param {string} tenant
    * @returns {string} Resource name string.
    */
-  tenantPath(project: string, tenant: string) {
+  tenantPath(project:string,tenant:string) {
     return this._pathTemplates.tenantPathTemplate.render({
-      project,
-      tenant,
+      project: project,
+      tenant: tenant,
     });
   }
 

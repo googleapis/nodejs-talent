@@ -24,27 +24,9 @@ const EventServiceClient = v4beta1.EventServiceClient;
 const JobServiceClient = v4beta1.JobServiceClient;
 const ProfileServiceClient = v4beta1.ProfileServiceClient;
 const TenantServiceClient = v4beta1.TenantServiceClient;
-export {
-  v4beta1,
-  ApplicationServiceClient,
-  CompanyServiceClient,
-  CompletionClient,
-  EventServiceClient,
-  JobServiceClient,
-  ProfileServiceClient,
-  TenantServiceClient,
-};
+export {v4beta1, ApplicationServiceClient, CompanyServiceClient, CompletionClient, EventServiceClient, JobServiceClient, ProfileServiceClient, TenantServiceClient};
 // For compatibility with JavaScript libraries we need to provide this default export:
 // tslint:disable-next-line no-default-export
-export default {
-  v4beta1,
-  ApplicationServiceClient,
-  CompanyServiceClient,
-  CompletionClient,
-  EventServiceClient,
-  JobServiceClient,
-  ProfileServiceClient,
-  TenantServiceClient,
-};
+export default {v4beta1, ApplicationServiceClient, CompanyServiceClient, CompletionClient, EventServiceClient, JobServiceClient, ProfileServiceClient, TenantServiceClient};
 import * as protos from '../protos/protos';
-export {protos};
+export {protos}

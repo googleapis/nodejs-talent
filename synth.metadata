@@ -1,6 +1,12 @@
 {
-  "updateTime": "2020-04-03T12:14:08.719151Z",
   "sources": [
+    {
+      "git": {
+        "name": ".",
+        "remote": "https://github.com/googleapis/nodejs-talent.git",
+        "sha": "64d8de6ea8a5fd3fc9128e8ec21408f9fa65408e"
+      }
+    },
     {
       "git": {
         "name": "googleapis",

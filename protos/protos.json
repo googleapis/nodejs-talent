@@ -831,7 +831,7 @@
                     "Company": {
                       "options": {
                         "(google.api.resource).type": "jobs.googleapis.com/Company",
-                        "(google.api.resource).pattern": "projects/{project}/tenants/{tenant}/companies/{company}"
+                        "(google.api.resource).pattern": "projects/{project}/companies/{company}"
                       },
                       "fields": {
                         "name": {
@@ -1842,7 +1842,7 @@
                     "Job": {
                       "options": {
                         "(google.api.resource).type": "jobs.googleapis.com/Job",
-                        "(google.api.resource).pattern": "projects/{project}/tenants/{tenant}/jobs/{job}"
+                        "(google.api.resource).pattern": "projects/{project}/jobs/{job}"
                       },
                       "fields": {
                         "name": {

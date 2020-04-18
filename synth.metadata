@@ -1,12 +1,6 @@
 {
+  "updateTime": "2020-04-11T01:45:31.947630Z",
   "sources": [
-    {
-      "git": {
-        "name": ".",
-        "remote": "https://github.com/googleapis/nodejs-talent.git",
-        "sha": "fcf71baa0c3ccf51ae83c5da9dcdb1eefb432473"
-      }
-    },
     {
       "git": {
         "name": "googleapis",
@@ -19,7 +13,7 @@
       "git": {
         "name": "synthtool",
         "remote": "https://github.com/googleapis/synthtool.git",
-        "sha": "21c3b57ae54ae9db6a3a6b48b31c970c6ab56f19"
+        "sha": "6f32150677c9784f3c3a7e1949472bd29c9d72c5"
       }
     }
   ],

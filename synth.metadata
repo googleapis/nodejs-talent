@@ -4,14 +4,22 @@
       "git": {
         "name": ".",
         "remote": "git@github.com:googleapis/nodejs-talent.git",
-        "sha": "0205c4d14e55e3a5ffac26b20c2196036ca33801"
+        "sha": "66d3b2e6c5c6293733a6aa209eb30d940b73dd8d"
+      }
+    },
+    {
+      "git": {
+        "name": "googleapis",
+        "remote": "https://github.com/googleapis/googleapis.git",
+        "sha": "2fc2caaacb15949c7f80426bfc7dafdd41dbc333",
+        "internalRef": "310239576"
       }
     },
     {
       "git": {
         "name": "synthtool",
         "remote": "https://github.com/googleapis/synthtool.git",
-        "sha": "ab883569eb0257bbf16a6d825fd018b3adde3912"
+        "sha": "be74d3e532faa47eb59f1a0eaebde0860d1d8ab4"
       }
     }
   ],

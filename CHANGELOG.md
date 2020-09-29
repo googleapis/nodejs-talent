@@ -4,6 +4,17 @@
 
 [1]: https://www.npmjs.com/package/@google-cloud/talent?activeTab=versions
 
+## [3.0.0](https://www.github.com/googleapis/nodejs-talent/compare/v2.1.0...v3.0.0) (2020-09-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* moves v4 API to default (#243)
+
+### Features
+
+* moves v4 API to default ([#243](https://www.github.com/googleapis/nodejs-talent/issues/243)) ([72cc13a](https://www.github.com/googleapis/nodejs-talent/commit/72cc13a27bd53b5b949d8a909649705131feab59))
+
 ## [2.1.0](https://www.github.com/googleapis/nodejs-talent/compare/v2.0.0...v2.1.0) (2020-06-29)
 
 

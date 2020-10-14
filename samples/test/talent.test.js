@@ -17,6 +17,7 @@
 const {assert} = require('chai');
 const cp = require('child_process');
 const {v4} = require('uuid');
+const {describe, it, before, after} = require('mocha');
 
 const talent = require('@google-cloud/talent').v4;
 

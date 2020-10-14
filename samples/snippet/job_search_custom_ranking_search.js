@@ -56,7 +56,7 @@ function sampleSearchJobs(projectId, tenantId) {
     .searchJobs(request)
     .then(responses => {
       const resources = responses[0];
-      for (const resource of resources) {
+      for (const resource of resources.matchingJobs) {
         console.log(`Job summary: ${resource.jobSummary}`);
         console.log(`Job title snippet: ${resource.jobTitleSnippet}`);
         const job = resource.job;

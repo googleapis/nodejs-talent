@@ -15,7 +15,6 @@
 'use strict';
 
 // [START job_search_custom_ranking_search]
-// [START job_search_custom_ranking_search_core]
 
 const talent = require('@google-cloud/talent').v4;
 
@@ -70,7 +69,6 @@ function sampleSearchJobs(projectId, tenantId) {
     });
 }
 
-// [END job_search_custom_ranking_search_core]
 // [END job_search_custom_ranking_search]
 // tslint:disable-next-line:no-any
 

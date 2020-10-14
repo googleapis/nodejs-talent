@@ -15,7 +15,6 @@
 'use strict';
 
 // [START job_search_delete_company]
-// [START job_search_delete_company_core]
 
 const talent = require('@google-cloud/talent').v4;
 
@@ -32,7 +31,6 @@ function sampleDeleteCompany(projectId, tenantId, companyId) {
   console.log('Deleted company');
 }
 
-// [END job_search_delete_company_core]
 // [END job_search_delete_company]
 // tslint:disable-next-line:no-any
 

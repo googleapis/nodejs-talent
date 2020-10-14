@@ -15,7 +15,6 @@
 'use strict';
 
 // [START job_search_create_client_event]
-// [START job_search_create_client_event_core]
 
 const talent = require('@google-cloud/talent').v4;
 
@@ -78,7 +77,6 @@ function sampleCreateClientEvent(projectId, tenantId, requestId, eventId) {
     });
 }
 
-// [END job_search_create_client_event_core]
 // [END job_search_create_client_event]
 // tslint:disable-next-line:no-any
 

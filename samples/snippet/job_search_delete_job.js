@@ -15,7 +15,6 @@
 'use strict';
 
 // [START job_search_delete_job]
-// [START job_search_delete_job_core]
 
 const talent = require('@google-cloud/talent').v4;
 
@@ -32,7 +31,6 @@ function sampleDeleteJob(projectId, tenantId, jobId) {
   console.log('Deleted job.');
 }
 
-// [END job_search_delete_job_core]
 // [END job_search_delete_job]
 // tslint:disable-next-line:no-any
 

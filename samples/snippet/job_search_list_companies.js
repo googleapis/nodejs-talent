@@ -15,7 +15,6 @@
 'use strict';
 
 // [START job_search_list_companies]
-// [START job_search_list_companies_core]
 
 const talent = require('@google-cloud/talent').v4;
 
@@ -47,7 +46,6 @@ function sampleListCompanies(projectId, tenantId) {
     });
 }
 
-// [END job_search_list_companies_core]
 // [END job_search_list_companies]
 // tslint:disable-next-line:no-any
 

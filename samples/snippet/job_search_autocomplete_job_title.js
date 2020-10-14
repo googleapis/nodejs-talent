@@ -15,7 +15,6 @@
 'use strict';
 
 // [START job_search_autocomplete_job_title]
-// [START job_search_autocomplete_job_title_core]
 
 const talent = require('@google-cloud/talent').v4;
 
@@ -23,7 +22,7 @@ const talent = require('@google-cloud/talent').v4;
  * Complete job title given partial text (autocomplete)
  *
  * @param projectId {string} Your Google Cloud Project ID
- * @param tenantId {string} Identifier of the Tenantd
+ * @param tenantId {string} Identifier of the TenantId
  */
 function sampleCompleteQuery(
   projectId,
@@ -61,7 +60,6 @@ function sampleCompleteQuery(
     });
 }
 
-// [END job_search_autocomplete_job_title_core]
 // [END job_search_autocomplete_job_title]
 // tslint:disable-next-line:no-any
 

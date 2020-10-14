@@ -15,7 +15,6 @@
 'use strict';
 
 // [START job_search_batch_delete_job]
-// [START job_search_batch_delete_job_core]
 
 const talent = require('@google-cloud/talent').v4;
 
@@ -44,7 +43,6 @@ function sampleBatchDeleteJobs(projectId, tenantId, filter) {
   console.log('Batch deleted jobs from filter');
 }
 
-// [END job_search_batch_delete_job_core]
 // [END job_search_batch_delete_job]
 // tslint:disable-next-line:no-any
 

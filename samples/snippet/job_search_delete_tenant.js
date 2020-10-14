@@ -15,7 +15,6 @@
 'use strict';
 
 // [START job_search_delete_tenant]
-// [START job_search_delete_tenant_core]
 
 const talent = require('@google-cloud/talent').v4;
 
@@ -31,7 +30,6 @@ function sampleDeleteTenant(projectId, tenantId) {
   console.log('Deleted Tenant.');
 }
 
-// [END job_search_delete_tenant_core]
 // [END job_search_delete_tenant]
 // tslint:disable-next-line:no-any
 

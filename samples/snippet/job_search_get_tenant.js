@@ -15,7 +15,6 @@
 'use strict';
 
 // [START job_search_get_tenant]
-// [START job_search_get_tenant_core]
 
 const talent = require('@google-cloud/talent').v4;
 
@@ -37,7 +36,6 @@ function sampleGetTenant(projectId, tenantId) {
     });
 }
 
-// [END job_search_get_tenant_core]
 // [END job_search_get_tenant]
 // tslint:disable-next-line:no-any
 

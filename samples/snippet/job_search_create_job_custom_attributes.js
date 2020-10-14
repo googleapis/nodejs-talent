@@ -15,7 +15,6 @@
 'use strict';
 
 // [START job_search_create_job_custom_attributes]
-// [START job_search_create_job_custom_attributes_core]
 
 const talent = require('@google-cloud/talent').v4;
 
@@ -59,7 +58,6 @@ function sampleCreateJob(
     });
 }
 
-// [END job_search_create_job_custom_attributes_core]
 // [END job_search_create_job_custom_attributes]
 // tslint:disable-next-line:no-any
 

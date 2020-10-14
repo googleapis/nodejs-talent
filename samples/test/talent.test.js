@@ -20,30 +20,29 @@ const {v4} = require('uuid');
 const {describe, it, before, after} = require('mocha');
 
 const talent = require('@google-cloud/talent').v4;
-
-const projectId = process.env.GCLOUD_PROJECT;
-const tenantService = new talent.TenantServiceClient();
-const companyService = new talent.CompanyServiceClient();
-const jobService = new talent.JobServiceClient();
-
-let tenant;
-let company;
-let job;
-
-let tenantId;
-let companyId;
-let jobId;
-
 const execSync = cmd => cp.execSync(cmd, {encoding: 'utf-8'});
 
 describe('Talent Solution Jobs API v4 samples', () => {
+  const projectId = process.env.GCLOUD_PROJECT;
+  const tenantService = new talent.TenantServiceClient();
+  const companyService = new talent.CompanyServiceClient();
+  const jobService = new talent.JobServiceClient();
+
+  let tenant;
+  let company;
+  let job;
+
+  let tenantId;
+  let companyId;
+  let jobId;
+
   before(async () => {
     const formattedParent = tenantService.projectPath(projectId);
 
     [tenant] = await tenantService.createTenant({
       parent: formattedParent,
       tenant: {
-        externalId: v4(),
+        externalId: `${Date.now()}-${v4()}`,
       },
     });
     tenantId = tenant.name.split('/').slice(-1)[0];
@@ -53,7 +52,7 @@ describe('Talent Solution Jobs API v4 samples', () => {
       parent: tenant.name,
       company: {
         displayName: 'Google',
-        externalId: v4(),
+        externalId: `${Date.now()}-${v4()}`,
       },
     });
     console.log(`created company: ${company.name}`);

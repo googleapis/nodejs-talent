@@ -3,8 +3,16 @@
     {
       "git": {
         "name": ".",
-        "remote": "git@github.com:googleapis/nodejs-talent.git",
+        "remote": "https://github.com/googleapis/nodejs-talent.git",
         "sha": "3fe9a713004347342efb7d49e4ddc4fd13cc73f3"
+      }
+    },
+    {
+      "git": {
+        "name": "googleapis",
+        "remote": "https://github.com/googleapis/googleapis.git",
+        "sha": "9a69333d45ee0e03246d72127d3d55399eb16ac7",
+        "internalRef": "334643694"
       }
     },
     {

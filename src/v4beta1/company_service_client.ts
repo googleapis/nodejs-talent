@@ -30,6 +30,11 @@ import * as path from 'path';
 import {Transform} from 'stream';
 import {RequestType} from 'google-gax/build/src/apitypes';
 import * as protos from '../../protos/protos';
+/**
+ * Client JSON configuration object, loaded from
+ * `src/v4beta1/company_service_client_config.json`.
+ * This file defines retry strategy and timeouts for all API methods in this library.
+ */
 import * as gapicConfig from './company_service_client_config.json';
 
 const version = require('../../../package.json').version;
@@ -83,9 +88,9 @@ export class CompanyServiceClient {
    *     your project ID will be detected automatically.
    * @param {string} [options.apiEndpoint] - The domain name of the
    *     API remote host.
-   * @param {gax.ClientConfig} [options.clientConfig] - client configuration override.
-   *     Follows the structure of `company_service_client_config.json`.
-   * @param {boolean} fallback - Use HTTP fallback mode.
+   * @param {gax.ClientConfig} [options.clientConfig] - Client configuration override.
+   *     Follows the structure of {@link gapicConfig}.
+   * @param {boolean} [options.fallback] - Use HTTP fallback mode.
    *     In fallback mode, a special browser-compatible transport implementation is used
    *     instead of gRPC transport. In browser context (if the `window` object is defined)
    *     the fallback mode is enabled automatically; set `options.fallback` to `false`
@@ -98,6 +103,7 @@ export class CompanyServiceClient {
       opts?.servicePath || opts?.apiEndpoint || staticMembers.servicePath;
     const port = opts?.port || staticMembers.port;
     const clientConfig = opts?.clientConfig ?? {};
+    // eslint-disable-next-line no-undef
     const fallback =
       opts?.fallback ??
       (typeof window !== 'undefined' && typeof window.fetch !== 'undefined');
@@ -334,7 +340,7 @@ export class CompanyServiceClient {
   // -------------------
   createCompany(
     request: protos.google.cloud.talent.v4beta1.ICreateCompanyRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.cloud.talent.v4beta1.ICompany,
@@ -344,7 +350,7 @@ export class CompanyServiceClient {
   >;
   createCompany(
     request: protos.google.cloud.talent.v4beta1.ICreateCompanyRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: Callback<
       protos.google.cloud.talent.v4beta1.ICompany,
       | protos.google.cloud.talent.v4beta1.ICreateCompanyRequest
@@ -389,7 +395,7 @@ export class CompanyServiceClient {
   createCompany(
     request: protos.google.cloud.talent.v4beta1.ICreateCompanyRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | Callback<
           protos.google.cloud.talent.v4beta1.ICompany,
           | protos.google.cloud.talent.v4beta1.ICreateCompanyRequest
@@ -412,12 +418,12 @@ export class CompanyServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -432,7 +438,7 @@ export class CompanyServiceClient {
   }
   getCompany(
     request: protos.google.cloud.talent.v4beta1.IGetCompanyRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.cloud.talent.v4beta1.ICompany,
@@ -442,7 +448,7 @@ export class CompanyServiceClient {
   >;
   getCompany(
     request: protos.google.cloud.talent.v4beta1.IGetCompanyRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: Callback<
       protos.google.cloud.talent.v4beta1.ICompany,
       protos.google.cloud.talent.v4beta1.IGetCompanyRequest | null | undefined,
@@ -484,7 +490,7 @@ export class CompanyServiceClient {
   getCompany(
     request: protos.google.cloud.talent.v4beta1.IGetCompanyRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | Callback<
           protos.google.cloud.talent.v4beta1.ICompany,
           | protos.google.cloud.talent.v4beta1.IGetCompanyRequest
@@ -505,12 +511,12 @@ export class CompanyServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -525,7 +531,7 @@ export class CompanyServiceClient {
   }
   updateCompany(
     request: protos.google.cloud.talent.v4beta1.IUpdateCompanyRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.cloud.talent.v4beta1.ICompany,
@@ -535,7 +541,7 @@ export class CompanyServiceClient {
   >;
   updateCompany(
     request: protos.google.cloud.talent.v4beta1.IUpdateCompanyRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: Callback<
       protos.google.cloud.talent.v4beta1.ICompany,
       | protos.google.cloud.talent.v4beta1.IUpdateCompanyRequest
@@ -582,7 +588,7 @@ export class CompanyServiceClient {
   updateCompany(
     request: protos.google.cloud.talent.v4beta1.IUpdateCompanyRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | Callback<
           protos.google.cloud.talent.v4beta1.ICompany,
           | protos.google.cloud.talent.v4beta1.IUpdateCompanyRequest
@@ -605,12 +611,12 @@ export class CompanyServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -625,7 +631,7 @@ export class CompanyServiceClient {
   }
   deleteCompany(
     request: protos.google.cloud.talent.v4beta1.IDeleteCompanyRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.protobuf.IEmpty,
@@ -635,7 +641,7 @@ export class CompanyServiceClient {
   >;
   deleteCompany(
     request: protos.google.cloud.talent.v4beta1.IDeleteCompanyRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: Callback<
       protos.google.protobuf.IEmpty,
       | protos.google.cloud.talent.v4beta1.IDeleteCompanyRequest
@@ -682,7 +688,7 @@ export class CompanyServiceClient {
   deleteCompany(
     request: protos.google.cloud.talent.v4beta1.IDeleteCompanyRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | Callback<
           protos.google.protobuf.IEmpty,
           | protos.google.cloud.talent.v4beta1.IDeleteCompanyRequest
@@ -705,12 +711,12 @@ export class CompanyServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -726,7 +732,7 @@ export class CompanyServiceClient {
 
   listCompanies(
     request: protos.google.cloud.talent.v4beta1.IListCompaniesRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.cloud.talent.v4beta1.ICompany[],
@@ -736,7 +742,7 @@ export class CompanyServiceClient {
   >;
   listCompanies(
     request: protos.google.cloud.talent.v4beta1.IListCompaniesRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: PaginationCallback<
       protos.google.cloud.talent.v4beta1.IListCompaniesRequest,
       | protos.google.cloud.talent.v4beta1.IListCompaniesResponse
@@ -796,7 +802,7 @@ export class CompanyServiceClient {
   listCompanies(
     request: protos.google.cloud.talent.v4beta1.IListCompaniesRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | PaginationCallback<
           protos.google.cloud.talent.v4beta1.IListCompaniesRequest,
           | protos.google.cloud.talent.v4beta1.IListCompaniesResponse
@@ -819,12 +825,12 @@ export class CompanyServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -876,7 +882,7 @@ export class CompanyServiceClient {
    */
   listCompaniesStream(
     request?: protos.google.cloud.talent.v4beta1.IListCompaniesRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Transform {
     request = request || {};
     options = options || {};
@@ -940,7 +946,7 @@ export class CompanyServiceClient {
    */
   listCompaniesAsync(
     request?: protos.google.cloud.talent.v4beta1.IListCompaniesRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): AsyncIterable<protos.google.cloud.talent.v4beta1.ICompany> {
     request = request || {};
     options = options || {};

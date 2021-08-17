@@ -1,7 +1,7 @@
 {
   "name": "@google-cloud/talent",
   "description": "Cloud Talent Solution API client for Node.js",
-  "version": "3.2.6",
+  "version": "3.2.7",
   "license": "Apache-2.0",
   "author": "Google LLC",
   "engines": {
@@ -43,7 +43,7 @@
     "precompile": "gts clean"
   },
   "dependencies": {
-    "google-gax": "^2.17.1"
+    "google-gax": "^2.24.1"
   },
   "devDependencies": {
     "@types/mocha": "^8.0.0",

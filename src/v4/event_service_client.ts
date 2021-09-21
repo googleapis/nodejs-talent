@@ -359,6 +359,10 @@ export class EventServiceClient {
    *   for more details and examples.
    * @example
    * const [response] = await client.createClientEvent(request);
+   *
+   * @example <caption>include:samples/generated/v4/event_service.create_client_event.js</caption>
+   * region_tag:talent_create_client_event_sample
+   *
    */
   createClientEvent(
     request?: protos.google.cloud.talent.v4.ICreateClientEventRequest,

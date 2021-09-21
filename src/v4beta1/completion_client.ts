@@ -397,6 +397,10 @@ export class CompletionClient {
    *   for more details and examples.
    * @example
    * const [response] = await client.completeQuery(request);
+   *
+   * @example <caption>include:samples/generated/v4beta1/completion.complete_query.js</caption>
+   * region_tag:talent_complete_query_sample
+   *
    */
   completeQuery(
     request?: protos.google.cloud.talent.v4beta1.ICompleteQueryRequest,

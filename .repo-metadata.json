@@ -12,5 +12,5 @@
   "name": "talent",
   "issue_tracker": "https://issuetracker.google.com/savedsearches/559664",
   "api_shortname": "talent",
-  "library_type": ""
+  "library_type": "GAPIC_AUTO"
 }

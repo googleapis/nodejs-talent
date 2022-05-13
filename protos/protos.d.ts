@@ -1750,35 +1750,35 @@ export namespace google {
                 namespace CompanyService {
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.CompanyService|createCompany}.
+                     * Callback as used by {@link google.cloud.talent.v4.CompanyService#createCompany}.
                      * @param error Error, if any
                      * @param [response] Company
                      */
                     type CreateCompanyCallback = (error: (Error|null), response?: google.cloud.talent.v4.Company) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.CompanyService|getCompany}.
+                     * Callback as used by {@link google.cloud.talent.v4.CompanyService#getCompany}.
                      * @param error Error, if any
                      * @param [response] Company
                      */
                     type GetCompanyCallback = (error: (Error|null), response?: google.cloud.talent.v4.Company) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.CompanyService|updateCompany}.
+                     * Callback as used by {@link google.cloud.talent.v4.CompanyService#updateCompany}.
                      * @param error Error, if any
                      * @param [response] Company
                      */
                     type UpdateCompanyCallback = (error: (Error|null), response?: google.cloud.talent.v4.Company) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.CompanyService|deleteCompany}.
+                     * Callback as used by {@link google.cloud.talent.v4.CompanyService#deleteCompany}.
                      * @param error Error, if any
                      * @param [response] Empty
                      */
                     type DeleteCompanyCallback = (error: (Error|null), response?: google.protobuf.Empty) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.CompanyService|listCompanies}.
+                     * Callback as used by {@link google.cloud.talent.v4.CompanyService#listCompanies}.
                      * @param error Error, if any
                      * @param [response] ListCompaniesResponse
                      */
@@ -2405,7 +2405,7 @@ export namespace google {
                 namespace Completion {
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.Completion|completeQuery}.
+                     * Callback as used by {@link google.cloud.talent.v4.Completion#completeQuery}.
                      * @param error Error, if any
                      * @param [response] CompleteQueryResponse
                      */
@@ -3031,7 +3031,7 @@ export namespace google {
                 namespace EventService {
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.EventService|createClientEvent}.
+                     * Callback as used by {@link google.cloud.talent.v4.EventService#createClientEvent}.
                      * @param error Error, if any
                      * @param [response] ClientEvent
                      */
@@ -4590,70 +4590,70 @@ export namespace google {
                 namespace JobService {
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.JobService|createJob}.
+                     * Callback as used by {@link google.cloud.talent.v4.JobService#createJob}.
                      * @param error Error, if any
                      * @param [response] Job
                      */
                     type CreateJobCallback = (error: (Error|null), response?: google.cloud.talent.v4.Job) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.JobService|batchCreateJobs}.
+                     * Callback as used by {@link google.cloud.talent.v4.JobService#batchCreateJobs}.
                      * @param error Error, if any
                      * @param [response] Operation
                      */
                     type BatchCreateJobsCallback = (error: (Error|null), response?: google.longrunning.Operation) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.JobService|getJob}.
+                     * Callback as used by {@link google.cloud.talent.v4.JobService#getJob}.
                      * @param error Error, if any
                      * @param [response] Job
                      */
                     type GetJobCallback = (error: (Error|null), response?: google.cloud.talent.v4.Job) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.JobService|updateJob}.
+                     * Callback as used by {@link google.cloud.talent.v4.JobService#updateJob}.
                      * @param error Error, if any
                      * @param [response] Job
                      */
                     type UpdateJobCallback = (error: (Error|null), response?: google.cloud.talent.v4.Job) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.JobService|batchUpdateJobs}.
+                     * Callback as used by {@link google.cloud.talent.v4.JobService#batchUpdateJobs}.
                      * @param error Error, if any
                      * @param [response] Operation
                      */
                     type BatchUpdateJobsCallback = (error: (Error|null), response?: google.longrunning.Operation) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.JobService|deleteJob}.
+                     * Callback as used by {@link google.cloud.talent.v4.JobService#deleteJob}.
                      * @param error Error, if any
                      * @param [response] Empty
                      */
                     type DeleteJobCallback = (error: (Error|null), response?: google.protobuf.Empty) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.JobService|batchDeleteJobs}.
+                     * Callback as used by {@link google.cloud.talent.v4.JobService#batchDeleteJobs}.
                      * @param error Error, if any
                      * @param [response] Operation
                      */
                     type BatchDeleteJobsCallback = (error: (Error|null), response?: google.longrunning.Operation) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.JobService|listJobs}.
+                     * Callback as used by {@link google.cloud.talent.v4.JobService#listJobs}.
                      * @param error Error, if any
                      * @param [response] ListJobsResponse
                      */
                     type ListJobsCallback = (error: (Error|null), response?: google.cloud.talent.v4.ListJobsResponse) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.JobService|searchJobs}.
+                     * Callback as used by {@link google.cloud.talent.v4.JobService#searchJobs}.
                      * @param error Error, if any
                      * @param [response] SearchJobsResponse
                      */
                     type SearchJobsCallback = (error: (Error|null), response?: google.cloud.talent.v4.SearchJobsResponse) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.JobService|searchJobsForAlert}.
+                     * Callback as used by {@link google.cloud.talent.v4.JobService#searchJobsForAlert}.
                      * @param error Error, if any
                      * @param [response] SearchJobsResponse
                      */
@@ -6764,35 +6764,35 @@ export namespace google {
                 namespace TenantService {
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.TenantService|createTenant}.
+                     * Callback as used by {@link google.cloud.talent.v4.TenantService#createTenant}.
                      * @param error Error, if any
                      * @param [response] Tenant
                      */
                     type CreateTenantCallback = (error: (Error|null), response?: google.cloud.talent.v4.Tenant) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.TenantService|getTenant}.
+                     * Callback as used by {@link google.cloud.talent.v4.TenantService#getTenant}.
                      * @param error Error, if any
                      * @param [response] Tenant
                      */
                     type GetTenantCallback = (error: (Error|null), response?: google.cloud.talent.v4.Tenant) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.TenantService|updateTenant}.
+                     * Callback as used by {@link google.cloud.talent.v4.TenantService#updateTenant}.
                      * @param error Error, if any
                      * @param [response] Tenant
                      */
                     type UpdateTenantCallback = (error: (Error|null), response?: google.cloud.talent.v4.Tenant) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.TenantService|deleteTenant}.
+                     * Callback as used by {@link google.cloud.talent.v4.TenantService#deleteTenant}.
                      * @param error Error, if any
                      * @param [response] Empty
                      */
                     type DeleteTenantCallback = (error: (Error|null), response?: google.protobuf.Empty) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4.TenantService|listTenants}.
+                     * Callback as used by {@link google.cloud.talent.v4.TenantService#listTenants}.
                      * @param error Error, if any
                      * @param [response] ListTenantsResponse
                      */
@@ -9515,35 +9515,35 @@ export namespace google {
                 namespace ApplicationService {
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.ApplicationService|createApplication}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.ApplicationService#createApplication}.
                      * @param error Error, if any
                      * @param [response] Application
                      */
                     type CreateApplicationCallback = (error: (Error|null), response?: google.cloud.talent.v4beta1.Application) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.ApplicationService|getApplication}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.ApplicationService#getApplication}.
                      * @param error Error, if any
                      * @param [response] Application
                      */
                     type GetApplicationCallback = (error: (Error|null), response?: google.cloud.talent.v4beta1.Application) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.ApplicationService|updateApplication}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.ApplicationService#updateApplication}.
                      * @param error Error, if any
                      * @param [response] Application
                      */
                     type UpdateApplicationCallback = (error: (Error|null), response?: google.cloud.talent.v4beta1.Application) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.ApplicationService|deleteApplication}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.ApplicationService#deleteApplication}.
                      * @param error Error, if any
                      * @param [response] Empty
                      */
                     type DeleteApplicationCallback = (error: (Error|null), response?: google.protobuf.Empty) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.ApplicationService|listApplications}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.ApplicationService#listApplications}.
                      * @param error Error, if any
                      * @param [response] ListApplicationsResponse
                      */
@@ -10475,35 +10475,35 @@ export namespace google {
                 namespace CompanyService {
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.CompanyService|createCompany}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.CompanyService#createCompany}.
                      * @param error Error, if any
                      * @param [response] Company
                      */
                     type CreateCompanyCallback = (error: (Error|null), response?: google.cloud.talent.v4beta1.Company) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.CompanyService|getCompany}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.CompanyService#getCompany}.
                      * @param error Error, if any
                      * @param [response] Company
                      */
                     type GetCompanyCallback = (error: (Error|null), response?: google.cloud.talent.v4beta1.Company) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.CompanyService|updateCompany}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.CompanyService#updateCompany}.
                      * @param error Error, if any
                      * @param [response] Company
                      */
                     type UpdateCompanyCallback = (error: (Error|null), response?: google.cloud.talent.v4beta1.Company) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.CompanyService|deleteCompany}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.CompanyService#deleteCompany}.
                      * @param error Error, if any
                      * @param [response] Empty
                      */
                     type DeleteCompanyCallback = (error: (Error|null), response?: google.protobuf.Empty) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.CompanyService|listCompanies}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.CompanyService#listCompanies}.
                      * @param error Error, if any
                      * @param [response] ListCompaniesResponse
                      */
@@ -11130,7 +11130,7 @@ export namespace google {
                 namespace Completion {
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.Completion|completeQuery}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.Completion#completeQuery}.
                      * @param error Error, if any
                      * @param [response] CompleteQueryResponse
                      */
@@ -11881,7 +11881,7 @@ export namespace google {
                 namespace EventService {
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.EventService|createClientEvent}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.EventService#createClientEvent}.
                      * @param error Error, if any
                      * @param [response] ClientEvent
                      */
@@ -14823,70 +14823,70 @@ export namespace google {
                 namespace JobService {
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.JobService|createJob}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.JobService#createJob}.
                      * @param error Error, if any
                      * @param [response] Job
                      */
                     type CreateJobCallback = (error: (Error|null), response?: google.cloud.talent.v4beta1.Job) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.JobService|batchCreateJobs}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.JobService#batchCreateJobs}.
                      * @param error Error, if any
                      * @param [response] Operation
                      */
                     type BatchCreateJobsCallback = (error: (Error|null), response?: google.longrunning.Operation) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.JobService|getJob}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.JobService#getJob}.
                      * @param error Error, if any
                      * @param [response] Job
                      */
                     type GetJobCallback = (error: (Error|null), response?: google.cloud.talent.v4beta1.Job) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.JobService|updateJob}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.JobService#updateJob}.
                      * @param error Error, if any
                      * @param [response] Job
                      */
                     type UpdateJobCallback = (error: (Error|null), response?: google.cloud.talent.v4beta1.Job) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.JobService|batchUpdateJobs}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.JobService#batchUpdateJobs}.
                      * @param error Error, if any
                      * @param [response] Operation
                      */
                     type BatchUpdateJobsCallback = (error: (Error|null), response?: google.longrunning.Operation) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.JobService|deleteJob}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.JobService#deleteJob}.
                      * @param error Error, if any
                      * @param [response] Empty
                      */
                     type DeleteJobCallback = (error: (Error|null), response?: google.protobuf.Empty) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.JobService|batchDeleteJobs}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.JobService#batchDeleteJobs}.
                      * @param error Error, if any
                      * @param [response] Empty
                      */
                     type BatchDeleteJobsCallback = (error: (Error|null), response?: google.protobuf.Empty) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.JobService|listJobs}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.JobService#listJobs}.
                      * @param error Error, if any
                      * @param [response] ListJobsResponse
                      */
                     type ListJobsCallback = (error: (Error|null), response?: google.cloud.talent.v4beta1.ListJobsResponse) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.JobService|searchJobs}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.JobService#searchJobs}.
                      * @param error Error, if any
                      * @param [response] SearchJobsResponse
                      */
                     type SearchJobsCallback = (error: (Error|null), response?: google.cloud.talent.v4beta1.SearchJobsResponse) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.JobService|searchJobsForAlert}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.JobService#searchJobsForAlert}.
                      * @param error Error, if any
                      * @param [response] SearchJobsResponse
                      */
@@ -18800,42 +18800,42 @@ export namespace google {
                 namespace ProfileService {
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.ProfileService|listProfiles}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.ProfileService#listProfiles}.
                      * @param error Error, if any
                      * @param [response] ListProfilesResponse
                      */
                     type ListProfilesCallback = (error: (Error|null), response?: google.cloud.talent.v4beta1.ListProfilesResponse) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.ProfileService|createProfile}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.ProfileService#createProfile}.
                      * @param error Error, if any
                      * @param [response] Profile
                      */
                     type CreateProfileCallback = (error: (Error|null), response?: google.cloud.talent.v4beta1.Profile) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.ProfileService|getProfile}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.ProfileService#getProfile}.
                      * @param error Error, if any
                      * @param [response] Profile
                      */
                     type GetProfileCallback = (error: (Error|null), response?: google.cloud.talent.v4beta1.Profile) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.ProfileService|updateProfile}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.ProfileService#updateProfile}.
                      * @param error Error, if any
                      * @param [response] Profile
                      */
                     type UpdateProfileCallback = (error: (Error|null), response?: google.cloud.talent.v4beta1.Profile) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.ProfileService|deleteProfile}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.ProfileService#deleteProfile}.
                      * @param error Error, if any
                      * @param [response] Empty
                      */
                     type DeleteProfileCallback = (error: (Error|null), response?: google.protobuf.Empty) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.ProfileService|searchProfiles}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.ProfileService#searchProfiles}.
                      * @param error Error, if any
                      * @param [response] SearchProfilesResponse
                      */
@@ -20014,35 +20014,35 @@ export namespace google {
                 namespace TenantService {
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.TenantService|createTenant}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.TenantService#createTenant}.
                      * @param error Error, if any
                      * @param [response] Tenant
                      */
                     type CreateTenantCallback = (error: (Error|null), response?: google.cloud.talent.v4beta1.Tenant) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.TenantService|getTenant}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.TenantService#getTenant}.
                      * @param error Error, if any
                      * @param [response] Tenant
                      */
                     type GetTenantCallback = (error: (Error|null), response?: google.cloud.talent.v4beta1.Tenant) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.TenantService|updateTenant}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.TenantService#updateTenant}.
                      * @param error Error, if any
                      * @param [response] Tenant
                      */
                     type UpdateTenantCallback = (error: (Error|null), response?: google.cloud.talent.v4beta1.Tenant) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.TenantService|deleteTenant}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.TenantService#deleteTenant}.
                      * @param error Error, if any
                      * @param [response] Empty
                      */
                     type DeleteTenantCallback = (error: (Error|null), response?: google.protobuf.Empty) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.talent.v4beta1.TenantService|listTenants}.
+                     * Callback as used by {@link google.cloud.talent.v4beta1.TenantService#listTenants}.
                      * @param error Error, if any
                      * @param [response] ListTenantsResponse
                      */
@@ -23075,9 +23075,6 @@ export namespace google {
             /** FieldOptions lazy */
             lazy?: (boolean|null);
 
-            /** FieldOptions unverifiedLazy */
-            unverifiedLazy?: (boolean|null);
-
             /** FieldOptions deprecated */
             deprecated?: (boolean|null);
 
@@ -23114,9 +23111,6 @@ export namespace google {
 
             /** FieldOptions lazy. */
             public lazy: boolean;
-
-            /** FieldOptions unverifiedLazy. */
-            public unverifiedLazy: boolean;
 
             /** FieldOptions deprecated. */
             public deprecated: boolean;
@@ -26291,35 +26285,35 @@ export namespace google {
         namespace Operations {
 
             /**
-             * Callback as used by {@link google.longrunning.Operations|listOperations}.
+             * Callback as used by {@link google.longrunning.Operations#listOperations}.
              * @param error Error, if any
              * @param [response] ListOperationsResponse
              */
             type ListOperationsCallback = (error: (Error|null), response?: google.longrunning.ListOperationsResponse) => void;
 
             /**
-             * Callback as used by {@link google.longrunning.Operations|getOperation}.
+             * Callback as used by {@link google.longrunning.Operations#getOperation}.
              * @param error Error, if any
              * @param [response] Operation
              */
             type GetOperationCallback = (error: (Error|null), response?: google.longrunning.Operation) => void;
 
             /**
-             * Callback as used by {@link google.longrunning.Operations|deleteOperation}.
+             * Callback as used by {@link google.longrunning.Operations#deleteOperation}.
              * @param error Error, if any
              * @param [response] Empty
              */
             type DeleteOperationCallback = (error: (Error|null), response?: google.protobuf.Empty) => void;
 
             /**
-             * Callback as used by {@link google.longrunning.Operations|cancelOperation}.
+             * Callback as used by {@link google.longrunning.Operations#cancelOperation}.
              * @param error Error, if any
              * @param [response] Empty
              */
             type CancelOperationCallback = (error: (Error|null), response?: google.protobuf.Empty) => void;
 
             /**
-             * Callback as used by {@link google.longrunning.Operations|waitOperation}.
+             * Callback as used by {@link google.longrunning.Operations#waitOperation}.
              * @param error Error, if any
              * @param [response] Operation
              */

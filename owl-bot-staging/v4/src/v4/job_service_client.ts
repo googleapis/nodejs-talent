@@ -202,10 +202,6 @@ export class JobServiceClient {
       '.google.cloud.talent.v4.BatchDeleteJobsResponse') as gax.protobuf.Type;
     const batchDeleteJobsMetadata = protoFilesRoot.lookup(
       '.google.cloud.talent.v4.BatchOperationMetadata') as gax.protobuf.Type;
-    const purgeJobsResponse = protoFilesRoot.lookup(
-      '.google.cloud.talent.v4.PurgeJobsResponse') as gax.protobuf.Type;
-    const purgeJobsMetadata = protoFilesRoot.lookup(
-      '.google.cloud.talent.v4.BatchOperationMetadata') as gax.protobuf.Type;
 
     this.descriptors.longrunning = {
       batchCreateJobs: new this._gaxModule.LongrunningDescriptor(
@@ -219,11 +215,7 @@ export class JobServiceClient {
       batchDeleteJobs: new this._gaxModule.LongrunningDescriptor(
         this.operationsClient,
         batchDeleteJobsResponse.decode.bind(batchDeleteJobsResponse),
-        batchDeleteJobsMetadata.decode.bind(batchDeleteJobsMetadata)),
-      purgeJobs: new this._gaxModule.LongrunningDescriptor(
-        this.operationsClient,
-        purgeJobsResponse.decode.bind(purgeJobsResponse),
-        purgeJobsMetadata.decode.bind(purgeJobsMetadata))
+        batchDeleteJobsMetadata.decode.bind(batchDeleteJobsMetadata))
     };
 
     // Put together the default options sent with requests.
@@ -269,7 +261,7 @@ export class JobServiceClient {
     // Iterate over each of the methods that the service provides
     // and create an API call method for each.
     const jobServiceStubMethods =
-        ['createJob', 'batchCreateJobs', 'getJob', 'updateJob', 'batchUpdateJobs', 'deleteJob', 'batchDeleteJobs', 'purgeJobs', 'listJobs', 'searchJobs', 'searchJobsForAlert'];
+        ['createJob', 'batchCreateJobs', 'getJob', 'updateJob', 'batchUpdateJobs', 'deleteJob', 'batchDeleteJobs', 'listJobs', 'searchJobs', 'searchJobsForAlert'];
     for (const methodName of jobServiceStubMethods) {
       const callPromise = this.jobServiceStub.then(
         stub => (...args: Array<{}>) => {
@@ -882,11 +874,6 @@ export class JobServiceClient {
  * @param {google.cloud.talent.v4.SearchJobsRequest.CustomRankingInfo} request.customRankingInfo
  *   Controls over how job documents get ranked on top of existing relevance
  *   score (determined by API algorithm).
- * @param {boolean} request.enableDebugInfo
- *   Controls whether to add search debug information
- *   (sortExpr, partial expressions) into SearchResponse.
- *
- *   Defaults to false.
  * @param {boolean} request.disableKeywordMatch
  *   This field is deprecated. Please use
  *   {@link google.cloud.talent.v4.SearchJobsRequest.keyword_match_mode|SearchJobsRequest.keyword_match_mode} going forward.
@@ -921,9 +908,6 @@ export class JobServiceClient {
  *
  *   Defaults to {@link google.cloud.talent.v4.SearchJobsRequest.KeywordMatchMode.KEYWORD_MATCH_ALL|KeywordMatchMode.KEYWORD_MATCH_ALL} if no value
  *   is specified.
- * @param {google.protobuf.Any} request.mendelDebugInput
- *   This field allows us to pass in a MendelDebugInput proto to force mendel
- *   experiment traffic in FORCEABLE experiments.
  * @param {object} [options]
  *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
  * @returns {Promise} - The promise which resolves to an array.
@@ -1206,11 +1190,6 @@ export class JobServiceClient {
  * @param {google.cloud.talent.v4.SearchJobsRequest.CustomRankingInfo} request.customRankingInfo
  *   Controls over how job documents get ranked on top of existing relevance
  *   score (determined by API algorithm).
- * @param {boolean} request.enableDebugInfo
- *   Controls whether to add search debug information
- *   (sortExpr, partial expressions) into SearchResponse.
- *
- *   Defaults to false.
  * @param {boolean} request.disableKeywordMatch
  *   This field is deprecated. Please use
  *   {@link google.cloud.talent.v4.SearchJobsRequest.keyword_match_mode|SearchJobsRequest.keyword_match_mode} going forward.
@@ -1245,9 +1224,6 @@ export class JobServiceClient {
  *
  *   Defaults to {@link google.cloud.talent.v4.SearchJobsRequest.KeywordMatchMode.KEYWORD_MATCH_ALL|KeywordMatchMode.KEYWORD_MATCH_ALL} if no value
  *   is specified.
- * @param {google.protobuf.Any} request.mendelDebugInput
- *   This field allows us to pass in a MendelDebugInput proto to force mendel
- *   experiment traffic in FORCEABLE experiments.
  * @param {object} [options]
  *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
  * @returns {Promise} - The promise which resolves to an array.
@@ -1624,122 +1600,6 @@ export class JobServiceClient {
     const [operation] = await this.operationsClient.getOperation(request);
     const decodeOperation = new gax.Operation(operation, this.descriptors.longrunning.batchDeleteJobs, gax.createDefaultBackoffSettings());
     return decodeOperation as LROperation<protos.google.cloud.talent.v4.BatchDeleteJobsResponse, protos.google.cloud.talent.v4.BatchOperationMetadata>;
-  }
-/**
- * Purges all jobs associated with requested target.
- *
- * Note: Jobs in OPEN status remain searchable until the operation completes.
- *
- * Note: The operation returned may take hours or longer to complete,
- * depending on the number of jobs that need to be deleted.
- *
- * @param {Object} request
- *   The request object that will be sent.
- * @param {string} request.parent
- *   Required. The resource name of the project under which the jobs should be deleted.
- *
- *   The format is "projects/{project_id}". For example, "projects/foo".
- * @param {string} request.filter
- *   Required. A filter matching the jobs to be purged.
- *
- *   The filter can be one of the following three parent resources.
- *   1. Company. Resource name of the company under which all the jobs should be
- *   deleted. The format is
- *   "projects/{project_id}/tenants/{tenant_id}/companies/{company_id}". For
- *   example, "projects/foo/tenants/bar/companies/baz"
- *   2. Tenant. Resource name of the tenant under which all the jobs should be
- *   deleted. The format is "projects/{project_id}/tenants/{tenant_id}". For
- *   example, "projects/foo/tenants/bar".
- *   3. Project. Resource name of the project under which all the jobs should be
- *   deleted. The format is "projects/{project_id}". For example,
- *   "projects/foo/".
- * @param {boolean} request.force
- *   Actually perform the purge.
- *   If `force` is set to false, the method will return a sample of
- *   resource names that will be deleted.
- * @param {object} [options]
- *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
- * @returns {Promise} - The promise which resolves to an array.
- *   The first element of the array is an object representing
- *   a long running operation. Its `promise()` method returns a promise
- *   you can `await` for.
- *   Please see the
- *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#long-running-operations)
- *   for more details and examples.
- * @example <caption>include:samples/generated/v4/job_service.purge_jobs.js</caption>
- * region_tag:jobs_v4_generated_JobService_PurgeJobs_async
- */
-  purgeJobs(
-      request?: protos.google.cloud.talent.v4.IPurgeJobsRequest,
-      options?: CallOptions):
-      Promise<[
-        LROperation<protos.google.cloud.talent.v4.IPurgeJobsResponse, protos.google.cloud.talent.v4.IBatchOperationMetadata>,
-        protos.google.longrunning.IOperation|undefined, {}|undefined
-      ]>;
-  purgeJobs(
-      request: protos.google.cloud.talent.v4.IPurgeJobsRequest,
-      options: CallOptions,
-      callback: Callback<
-          LROperation<protos.google.cloud.talent.v4.IPurgeJobsResponse, protos.google.cloud.talent.v4.IBatchOperationMetadata>,
-          protos.google.longrunning.IOperation|null|undefined,
-          {}|null|undefined>): void;
-  purgeJobs(
-      request: protos.google.cloud.talent.v4.IPurgeJobsRequest,
-      callback: Callback<
-          LROperation<protos.google.cloud.talent.v4.IPurgeJobsResponse, protos.google.cloud.talent.v4.IBatchOperationMetadata>,
-          protos.google.longrunning.IOperation|null|undefined,
-          {}|null|undefined>): void;
-  purgeJobs(
-      request?: protos.google.cloud.talent.v4.IPurgeJobsRequest,
-      optionsOrCallback?: CallOptions|Callback<
-          LROperation<protos.google.cloud.talent.v4.IPurgeJobsResponse, protos.google.cloud.talent.v4.IBatchOperationMetadata>,
-          protos.google.longrunning.IOperation|null|undefined,
-          {}|null|undefined>,
-      callback?: Callback<
-          LROperation<protos.google.cloud.talent.v4.IPurgeJobsResponse, protos.google.cloud.talent.v4.IBatchOperationMetadata>,
-          protos.google.longrunning.IOperation|null|undefined,
-          {}|null|undefined>):
-      Promise<[
-        LROperation<protos.google.cloud.talent.v4.IPurgeJobsResponse, protos.google.cloud.talent.v4.IBatchOperationMetadata>,
-        protos.google.longrunning.IOperation|undefined, {}|undefined
-      ]>|void {
-    request = request || {};
-    let options: CallOptions;
-    if (typeof optionsOrCallback === 'function' && callback === undefined) {
-      callback = optionsOrCallback;
-      options = {};
-    }
-    else {
-      options = optionsOrCallback as CallOptions;
-    }
-    options = options || {};
-    options.otherArgs = options.otherArgs || {};
-    options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers[
-      'x-goog-request-params'
-    ] = gax.routingHeader.fromParams({
-      'parent': request.parent || '',
-    });
-    this.initialize();
-    return this.innerApiCalls.purgeJobs(request, options, callback);
-  }
-/**
- * Check the status of the long running operation returned by `purgeJobs()`.
- * @param {String} name
- *   The operation name that will be passed.
- * @returns {Promise} - The promise which resolves to an object.
- *   The decoded operation object has result and metadata field to get information from.
- *   Please see the
- *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#long-running-operations)
- *   for more details and examples.
- * @example <caption>include:samples/generated/v4/job_service.purge_jobs.js</caption>
- * region_tag:jobs_v4_generated_JobService_PurgeJobs_async
- */
-  async checkPurgeJobsProgress(name: string): Promise<LROperation<protos.google.cloud.talent.v4.PurgeJobsResponse, protos.google.cloud.talent.v4.BatchOperationMetadata>>{
-    const request = new operationsProtos.google.longrunning.GetOperationRequest({name});
-    const [operation] = await this.operationsClient.getOperation(request);
-    const decodeOperation = new gax.Operation(operation, this.descriptors.longrunning.purgeJobs, gax.createDefaultBackoffSettings());
-    return decodeOperation as LROperation<protos.google.cloud.talent.v4.PurgeJobsResponse, protos.google.cloud.talent.v4.BatchOperationMetadata>;
   }
  /**
  * Lists jobs by filter.

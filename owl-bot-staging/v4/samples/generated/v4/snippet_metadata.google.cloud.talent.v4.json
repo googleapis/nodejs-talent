@@ -644,54 +644,6 @@
       }
     },
     {
-      "regionTag": "jobs_v4_generated_JobService_PurgeJobs_async",
-      "title": "talent purgeJobs Sample",
-      "origin": "API_DEFINITION",
-      "description": " Purges all jobs associated with requested target. Note: Jobs in OPEN status remain searchable until the operation completes. Note: The operation returned may take hours or longer to complete, depending on the number of jobs that need to be deleted.",
-      "canonical": true,
-      "file": "job_service.purge_jobs.js",
-      "language": "JAVASCRIPT",
-      "segments": [
-        {
-          "start": 25,
-          "end": 74,
-          "type": "FULL"
-        }
-      ],
-      "clientMethod": {
-        "shortName": "PurgeJobs",
-        "fullName": "google.cloud.talent.v4.JobService.PurgeJobs",
-        "async": true,
-        "parameters": [
-          {
-            "name": "parent",
-            "type": "TYPE_STRING"
-          },
-          {
-            "name": "filter",
-            "type": "TYPE_STRING"
-          },
-          {
-            "name": "force",
-            "type": "TYPE_BOOL"
-          }
-        ],
-        "resultType": ".google.longrunning.Operation",
-        "client": {
-          "shortName": "JobServiceClient",
-          "fullName": "google.cloud.talent.v4.JobServiceClient"
-        },
-        "method": {
-          "shortName": "PurgeJobs",
-          "fullName": "google.cloud.talent.v4.JobService.PurgeJobs",
-          "service": {
-            "shortName": "JobService",
-            "fullName": "google.cloud.talent.v4.JobService"
-          }
-        }
-      }
-    },
-    {
       "regionTag": "jobs_v4_generated_JobService_ListJobs_async",
       "title": "talent listJobs Sample",
       "origin": "API_DEFINITION",
@@ -758,7 +710,7 @@
       "segments": [
         {
           "start": 25,
-          "end": 299,
+          "end": 288,
           "type": "FULL"
         }
       ],
@@ -820,20 +772,12 @@
             "type": ".google.cloud.talent.v4.SearchJobsRequest.CustomRankingInfo"
           },
           {
-            "name": "enable_debug_info",
-            "type": "TYPE_BOOL"
-          },
-          {
             "name": "disable_keyword_match",
             "type": "TYPE_BOOL"
           },
           {
             "name": "keyword_match_mode",
             "type": ".google.cloud.talent.v4.SearchJobsRequest.KeywordMatchMode"
-          },
-          {
-            "name": "mendel_debug_input",
-            "type": ".google.protobuf.Any"
           }
         ],
         "resultType": ".google.cloud.talent.v4.SearchJobsResponse",
@@ -862,7 +806,7 @@
       "segments": [
         {
           "start": 25,
-          "end": 299,
+          "end": 288,
           "type": "FULL"
         }
       ],
@@ -924,20 +868,12 @@
             "type": ".google.cloud.talent.v4.SearchJobsRequest.CustomRankingInfo"
           },
           {
-            "name": "enable_debug_info",
-            "type": "TYPE_BOOL"
-          },
-          {
             "name": "disable_keyword_match",
             "type": "TYPE_BOOL"
           },
           {
             "name": "keyword_match_mode",
             "type": ".google.cloud.talent.v4.SearchJobsRequest.KeywordMatchMode"
-          },
-          {
-            "name": "mendel_debug_input",
-            "type": ".google.protobuf.Any"
           }
         ],
         "resultType": ".google.cloud.talent.v4.SearchJobsResponse",

@@ -235,6 +235,12 @@ function main(parent, requestMetadata) {
    */
   // const customRankingInfo = {}
   /**
+   *  Controls whether to add search debug information
+   *  (sortExpr, partial expressions) into SearchResponse.
+   *  Defaults to false.
+   */
+  // const enableDebugInfo = true
+  /**
    *  This field is deprecated. Please use
    *  SearchJobsRequest.keyword_match_mode google.cloud.talent.v4.SearchJobsRequest.keyword_match_mode  going forward.
    *  To migrate, disable_keyword_match set to false maps to
@@ -266,6 +272,11 @@ function main(parent, requestMetadata) {
    *  is specified.
    */
   // const keywordMatchMode = {}
+  /**
+   *  This field allows us to pass in a MendelDebugInput proto to force mendel
+   *  experiment traffic in FORCEABLE experiments.
+   */
+  // const mendelDebugInput = {}
 
   // Imports the Talent library
   const {JobServiceClient} = require('@google-cloud/talent').v4;

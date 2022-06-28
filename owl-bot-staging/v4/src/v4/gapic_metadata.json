@@ -171,6 +171,11 @@
                 "batchDeleteJobs"
               ]
             },
+            "PurgeJobs": {
+              "methods": [
+                "purgeJobs"
+              ]
+            },
             "ListJobs": {
               "methods": [
                 "listJobs",
@@ -226,6 +231,11 @@
             "BatchDeleteJobs": {
               "methods": [
                 "batchDeleteJobs"
+              ]
+            },
+            "PurgeJobs": {
+              "methods": [
+                "purgeJobs"
               ]
             },
             "ListJobs": {

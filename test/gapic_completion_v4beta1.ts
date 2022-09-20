@@ -195,7 +195,7 @@ describe('v4beta1.CompletionClient', () => {
       const request = generateSampleMessage(
         new protos.google.cloud.talent.v4beta1.CompleteQueryRequest()
       );
-      const defaultValue1 = getTypeDefaultValue('CompleteQueryRequest', [
+      const defaultValue1 = getTypeDefaultValue('.google.cloud.talent.v4beta1.CompleteQueryRequest', [
         'parent',
       ]);
       request.parent = defaultValue1;
@@ -225,7 +225,7 @@ describe('v4beta1.CompletionClient', () => {
       const request = generateSampleMessage(
         new protos.google.cloud.talent.v4beta1.CompleteQueryRequest()
       );
-      const defaultValue1 = getTypeDefaultValue('CompleteQueryRequest', [
+      const defaultValue1 = getTypeDefaultValue('.google.cloud.talent.v4beta1.CompleteQueryRequest', [
         'parent',
       ]);
       request.parent = defaultValue1;
@@ -271,7 +271,7 @@ describe('v4beta1.CompletionClient', () => {
       const request = generateSampleMessage(
         new protos.google.cloud.talent.v4beta1.CompleteQueryRequest()
       );
-      const defaultValue1 = getTypeDefaultValue('CompleteQueryRequest', [
+      const defaultValue1 = getTypeDefaultValue('.google.cloud.talent.v4beta1.CompleteQueryRequest', [
         'parent',
       ]);
       request.parent = defaultValue1;
@@ -301,7 +301,7 @@ describe('v4beta1.CompletionClient', () => {
       const request = generateSampleMessage(
         new protos.google.cloud.talent.v4beta1.CompleteQueryRequest()
       );
-      const defaultValue1 = getTypeDefaultValue('CompleteQueryRequest', [
+      const defaultValue1 = getTypeDefaultValue('.google.cloud.talent.v4beta1.CompleteQueryRequest', [
         'parent',
       ]);
       request.parent = defaultValue1;
